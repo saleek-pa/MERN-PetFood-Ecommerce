@@ -1,0 +1,123 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.categories span,
+.products span,
+.services span,
+.brands span,
+.footer-position span,
+.details h4 {
+  color: #ed6335;
+}
+
+.brands img {
+  max-width: 100%;
+}
+
+.footer-color {
+  background-color: #292a2e;
+}
+
+.logo {
+  font-family: "Carter One", cursive;
+  font-size: xx-large;
+}
+
+.contact-hover p {
+  transition: color 0.1s linear;
+}
+
+.contact-hover p:hover {
+  color: #ed6335;
+}
+
+.nav-color {
+  background-color: #ed6335;
+  height: 95px;
+}
+
+.details img {
+  width: 500px;
+}
+
+.det-button {
+  width: 230px;
+  height: 50px;
+  font-size: 17px;
+  font-weight: bold;
+  text-transform: capitalize;
+}
+
+.quantity {
+  width: 120px;
+  height: 50px;
+}
+
+@media (max-width: 576px) {
+  .payment img {
+    width: 100%;
+  }
+}
+
+@media (max-width: 1200px) {
+  .details img {
+    width: 400px;
+  }
+
+  .details h1 {
+    font-size: xx-large;
+  }
+
+  .det-button {
+    width: 150px;
+    height: 50px;
+    font-size: 17px;
+  }
+}
+@media (max-width: 992px) {
+  .nav-color {
+    background-color: white;
+    height: 12vh;
+    transition: 0.3s;
+  }
+
+  .details img {
+    width: 350px;
+  }
+
+  .details h1 {
+    font-size: x-large;
+  }
+
+  .details p {
+    font-size: small;
+  }
+
+  .quantity {
+    width: 90px;
+  }
+
+  .det-button {
+    width: 120px;
+    height: 50px;
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 576px) {
+  .best-seller {
+    margin: 0 !important;
+  }
+
+  .best-seller-image {
+    width: 190px !important;
+  }
+
+  .best-seller-name {
+    font-weight: 500 !important;
+    font-size: medium;
+  }
+}
