@@ -7,11 +7,11 @@
 .header {
   background-image: url(https://codewithsadee.github.io/kitter/assets/images/hero-banner.jpg);
   background-repeat: no-repeat;
-  background-size: contain;
-  background-position: top;
+  background-size: cover;
+  /* background-position: top; */
   position: relative;
   width: 100%;
-  height: 710px;
+  height: 100vh;
 }
 
 .header-info {
