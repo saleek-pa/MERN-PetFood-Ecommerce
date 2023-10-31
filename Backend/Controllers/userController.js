@@ -11,14 +11,14 @@ module.exports = {
     register: async (req, res) => {
         const { error, value } = userRegisterSchema.validate(req.body);
         if (error) { return res.status(400).json({ message: error.details[0].message }) }
-        const { name, username, email, password } = value
+        const { name, email, password } = value
 
         const hashedPassword = await bcrypt.hash(password, 10);
-        await User.create({ name, username, email, password: hashedPassword });
+        await User.create({ name, email, password: hashedPassword });
 
-        res.json({
+        res.status(201).json({
             status: 'success',
-            message: "registered successfully"
+            message: "Registration successful! You can now login."
         })
     },
 
