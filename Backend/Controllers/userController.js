@@ -38,10 +38,10 @@ module.exports = {
                 res.status(200).json({
                     status: 'success',
                     message: 'Successfully Logged In.',
-                    data: { jwt_token: token }
+                    data: { jwt_token: token, name: user.name }
                 })
-            } else res.status(401).json({ message: 'Incorrect Password' })
-        } else res.status(401).json({ message: 'User not found' });
+            } else res.status(401).json({ message: 'Incorrect Password. Try again.' })
+        } else res.status(401).json({ message: 'Email not found. Please register.' });
     },
 
 

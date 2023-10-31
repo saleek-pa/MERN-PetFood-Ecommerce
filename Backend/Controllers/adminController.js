@@ -5,18 +5,18 @@ const jwt = require('jsonwebtoken');
 
 module.exports = {
     login: async (req, res) => {
-        const { username, password } = req.body
-        if (username === process.env.ADMIN_USERNAME &&
+        const { email, password } = req.body
+        if (email === process.env.ADMIN_EMAIL &&
             password === process.env.ADMIN_PASSWORD) {
-            const token = jwt.sign({ username },
+            const token = jwt.sign({ email },
                 process.env.ADMIN_ACCESS_TOKEN_SECRET, { expiresIn: '1h' });
             res.status(200).json({
                 status: 'success',
                 message: 'Successfully Logged In.',
-                data: { jwt_token: token }
+                data: { jwt_token: token, name: process.env.ADMIN_NAME }
             })
         } else {
-            res.status(401).json({ message: 'Authentication failed' });
+            res.status(401).json({ message: 'Access denied. Incorrect password.' });
         }
     },
 

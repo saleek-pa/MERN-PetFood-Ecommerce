@@ -12,6 +12,7 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.6.0",
+    "env-cmd": "^10.1.0",
     "mdb-react-ui-kit": "^6.2.0",
     "react-router-dom": "^6.15.0",
     "react-scripts": "5.0.1",

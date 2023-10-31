@@ -1,8 +1,8 @@
 import React from "react";
 import { MDBContainer, MDBInput, MDBBtn } from "mdb-react-ui-kit";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import "../Styles/Reg-Login.css";
+import axios from "axios";
 
 function Registration() {
    const navigate = useNavigate();
