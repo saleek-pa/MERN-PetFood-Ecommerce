@@ -11,10 +11,10 @@ const productSchema = new mongoose.Schema({
 
 const productValidationSchema = Joi.object({
     id: Joi.string(),
-    title: Joi.string().min(3).max(100).required(),
-    description: Joi.string().min(10).max(500).required(),
+    title: Joi.string().min(3).required(),
+    description: Joi.string().min(10).required(),
     price: Joi.number().min(1).required(),
-    image: Joi.string(),
+    image: Joi.string().required(),
     category: Joi.string().min(3).max(20).required(),
 });
 

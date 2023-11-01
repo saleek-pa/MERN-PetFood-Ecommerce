@@ -1,0 +1,116 @@
+.product-content {
+   display: grid;
+   grid-template-columns: repeat(auto-fit, minmax(200px, auto));
+   gap: 3rem 2rem;
+   align-items: center;
+   margin: 3rem 200px 0;
+}
+
+.box {
+   position: relative;
+   cursor: pointer;
+}
+
+.box-img img {
+   width: 100%;
+   height: auto;
+   border-radius: 20px;
+   margin-bottom: 1.2rem;
+   transition: all 0.45s ease;
+}
+
+.box h3 {
+   font-size: 20px;
+   padding: 0 10px;
+   font-weight: 500;
+   margin-bottom: 10px;
+   line-height: 1.1;
+   color: black;
+}
+
+.inbox {
+   display: flex;
+   flex-wrap: wrap;
+   align-items: end;
+   justify-content: center;
+}
+
+.strike-price {
+   display: inline-block;
+   padding: 0px 10px;
+   background: transparent;
+   color: black !important;
+   border-radius: 8px;
+   font-size: 17px;
+   font-weight: 500;
+   text-decoration: line-through;
+}
+
+.price {
+   display: inline-block;
+   padding: 0px 10px;
+   background: transparent;
+   color: #ed6335;
+   border-radius: 8px;
+   font-size: 20px;
+   font-weight: 600;
+   transition: all 0.45s ease;
+}
+
+.price:hover {
+   /* letter-spacing: 1px; */
+   color: #ed6335;
+}
+
+.heart-icon {
+   position: absolute;
+   display: inline-flex;
+   font-size: 1.4rem;
+   top: 20px;
+   right: 20px;
+   transition: all 0.25s ease;
+   color: rgb(200, 200, 200);
+}
+
+.heart:hover .heart-icon {
+   color: red;
+}
+
+.clicked-heart-icon {
+   position: absolute;
+   font-size: 1.4rem;
+   top: 20px;
+   right: 20px;
+   color: red;
+}
+
+@media (max-width: 1250px) {
+   .product-content {
+      grid-template-columns: repeat(4, 1fr);
+      gap: 3rem 2rem;
+      margin: 3rem 150px 0;
+   }
+}
+
+@media (max-width: 1063px) {
+   .product-content {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 3rem 2rem;
+      margin: 3rem 100px 0;
+   }
+}
+
+@media (max-width: 768px) {
+   .product-content {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 3rem 2rem;
+      margin: 3rem 100px 0;
+   }
+}
+
+@media (max-width: 576px) {
+   .product-content {
+      gap: 2rem 1rem;
+      margin: 3rem 30px 0;
+   }
+}
