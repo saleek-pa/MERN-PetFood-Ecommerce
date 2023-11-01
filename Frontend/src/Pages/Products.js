@@ -1,15 +1,6 @@
 import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import {
-   MDBIcon,
-   MDBContainer,
-   MDBRow,
-   MDBCol,
-   MDBCard,
-   MDBCardBody,
-   MDBCardImage,
-   MDBCardTitle,
-} from "mdb-react-ui-kit";
+import { MDBIcon } from "mdb-react-ui-kit";
 import { PetContext } from "../App";
 import "../Styles/Products.css";
 
@@ -33,11 +24,11 @@ function Products() {
 
             <div className="product-content">
                {slicedData.map((value) => (
-                  <div className="box" key={value.id}>
-                     <div className="box-img" onClick={() => navigate(`/products/${value.id}`)}>
-                        <img src={value.src} alt={value.name} />
+                  <div className="box" key={value._id}>
+                     <div className="box-img" onClick={() => navigate(`/products/${value._id}`)}>
+                        <img src={value.image} alt={value.title} />
                      </div>
-                     <h3 onClick={() => navigate(`/products/${value.id}`)}>{value.name}</h3>
+                     <h3 onClick={() => navigate(`/products/${value._id}`)}>{value.title}</h3>
                      <div className="inbox">
                         <span className="strike-price">{handlePrice(value.price)}</span>
                         <span className="price">{handlePrice(value.price)}</span>

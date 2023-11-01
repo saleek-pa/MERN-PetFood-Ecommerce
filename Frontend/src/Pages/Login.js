@@ -19,7 +19,7 @@ function Login() {
       const adminEmail = process.env.REACT_APP_ADMIN_EMAIL;
 
       if (email === "" || password === "") {
-         alert("Enter All the Inputs");
+         return alert("Enter All the Inputs");
       }
 
       const endpoint =

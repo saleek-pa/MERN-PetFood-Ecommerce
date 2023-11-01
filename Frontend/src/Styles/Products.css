@@ -9,6 +9,8 @@
 .box {
    position: relative;
    cursor: pointer;
+   box-shadow: 0 1px 3px rgb(206, 206, 206);
+   border-radius: 5px;
 }
 
 .box-img img {
@@ -31,34 +33,35 @@
 .inbox {
    display: flex;
    flex-wrap: wrap;
-   align-items: end;
+   align-items: flex-end;
    justify-content: center;
 }
 
 .strike-price {
    display: inline-block;
-   padding: 0px 10px;
+   padding: 0 10px;
    background: transparent;
    color: black !important;
    border-radius: 8px;
    font-size: 17px;
    font-weight: 500;
    text-decoration: line-through;
+   padding-bottom: 10px;
 }
 
 .price {
    display: inline-block;
-   padding: 0px 10px;
+   padding: 0 10px;
    background: transparent;
    color: #ed6335;
    border-radius: 8px;
    font-size: 20px;
    font-weight: 600;
    transition: all 0.45s ease;
+   padding-bottom: 10px;
 }
 
 .price:hover {
-   /* letter-spacing: 1px; */
    color: #ed6335;
 }
 
