@@ -28,7 +28,7 @@ export default function CatFood() {
                      </div>
                      <h3 onClick={() => navigate(`/products/${value._id}`)}>{value.title}</h3>
                      <div className="inbox">
-                        <span className="strike-price">{handlePrice(value.price)}</span>
+                        <span className="strike-price">{handlePrice(Math.floor(value.price * 1.2))}</span>
                         <span className="price">{handlePrice(value.price)}</span>
                      </div>
                      <div className="heart" onClick={toggleIcon}>

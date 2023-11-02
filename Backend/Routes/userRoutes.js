@@ -15,7 +15,7 @@ router
     .get('/products/:id', tryCatch(controller.getProductById))
     .get('/products/category/:categoryname', tryCatch(controller.getProductsByCategory))
     
-    .use(checkAuth(process.env.USER_ACCESS_TOKEN_SECRET))
+    // .use(checkAuth(process.env.USER_ACCESS_TOKEN_SECRET))
 
     .get('/:id/cart', tryCatch(controller.showCart))
     .post('/:id/cart', tryCatch(controller.addToCart))

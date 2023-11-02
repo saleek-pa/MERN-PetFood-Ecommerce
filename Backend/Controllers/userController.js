@@ -38,7 +38,7 @@ module.exports = {
                 res.status(200).json({
                     status: 'success',
                     message: 'Successfully Logged In.',
-                    data: { jwt_token: token, name: user.name }
+                    data: { jwt_token: token, name: user.name, userID: user._id }
                 })
             } else res.status(401).json({ message: 'Incorrect Password. Try again.' })
         } else res.status(401).json({ message: 'Email not found. Please register.' });
@@ -115,11 +115,11 @@ module.exports = {
         if (!product) { return res.status(404).json({ message: 'Product not found' }) }
         
         const updatedUser = await User.findByIdAndUpdate(userID, { $addToSet: { cart: productID } });
-        if (!updatedUser) { return res.status(404).json({ message: 'Product already in cart' }) }
+        if (user !== updatedUser) { return res.status(404).json({ message: 'Product already in cart' }) }
 
         res.status(200).json({
             status: 'success',
-            message: 'Successfully added to cart'
+            message: 'Product added to cart'
         });
     },
 

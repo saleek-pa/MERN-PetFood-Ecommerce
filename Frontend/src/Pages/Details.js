@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import "../Styles/Details.css";
 import "../Styles/Home.css";
 import { MDBBtn } from "mdb-react-ui-kit";
@@ -8,8 +8,9 @@ import axios from "axios";
 
 export default function Details() {
    const { id } = useParams();
-   const { loginStatus, cart, setCart } = useContext(PetContext);
-  const [item, setItem] = useState([])
+   const { loginStatus, cart, setCart, userID } = useContext(PetContext);
+   const navigate = useNavigate();
+   const [item, setItem] = useState([]);
 
    useEffect(() => {
       const fetchData = async () => {
@@ -26,16 +27,15 @@ export default function Details() {
       fetchData();
    }, [id]);
 
-   console.log(item)
-
    // Function to add the current product to the cart
-   const addToCart = (newItem) => {
-      // Check if the item is already in the cart
-      let itemExists = cart.filter((item) => item.id === newItem.id);
-
-      if (itemExists.length === 0) {
-         // If not, add it to the cart
-         setCart([...cart, newItem]);
+   const addToCart = async (productID) => {
+      try {
+         const response = await axios.post(`http://localhost:8000/api/users/${userID}/cart`, { productID });
+         if (response.status === 200) {
+            alert(response.data.message);
+         }
+      } catch (error) {
+         alert(error.response.data.message);
       }
    };
 
@@ -58,7 +58,7 @@ export default function Details() {
                         className="det-button"
                         onClick={() => {
                            if (loginStatus) {
-                              addToCart(item);
+                              addToCart(item._id);
                            } else {
                               alert("Sign in to your account");
                            }

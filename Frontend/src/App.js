@@ -19,6 +19,7 @@ function App() {
    const [cart, setCart] = useState([]);
    const [loginStatus, setLoginStatus] = useState(false);
    const [name, setName] = useState("");
+   const [userID, setUserID] = useState(null);
    const [productDetails, setProductDetails] = useState([]);
 
    useEffect(() => {
@@ -203,6 +204,8 @@ function App() {
                setLoginStatus,
                name,
                setName,
+               userID,
+               setUserID,
                profile,
                setProfile,
                productDetails,
