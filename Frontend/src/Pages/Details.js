@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import "../Styles/Details.css";
 import "../Styles/Home.css";
 import { MDBBtn } from "mdb-react-ui-kit";
@@ -8,8 +8,7 @@ import axios from "axios";
 
 export default function Details() {
    const { id } = useParams();
-   const { loginStatus, cart, setCart, userID } = useContext(PetContext);
-   const navigate = useNavigate();
+   const { loginStatus, userID } = useContext(PetContext);
    const [item, setItem] = useState([]);
 
    useEffect(() => {

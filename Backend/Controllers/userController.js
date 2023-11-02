@@ -90,7 +90,7 @@ module.exports = {
 
     showCart: async (req, res) => {
         const userID = req.params.id
-        const user = await User.findById(userID).populate('cart');
+        const user = await User.findById(userID).populate('cart.product');
         if (!user) { return res.status(404).json({ message: 'User not found' }) }
 
         const cartItems = user.cart;
@@ -114,8 +114,12 @@ module.exports = {
         const product = await Product.findById(productID);
         if (!product) { return res.status(404).json({ message: 'Product not found' }) }
         
-        const updatedUser = await User.findByIdAndUpdate(userID, { $addToSet: { cart: productID } });
-        if (user !== updatedUser) { return res.status(404).json({ message: 'Product already in cart' }) }
+        const productExist = await User.findOne({ _id: userID, "cart.product": productID });
+        if (!productExist) {
+           await User.findByIdAndUpdate(userID, { $addToSet: { cart: { product: productID } } });
+        } else {
+           return res.status(404).json({ message: "Product already in cart" });
+        }
 
         res.status(200).json({
             status: 'success',
@@ -127,15 +131,19 @@ module.exports = {
 
     deleteFromCart: async (req, res) => {
         const userID = req.params.id
-        const { productID } = req.body
+        const productID = req.params.product
+        console.log(productID)
 
         const user = await User.findById(userID);
         if (!user) { return res.status(404).json({ message: 'User not found' }) }
 
-        await User.findByIdAndUpdate(userID, { $pull: { cart: productID } });
+        await User.findByIdAndUpdate(userID, { $pull: { cart: { product: productID } } });
+        const updatedUser = await User.findById(userID);
+        console.log(updatedUser.cart)
         res.status(200).json({
             status: 'success',
-            message: 'Successfully removed from cart'
+            message: 'Successfully removed from cart',
+            data: updatedUser.cart
         });
     },
 

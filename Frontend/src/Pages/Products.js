@@ -6,9 +6,9 @@ import "../Styles/Products.css";
 
 function Products() {
    const { productDetails, handlePrice } = useContext(PetContext);
-   const CatFood = productDetails.filter((value) => value.category === "Cat").slice(0, 4);
    const DogFood = productDetails.filter((value) => value.category === "Dog").slice(0, 4);
-   const bestSellingProduct = [...CatFood, ...DogFood];
+   const CatFood = productDetails.filter((value) => value.category === "Cat").slice(0, 4);
+   const bestSellingProduct = [...DogFood, ...CatFood];
 
    const navigate = useNavigate();
 

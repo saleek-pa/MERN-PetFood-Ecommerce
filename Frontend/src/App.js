@@ -35,7 +35,7 @@ function App() {
       };
 
       fetchData();
-   }, [setProductDetails]);
+   }, []);
 
    const [productId, setProductId] = useState(17);
    const [orderId, setOrderId] = useState(11);
