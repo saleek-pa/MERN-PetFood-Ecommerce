@@ -1,5 +1,6 @@
 const multer = require("multer");
 const cloudinary = require("cloudinary").v2;
+const fs = require("fs");
 
 const storage = multer.diskStorage({
    destination: "Uploads",
@@ -14,25 +15,22 @@ cloudinary.config({
 });
 
 const imageController = (req, res, next) => {
-   if (req.body.image && req.body.image.startsWith("http")) {
-      req.imageUrl = req.body.image;
-      next();
-      
-   } else {
-      upload.single("image")(req, res, async (err) => {
-         if (err) {
-            return res.status(400).json({ message: "Image upload failed" });
-         }
+   upload.single("image")(req, res, async (err) => {
+      if (err) {
+         return res.status(400).json({ message: "Image upload failed" });
+      }
+      console.log(req.file);
 
+      if (req.file) {
          try {
             const result = await cloudinary.uploader.upload(req.file.path, { folder: "products" });
-            req.imageUrl = result.secure_url;
+            // req.imageUrl = result.secure_url;
+            req.body.image = result.secure_url;
+            console.log("in");
 
             fs.unlink(req.file.path, (error) => {
                if (error) {
                   console.error("Error deleting file:", error);
-               } else {
-                  console.log("File deleted successfully");
                }
             });
 
@@ -40,8 +38,10 @@ const imageController = (req, res, next) => {
          } catch (err) {
             return res.status(500).json({ message: "Failed to upload image to Cloudinary" });
          }
-      });
-   }
+      } else {
+         next();
+      }
+   });
 };
 
 module.exports = imageController;

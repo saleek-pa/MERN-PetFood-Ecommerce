@@ -97,13 +97,16 @@ module.exports = {
 
     createProduct: async (req, res) => {
         const { error, value } = productValidationSchema.validate(req.body);
+        console.log("first")
         if (error) { return res.status(400).json({ message: error.details[0].message }) }
-        const { title, description, price, category } = value
-        const image = req.imageUrl
+        const { title, description, price, category ,image} = value
+        console.log(image)
+        // const image = req.imageUrl
 
         try {
             await Product.create({ title, description, image, price, category });
             const updatedProducts = await Product.find()
+
             res.status(201).json({
               status: "success",
               message: "Successfully created a product.",
@@ -141,12 +144,14 @@ module.exports = {
 
 
     deleteProduct: async (req, res) => {
-        const { id } = req.body
+        const id = req.params.id
         const product = await Product.findByIdAndRemove(id)
         if (product) {
+            const updatedProducts = await Product.find()
             res.json({
                 status: 'success',
                 message: 'Successfully deleted a product.',
+                data: updatedProducts
             })
         } else {
             res.status(404).json({ message: 'Product not found' });

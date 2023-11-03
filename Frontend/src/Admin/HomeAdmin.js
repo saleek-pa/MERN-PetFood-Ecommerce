@@ -82,7 +82,7 @@ export default function HomeDashboard() {
               </tr>
             </thead>
             {reversedData.map((product) => (
-              <tbody key={product.id}>
+              <tbody key={product._id}>
                 <tr>
                   <th className="text-center">{product.category}</th>
                   <th>{product.title.slice(0, 24)}</th>
@@ -102,7 +102,7 @@ export default function HomeDashboard() {
               </tr>
             </thead>
             {reversedProfile.map((user) => (
-              <tbody key={user.id}>
+              <tbody key={user._id}>
                 <tr>
                   <th>{user.name.split(" ")[0]}</th>
                   <th>{user.email}</th>

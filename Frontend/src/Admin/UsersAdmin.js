@@ -50,7 +50,7 @@ export default function UsersAdmin() {
                     className="me-1"
                     color="info"
                     rounded
-                    onClick={() => navigate(`/dashboard/users/${user.id}`)}
+                    onClick={() => navigate(`/dashboard/users/${user._id}`)}
                   >
                     More Info
                   </MDBBtn>

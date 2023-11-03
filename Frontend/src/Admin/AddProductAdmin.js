@@ -7,7 +7,6 @@ import axios from "axios";
 export default function AddProductAdmin() {
    const navigate = useNavigate();
    const { setProductDetails } = useContext(PetContext);
-
    const [item, setItem] = useState({ title: "", description: "", price: "", category: "", image: "" });
    const [selectedFile, setSelectedFile] = useState(null);
    const [imageUrl, setImageUrl] = useState(null);
@@ -26,13 +25,23 @@ export default function AddProductAdmin() {
       setImageUrl(objectUrl);
    };
 
+   console.log(item);
+
    // Function to add new product to ProductDetails Array
    const handleForm = async (e) => {
       e.preventDefault();
 
+      const formData = new FormData();
+      formData.append("image", item.image);
+      formData.append("title", item.title);
+      formData.append("price", item.price);
+      formData.append("description", item.description);
+      formData.append("category", item.category);
+
       try {
-         const response = await axios.post("http://localhost:8000/api/admin//products", item);
-         if (response.status === 200) {
+         const response = await axios.post("http://localhost:8000/api/admin//products", formData);
+         console.log(response)
+         if (response.status === 201) {
             alert(response.data.message);
             setProductDetails(response.data.data);
             navigate("/dashboard/products");
@@ -44,7 +53,12 @@ export default function AddProductAdmin() {
 
    return (
       <div className="d-flex justify-content-center">
-         <form className="dashboard-table px-5" style={{ width: "1000px" }} onSubmit={handleForm}>
+         <form
+            className="dashboard-table px-5"
+            style={{ width: "1000px" }}
+            onSubmit={handleForm}
+            encType="multipart/form-data"
+         >
             <h2 className="text-center">Add Product</h2>
             <div className="d-flex justify-content-evenly ">
                <div className="pt-5" style={{ width: "300px" }}>
@@ -60,6 +74,7 @@ export default function AddProductAdmin() {
                               type="file"
                               name="image"
                               onChange={handleFileInputChange}
+                              required
                               style={{
                                  width: "300px",
                                  height: "200px",

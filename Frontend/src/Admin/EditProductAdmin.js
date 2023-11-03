@@ -8,7 +8,11 @@ export default function EditProductAdmin() {
    const { id } = useParams();
    const { setProductDetails } = useContext(PetContext);
    const [item, setItem] = useState({ title: "", description: "", price: "", category: "", image: "" });
-
+   const [selectedFile, setSelectedFile] = useState(null);
+   const [imageStatus, setImageStatus] = useState(true);
+   const [imageUrl, setImageUrl] = useState(null);
+   const navigate = useNavigate();
+   
    useEffect(() => {
       const fetchData = async () => {
          try {
@@ -24,15 +28,10 @@ export default function EditProductAdmin() {
       fetchData();
    }, [id]);
 
-   console.log(item);
-
    const handleInputChange = (e) => {
       const { name, value } = e.target;
       setItem((prevItem) => ({ ...prevItem, [name]: value }));
    };
-
-   const [selectedFile, setSelectedFile] = useState(null);
-   const [imageUrl, setImageUrl] = useState(null);
 
    const handleFileInputChange = (e) => {
       const file = e.target.files[0];
@@ -42,11 +41,6 @@ export default function EditProductAdmin() {
       const objectUrl = URL.createObjectURL(file);
       setImageUrl(objectUrl);
    };
-
-   const navigate = useNavigate();
-
-   // State for image status and URL
-   const [imageStatus, setImageStatus] = useState(true);
 
    const handleForm = async (e) => {
       e.preventDefault();
@@ -126,6 +120,7 @@ export default function EditProductAdmin() {
                                  type="file"
                                  name="image"
                                  onChange={handleFileInputChange}
+                                 required
                                  style={{
                                     width: "300px",
                                     height: "200px",
