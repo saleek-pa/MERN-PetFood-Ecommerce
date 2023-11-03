@@ -97,11 +97,8 @@ module.exports = {
 
     createProduct: async (req, res) => {
         const { error, value } = productValidationSchema.validate(req.body);
-        console.log("first")
         if (error) { return res.status(400).json({ message: error.details[0].message }) }
         const { title, description, price, category ,image} = value
-        console.log(image)
-        // const image = req.imageUrl
 
         try {
             await Product.create({ title, description, image, price, category });
@@ -122,10 +119,9 @@ module.exports = {
     updateProduct: async (req, res) => {
         const { error, value } = productValidationSchema.validate(req.body);
         if (error) { return res.status(400).json({ message: error.details[0].message }) }
-        const { title, description, price, category, _id } = value
-        const image = req.imageUrl
+        const { id, title, description, price, category, image } = value
 
-        const product = await Product.findByIdAndUpdate(_id, {
+        const product = await Product.findByIdAndUpdate(id, {
             $set: { title, description, image, price, category }
         })
 

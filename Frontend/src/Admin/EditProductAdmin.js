@@ -12,7 +12,7 @@ export default function EditProductAdmin() {
    const [imageStatus, setImageStatus] = useState(true);
    const [imageUrl, setImageUrl] = useState(null);
    const navigate = useNavigate();
-   
+
    useEffect(() => {
       const fetchData = async () => {
          try {
@@ -44,9 +44,17 @@ export default function EditProductAdmin() {
 
    const handleForm = async (e) => {
       e.preventDefault();
+      console.log(item)
+      const formData = new FormData();
+      formData.append("id", item._id);
+      formData.append("image", item.image);
+      formData.append("title", item.title);
+      formData.append("price", item.price);
+      formData.append("description", item.description);
+      formData.append("category", item.category);
 
       try {
-         const response = await axios.put("http://localhost:8000/api/admin//products", item);
+         const response = await axios.put("http://localhost:8000/api/admin//products", formData);
          if (response.status === 200) {
             alert(response.data.message);
             setProductDetails(response.data.data);
@@ -63,7 +71,7 @@ export default function EditProductAdmin() {
             onSubmit={handleForm}
             className="dashboard-table px-5"
             style={{ width: "1000px" }}
-            enctype="multipart/form-data"
+            encType="multipart/form-data"
          >
             <h2 className="text-center">Edit Product</h2>
             <div className="d-flex justify-content-evenly ">

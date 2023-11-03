@@ -19,14 +19,11 @@ const imageController = (req, res, next) => {
       if (err) {
          return res.status(400).json({ message: "Image upload failed" });
       }
-      console.log(req.file);
 
       if (req.file) {
          try {
             const result = await cloudinary.uploader.upload(req.file.path, { folder: "products" });
-            // req.imageUrl = result.secure_url;
             req.body.image = result.secure_url;
-            console.log("in");
 
             fs.unlink(req.file.path, (error) => {
                if (error) {
