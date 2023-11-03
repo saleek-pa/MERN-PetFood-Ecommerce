@@ -10,7 +10,7 @@ const productSchema = new mongoose.Schema({
 })
 
 const productValidationSchema = Joi.object({
-    id: Joi.string(),
+    _id: Joi.string(),
     title: Joi.string().min(3).required(),
     description: Joi.string().min(10).required(),
     price: Joi.number().min(1).required(),

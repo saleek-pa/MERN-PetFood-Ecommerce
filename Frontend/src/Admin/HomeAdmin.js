@@ -1,14 +1,30 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { MDBIcon } from "mdb-react-ui-kit";
 import { PetContext } from "../App";
+import axios from 'axios'
 
 export default function HomeDashboard() {
-  const { productDetails, profile, handlePrice } = useContext(PetContext);
+  const { productDetails, handlePrice } = useContext(PetContext);
+  const [profile, setProfile] = useState([])
 
+  useEffect(() => {
+    const fetchData = async () => {
+       try {
+          const response = await axios.get("http://localhost:8000/api/admin/users");
+          if (response.status === 200) {
+            setProfile(response.data.data);
+          }
+       } catch (error) {
+          alert(error.response.data.message);
+       }
+    };
+
+    fetchData();
+ }, []);
+  
   // Reverse product details and user profiles for display as recent
   const reversedData = [...productDetails].reverse();
   const reversedProfile = [...profile].reverse();
-  const finalProfile = reversedProfile.filter((user) => user.role !== "admin");
 
   // Calculate the total sum of orders across all users
   const totalSum = profile.reduce((sum, user) => {
@@ -46,7 +62,7 @@ export default function HomeDashboard() {
 
         <div className="content-box">
           <h6>Total Users</h6>
-          <h2>{profile.length - 1}</h2>
+          <h2>{profile.length}</h2>
           <p className="text-success">
             <MDBIcon fas icon="chart-line" className="me-2" />
             {Math.round(Math.random() * 100) / 10}%{" "}
@@ -60,7 +76,6 @@ export default function HomeDashboard() {
           <table>
             <thead>
               <tr>
-                <td>ID</td>
                 <td>Category</td>
                 <td>Name</td>
                 <td>Price</td>
@@ -69,9 +84,8 @@ export default function HomeDashboard() {
             {reversedData.map((product) => (
               <tbody key={product.id}>
                 <tr>
-                  <th>{product.id}</th>
                   <th className="text-center">{product.category}</th>
-                  <th>{product.name.slice(0, 14)}</th>
+                  <th>{product.title.slice(0, 24)}</th>
                   <th>{handlePrice(product.price)}</th>
                 </tr>
               </tbody>
@@ -83,15 +97,13 @@ export default function HomeDashboard() {
           <table>
             <thead>
               <tr>
-                <td>ID</td>
                 <td>Name</td>
                 <td>Email</td>
               </tr>
             </thead>
-            {finalProfile.map((user) => (
+            {reversedProfile.map((user) => (
               <tbody key={user.id}>
                 <tr>
-                  <th>{user.id}</th>
                   <th>{user.name.split(" ")[0]}</th>
                   <th>{user.email}</th>
                 </tr>

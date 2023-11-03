@@ -103,9 +103,11 @@ module.exports = {
 
         try {
             await Product.create({ title, description, image, price, category });
+            const updatedProducts = await Product.find()
             res.status(201).json({
               status: "success",
               message: "Successfully created a product.",
+              data: updatedProducts
             });
         } catch (error) {
             return res.status(500).json({ message: "Failed to create a product" });
@@ -117,16 +119,19 @@ module.exports = {
     updateProduct: async (req, res) => {
         const { error, value } = productValidationSchema.validate(req.body);
         if (error) { return res.status(400).json({ message: error.details[0].message }) }
-        const { title, description, price, category, id } = value
+        const { title, description, price, category, _id } = value
         const image = req.imageUrl
 
-        const product = await Product.findByIdAndUpdate(id, {
+        const product = await Product.findByIdAndUpdate(_id, {
             $set: { title, description, image, price, category }
         })
+
         if (product) {
-            res.json({
+            const updatedProducts = await Product.find()
+            res.status(200).json({
                 status: 'success',
                 message: 'Successfully updated a product.',
+                data: updatedProducts
             })
         } else {
             res.status(404).json({ message: 'Product not found' });

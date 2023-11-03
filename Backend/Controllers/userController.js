@@ -132,18 +132,14 @@ module.exports = {
     deleteFromCart: async (req, res) => {
         const userID = req.params.id
         const productID = req.params.product
-        console.log(productID)
 
         const user = await User.findById(userID);
         if (!user) { return res.status(404).json({ message: 'User not found' }) }
 
         await User.findByIdAndUpdate(userID, { $pull: { cart: { product: productID } } });
-        const updatedUser = await User.findById(userID);
-        console.log(updatedUser.cart)
         res.status(200).json({
             status: 'success',
             message: 'Successfully removed from cart',
-            data: updatedUser.cart
         });
     },
 

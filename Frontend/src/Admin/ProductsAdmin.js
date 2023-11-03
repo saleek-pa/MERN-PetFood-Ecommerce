@@ -37,7 +37,7 @@ export default function ProductsAdmin() {
         <table>
           <thead>
             <tr>
-              <td>ID</td>
+              {/* <td>ID</td> */}
               <td>
                 <select
                   style={{ border: "none" }}
@@ -56,18 +56,18 @@ export default function ProductsAdmin() {
             </tr>
           </thead>
           {category.map((product) => (
-            <tbody key={product.id}>
+            <tbody key={product._id}>
               <tr>
-                <th>{product.id}</th>
+                {/* <th>{product.id}</th> */}
                 <th>{product.category}</th>
                 <th>
                   <img
-                    src={product.src}
-                    alt={product.name}
+                    src={product.image}
+                    alt={product.title}
                     style={{ width: "120px" }}
                   />
                 </th>
-                <th>{product.name}</th>
+                <th>{product.title}</th>
                 <th>{product.description.slice(0, 60)}</th>
                 <th>{handlePrice(product.price)}</th>
                 <th>
@@ -76,7 +76,7 @@ export default function ProductsAdmin() {
                     color="success"
                     rounded
                     onClick={() =>
-                      navigate(`/dashboard/products/${product.id}`)
+                      navigate(`/dashboard/products/${product._id}`)
                     }
                   >
                     <MDBIcon fas icon="edit" />

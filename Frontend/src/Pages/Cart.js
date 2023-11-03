@@ -37,8 +37,8 @@ export default function Cart() {
 
    const navigate = useNavigate();
 
-   // Calculate the total price of items in the cart
-   //  const totalPrice = cart.reduce((acc, item) => acc + item.product.price * item.quantity, 0);
+  //  Calculate the total price of items in the cart
+    const totalPrice = cart.reduce((acc, item) => acc + item.product.price * item.quantity, 0);
 
    // Handle changes in item quantity
    const handleQuantity = (id, quantityChange) => {
@@ -54,11 +54,7 @@ export default function Cart() {
    // Remove an item from the cart
    const removeFromCart = async (productID) => {
       try {
-         const response = await axios.delete(`http://localhost:8000/api/users/${userID}/cart/${productID}` );
-         if (response.status === 200) {
-            console.log(response.data.data);
-            setCart(response.data.data);
-         }
+         await axios.delete(`http://localhost:8000/api/users/${userID}/cart/${productID}` );
       } catch (error) {
          alert(error.response.data.message);
       }
@@ -208,8 +204,7 @@ export default function Cart() {
                                     <MDBTypography tag="h5" className="text-uppercase">
                                        Total price
                                     </MDBTypography>
-                                    {/* <MDBTypography tag="h5">₹{totalPrice}.00</MDBTypography> */}
-                                    <MDBTypography tag="h5">₹1000.00</MDBTypography>
+                                    <MDBTypography tag="h5">₹{totalPrice}.00</MDBTypography>
                                  </div>
 
                                  <MDBBtn color="dark" block size="lg" onClick={handleCheckout}>
