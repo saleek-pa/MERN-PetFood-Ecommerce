@@ -24,9 +24,7 @@ export default function AddProductAdmin() {
       const objectUrl = URL.createObjectURL(file);
       setImageUrl(objectUrl);
    };
-
-   console.log(item);
-
+   
    // Function to add new product to ProductDetails Array
    const handleForm = async (e) => {
       e.preventDefault();

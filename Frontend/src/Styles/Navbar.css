@@ -12,7 +12,7 @@
   background-color: white;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
   position: fixed;
-  padding: 1rem;
+  padding: 17px 20px;
   width: 100%;
   z-index: 1;
 }
@@ -43,7 +43,7 @@
 
 .search-box {
   position: absolute;
-  top: 23px;
+  top: 17px;
   right: 157px;
   background-color: white;
   border-radius: 30px;
@@ -115,7 +115,7 @@
     transition: 0.3s;
   }
 
-  .logo h1 {
+  .logo {
     margin: 0;
     position: absolute;
     left: 50%;

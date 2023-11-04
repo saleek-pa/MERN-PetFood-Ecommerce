@@ -13,7 +13,6 @@ export default function UserDetailsAdmin() {
       const fetchData = async () => {
          try {
             const response = await axios.get(`http://localhost:8000/api/admin/users/${id}`);
-            console.log(response);
             if (response.status === 200) {
                setUser(response.data.data);
             }
@@ -24,8 +23,6 @@ export default function UserDetailsAdmin() {
 
       fetchData();
    }, [id]);
-
-   console.log(user);
 
    return (
       <div className="d-flex flex-column align-items-center pt-3">
