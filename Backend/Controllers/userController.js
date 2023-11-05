@@ -129,6 +129,27 @@ module.exports = {
 
 
 
+    updateCartItemQuantity: async (req, res) => {
+        const userID = req.params.id;
+        const { id, quantityChange } = req.body;
+
+        const user = await User.findById(userID);
+        if (!user) { return res.status(404).json({ message: 'User not found' }) }
+
+        const updatedCart = (user.cart.id(id).quantity += quantityChange);
+        if (updatedCart > 0) {
+            await user.save();
+        }
+
+        res.status(200).json({
+            status: 'success',
+            message: 'Cart item quantity updated',
+            data: user.cart
+        });
+    },
+
+
+
     deleteFromCart: async (req, res) => {
         const userID = req.params.id
         const productID = req.params.product

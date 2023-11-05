@@ -35,7 +35,7 @@ const Navbar = () => {
       };
 
       fetchData();
-   }, [userID, setCart, cart]);
+   }, [userID, setCart]);
 
    const toggleSearchBox = () => setShowSearchBox(!showSearchBox); // Toggle search box visibility
    const toggleNavbar = () => setShowCollapse(!showCollapse); // Toggle mobile navbar

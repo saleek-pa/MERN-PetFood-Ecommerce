@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { PetContext } from "../App";
 import {
@@ -17,22 +17,42 @@ import "../Styles/Cart.css";
 import axios from "axios";
 
 export default function Cart() {
-   const { profile, setProfile, name, userID, orderId, setOrderId, cart, setCart } = useContext(PetContext);
+   const { profile, setProfile, name, userID, orderId, setOrderId, cart, setCart, handlePrice } =
+      useContext(PetContext);
 
    const navigate = useNavigate();
+
+   useEffect(() => {
+      const fetchData = async () => {
+         try {
+            const response = await axios.get(`http://localhost:8000/api/users/${userID}/cart`);
+            if (response.status === 200) {
+               setCart(response.data.data);
+            }
+         } catch (error) {
+            alert(error.response.data.message);
+         }
+      };
+
+      fetchData();
+   }, [userID, setCart]);
 
    //  Calculate the total price of items in the cart
    const totalPrice = cart.reduce((acc, item) => acc + item.product.price * item.quantity, 0);
 
    // Handle changes in item quantity
-   const handleQuantity = (id, quantityChange) => {
-      const newCart = cart.map((data) => {
-         if (data.id === id && data.quantity > 0) {
-            return { ...data, quantity: data.quantity + quantityChange || 1 };
+   const handleQuantity = async (cartID, quantityChange) => {
+      const data = { id: cartID, quantityChange };
+
+      try {
+         await axios.put(`http://localhost:8000/api/users/${userID}/cart`, data);
+         const response = await axios.get(`http://localhost:8000/api/users/${userID}/cart`);
+         if (response.status === 200) {
+            setCart(response.data.data);
          }
-         return data;
-      });
-      setCart(newCart);
+      } catch (error) {
+         alert(error.response.data.message);
+      }
    };
 
    // Remove an item from the cart
@@ -123,7 +143,7 @@ export default function Cart() {
                                           <MDBBtn
                                              color="link"
                                              className="px-2"
-                                             onClick={() => handleQuantity(item.id, -1)}
+                                             onClick={() => handleQuantity(item._id, -1)}
                                           >
                                              <MDBIcon fas icon="minus" />
                                           </MDBBtn>
@@ -133,14 +153,14 @@ export default function Cart() {
                                           <MDBBtn
                                              color="link"
                                              className="px-2"
-                                             onClick={() => handleQuantity(item.id, 1)}
+                                             onClick={() => handleQuantity(item._id, 1)}
                                           >
                                              <MDBIcon fas icon="plus" />
                                           </MDBBtn>
                                        </MDBCol>
                                        <MDBCol md="3" lg="2" xl="2" className="text-end">
                                           <MDBTypography tag="h6" className="cart-item-price emb-0">
-                                             ₹{item.product.price * item.quantity}
+                                             {handlePrice(item.product.price * item.quantity)}
                                           </MDBTypography>
                                        </MDBCol>
                                        <MDBCol md="1" lg="1" xl="1" className="cart-delete text-end">
@@ -188,7 +208,7 @@ export default function Cart() {
                                     <MDBTypography tag="h5" className="text-uppercase">
                                        Total price
                                     </MDBTypography>
-                                    <MDBTypography tag="h5">₹{totalPrice}.00</MDBTypography>
+                                    <MDBTypography tag="h5">{handlePrice(totalPrice)}.00</MDBTypography>
                                  </div>
 
                                  <MDBBtn color="dark" block size="lg" onClick={handleCheckout}>
