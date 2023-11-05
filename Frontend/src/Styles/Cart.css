@@ -1,3 +1,12 @@
+.cart-delete {
+  cursor: pointer;
+}
+
+.cart-delete span:hover {
+  color: red;
+  transition: all .30s ease;
+}
+
 @media (min-width: 1025px) {
   .h-custom {
     height: 100vh !important;

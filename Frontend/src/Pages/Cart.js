@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { PetContext } from "../App";
 import {
@@ -17,28 +17,12 @@ import "../Styles/Cart.css";
 import axios from "axios";
 
 export default function Cart() {
-   const [cart, setCart] = useState([]);
-   const { profile, setProfile, name, userID, orderId, setOrderId } = useContext(PetContext);
-
-   useEffect(() => {
-      const fetchData = async () => {
-         try {
-            const response = await axios.get(`http://localhost:8000/api/users/${userID}/cart`);
-            if (response.status === 200) {
-               setCart(response.data.data);
-            }
-         } catch (error) {
-            alert(error.response.data.message);
-         }
-      };
-
-      fetchData();
-   }, [userID, cart]);
+   const { profile, setProfile, name, userID, orderId, setOrderId, cart, setCart } = useContext(PetContext);
 
    const navigate = useNavigate();
 
-  //  Calculate the total price of items in the cart
-    const totalPrice = cart.reduce((acc, item) => acc + item.product.price * item.quantity, 0);
+   //  Calculate the total price of items in the cart
+   const totalPrice = cart.reduce((acc, item) => acc + item.product.price * item.quantity, 0);
 
    // Handle changes in item quantity
    const handleQuantity = (id, quantityChange) => {
@@ -54,7 +38,7 @@ export default function Cart() {
    // Remove an item from the cart
    const removeFromCart = async (productID) => {
       try {
-         await axios.delete(`http://localhost:8000/api/users/${userID}/cart/${productID}` );
+         await axios.delete(`http://localhost:8000/api/users/${userID}/cart/${productID}`);
       } catch (error) {
          alert(error.response.data.message);
       }
@@ -162,7 +146,7 @@ export default function Cart() {
                                        <MDBCol md="1" lg="1" xl="1" className="cart-delete text-end">
                                           <span
                                              href=""
-                                             className="text-muted"
+                                             // className="text-danger"
                                              onClick={(e) => {
                                                 e.preventDefault();
                                                 removeFromCart(item.product._id);

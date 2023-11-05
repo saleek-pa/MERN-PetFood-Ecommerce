@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { PetContext } from "../App";
 import {
@@ -12,16 +12,32 @@ import {
    MDBBadge,
 } from "mdb-react-ui-kit";
 import "../Styles/Navbar.css";
+import axios from "axios";
 
 const Navbar = () => {
    const [searchInput, setSearchInput] = useState("");
    const [filteredProducts, setFilteredProducts] = useState([]);
    const [showSearchBox, setShowSearchBox] = useState(false);
    const [showCollapse, setShowCollapse] = useState(false);
-   const { productDetails, cart, loginStatus, setLoginStatus, name } = useContext(PetContext);
+   const { productDetails, cart, setCart, loginStatus, setLoginStatus, name, userID } = useContext(PetContext);
    const navigate = useNavigate();
 
-   const toggleSearchBox = () => setShowSearchBox(!showSearchBox);  // Toggle search box visibility
+   useEffect(() => {
+      const fetchData = async () => {
+         try {
+            const response = await axios.get(`http://localhost:8000/api/users/${userID}/cart`);
+            if (response.status === 200) {
+               setCart(response.data.data);
+            }
+         } catch (error) {
+            alert(error.response.data.message);
+         }
+      };
+
+      fetchData();
+   }, [userID, setCart, cart]);
+
+   const toggleSearchBox = () => setShowSearchBox(!showSearchBox); // Toggle search box visibility
    const toggleNavbar = () => setShowCollapse(!showCollapse); // Toggle mobile navbar
 
    // Handle search input change
