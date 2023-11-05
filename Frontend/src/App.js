@@ -12,6 +12,7 @@ import CatFood from "./Pages/CatFood";
 import Details from "./Pages/Details";
 import FixedAdmin from "./Admin/FixedAdmin";
 import axios from "axios";
+import Wishlist from "./Pages/Wishlist";
 
 export const PetContext = createContext();
 
@@ -21,6 +22,7 @@ function App() {
    const [name, setName] = useState("");
    const [userID, setUserID] = useState(null);
    const [productDetails, setProductDetails] = useState([]);
+   const [wishlist, setWishlist] = useState([]);
 
    useEffect(() => {
       const fetchData = async () => {
@@ -62,6 +64,8 @@ function App() {
                setUserID,
                productDetails,
                setProductDetails,
+               wishlist,
+               setWishlist,
                cart,
                setCart,
                handlePrice,
@@ -81,6 +85,7 @@ function App() {
                <Route path="/products" element={<AllProducts />} />
                <Route path="/dog-food" element={<DogFood />} />
                <Route path="/cat-food" element={<CatFood />} />
+               <Route path="/wishlist" element={<Wishlist />} />
                <Route path="/products/:id" element={<Details />} />
                <Route path="/dog-food/:id" element={<Details />} />
                <Route path="/cat-food/:id" element={<Details />} />

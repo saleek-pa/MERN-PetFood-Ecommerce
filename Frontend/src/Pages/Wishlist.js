@@ -4,8 +4,8 @@ import { PetContext } from "../App";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-export default function DogFood() {
-   const { productDetails, handlePrice, loginStatus, wishlist, setWishlist, userID } = useContext(PetContext);
+export default function Wishlist() {
+   const { handlePrice, loginStatus, wishlist, setWishlist, userID } = useContext(PetContext);
    const navigate = useNavigate();
 
    useEffect(() => {
@@ -25,17 +25,17 @@ export default function DogFood() {
       fetchData();
    }, [loginStatus, userID, setWishlist]);
 
-   const addToWishlist = async (productID) => {
-      try {
-         await axios.post(`http://localhost:8000/api/users/${userID}/wishlist`, { productID });
-         const response = await axios.get(`http://localhost:8000/api/users/${userID}/wishlist`);
-         if (response.status === 200) {
-            setWishlist(response.data.data);
-         }
-      } catch (error) {
-         alert(error.response.data.message);
-      }
-   };
+//    const addToWishlist = async (productID) => {
+//       try {
+//          await axios.post(`http://localhost:8000/api/users/${userID}/wishlist`, { productID });
+//          const response = await axios.get(`http://localhost:8000/api/users/${userID}/wishlist`);
+//          if (response.status === 200) {
+//             setWishlist(response.data.data);
+//          }
+//       } catch (error) {
+//          alert(error.response.data.message);
+//       }
+//    };
 
    const removeFromWishlist = async (productID) => {
       try {
@@ -53,11 +53,11 @@ export default function DogFood() {
       <>
          <section className="products d-flex flex-column align-items-center mb-5" style={{ paddingTop: "80px" }}>
             <h1 className="mt-5 text-black fw-bolder">
-               <span>Our</span> Products
+               <span>My</span> Wishlist
             </h1>
 
             <div className="product-content">
-               {productDetails.map((value) => (
+               {wishlist.map((value) => (
                   <div className="box" key={value._id}>
                      <div className="box-img" onClick={() => navigate(`/products/${value._id}`)}>
                         <img src={value.image} alt={value.title} />
@@ -68,25 +68,12 @@ export default function DogFood() {
                         <span className="price">{handlePrice(value.price)}</span>
                      </div>
                      <div className="heart">
-                        {wishlist.some((item) => item._id === value._id) ? (
+                        {wishlist.some((item) => item._id === value._id) && (
                            <MDBIcon
                               fas
                               icon="heart"
                               className="clicked-heart-icon"
                               onClick={() => removeFromWishlist(value._id)}
-                           />
-                        ) : (
-                           <MDBIcon
-                              fas
-                              icon="heart"
-                              className="heart-icon"
-                              onClick={() => {
-                                 if (loginStatus) {
-                                    addToWishlist(value._id);
-                                 } else {
-                                    alert("Sign in to your account");
-                                 }
-                              }}
                            />
                         )}
                      </div>

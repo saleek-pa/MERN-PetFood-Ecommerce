@@ -25,9 +25,11 @@ const Navbar = () => {
    useEffect(() => {
       const fetchData = async () => {
          try {
-            const response = await axios.get(`http://localhost:8000/api/users/${userID}/cart`);
-            if (response.status === 200) {
-               setCart(response.data.data);
+            if (loginStatus) {
+               const response = await axios.get(`http://localhost:8000/api/users/${userID}/cart`);
+               if (response.status === 200) {
+                  setCart(response.data.data);
+               }
             }
          } catch (error) {
             alert(error.response.data.message);
@@ -35,7 +37,7 @@ const Navbar = () => {
       };
 
       fetchData();
-   }, [userID, setCart]);
+   }, [loginStatus, userID, setCart]);
 
    const toggleSearchBox = () => setShowSearchBox(!showSearchBox); // Toggle search box visibility
    const toggleNavbar = () => setShowCollapse(!showCollapse); // Toggle mobile navbar
@@ -197,6 +199,14 @@ const Navbar = () => {
                                  {loginStatus ? (
                                     <>
                                        <li>My Profile</li>
+                                       <hr />
+                                       <li
+                                          onClick={() => {
+                                             navigate("/wishlist");
+                                          }}
+                                       >
+                                          Wishlist
+                                       </li>
                                        <hr />
                                        <li
                                           onClick={() => {

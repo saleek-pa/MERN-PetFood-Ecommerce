@@ -24,7 +24,7 @@ router
 
     .get('/:id/wishlist', tryCatch(controller.showWishlist))
     .post('/:id/wishlist', tryCatch(controller.addToWishlist))
-    .delete('/:id/wishlist', tryCatch(controller.deleteFromWishlist))
+    .delete('/:id/wishlist/:product', tryCatch(controller.deleteFromWishlist))
 
     .post('/:id/payment', tryCatch(controller.payment))
     .get('/:id/orders', tryCatch(controller.showOrders))

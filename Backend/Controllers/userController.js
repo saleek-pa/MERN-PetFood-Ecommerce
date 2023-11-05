@@ -205,7 +205,7 @@ module.exports = {
 
     deleteFromWishlist: async (req, res) => {
         const userID = req.params.id
-        const { productID } = req.body
+        const productID = req.params.product
 
         const user = await User.findById(userID);
         if (!user) { return res.status(404).json({ message: 'User not found' }) }

@@ -49,7 +49,7 @@ function Login() {
                id="form2"
                type="email"
                name="email"
-               // value={"admin@gmail.com"}
+               value={"saleek.pa@gmail.com"}
                required
             />
             <MDBInput
@@ -58,7 +58,7 @@ function Login() {
                id="form3"
                type="password"
                name="password"
-               // value={"12345678"}
+               value={"12345678"}
                required
             />
 
