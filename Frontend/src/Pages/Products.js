@@ -6,7 +6,7 @@ import "../Styles/Products.css";
 import axios from "axios";
 
 function Products() {
-   const { loginStatus, productDetails, handlePrice, userID, wishlist, setWishlist } = useContext(PetContext);
+   const { loginStatus, productDetails, handlePrice, userID, wishlist, setWishlist, tokenConfig } = useContext(PetContext);
    const DogFood = productDetails.filter((value) => value.category === "Dog").slice(0, 4);
    const CatFood = productDetails.filter((value) => value.category === "Cat").slice(0, 4);
    const bestSellingProduct = [...DogFood, ...CatFood];
@@ -16,7 +16,7 @@ function Products() {
       const fetchData = async () => {
          try {
             if (loginStatus) {
-               const response = await axios.get(`http://localhost:8000/api/users/${userID}/wishlist`);
+               const response = await axios.get(`http://localhost:8000/api/users/${userID}/wishlist`, tokenConfig);
                if (response.status === 200) {
                   setWishlist(response.data.data);
                }
@@ -27,14 +27,14 @@ function Products() {
       };
 
       fetchData();
-   }, [loginStatus, userID, setWishlist]);
+   }, [loginStatus, userID, setWishlist, tokenConfig]);
 
 
 
    const addToWishlist = async (productID) => {
       try {
-         await axios.post(`http://localhost:8000/api/users/${userID}/wishlist`, { productID });
-         const response = await axios.get(`http://localhost:8000/api/users/${userID}/wishlist`);
+         await axios.post(`http://localhost:8000/api/users/${userID}/wishlist`, { productID }, tokenConfig);
+         const response = await axios.get(`http://localhost:8000/api/users/${userID}/wishlist`, tokenConfig);
          if (response.status === 200) {
             setWishlist(response.data.data);
          }
@@ -47,8 +47,8 @@ function Products() {
 
    const removeFromWishlist = async (productID) => {
       try {
-         await axios.delete(`http://localhost:8000/api/users/${userID}/wishlist/${productID}`);
-         const response = await axios.get(`http://localhost:8000/api/users/${userID}/wishlist`);
+         await axios.delete(`http://localhost:8000/api/users/${userID}/wishlist/${productID}`, tokenConfig);
+         const response = await axios.get(`http://localhost:8000/api/users/${userID}/wishlist`, tokenConfig);
          if (response.status === 200) {
             setWishlist(response.data.data);
          }

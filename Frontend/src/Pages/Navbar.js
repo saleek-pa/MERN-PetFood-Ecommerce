@@ -19,14 +19,14 @@ const Navbar = () => {
    const [filteredProducts, setFilteredProducts] = useState([]);
    const [showSearchBox, setShowSearchBox] = useState(false);
    const [showCollapse, setShowCollapse] = useState(false);
-   const { productDetails, cart, setCart, loginStatus, setLoginStatus, name, userID } = useContext(PetContext);
+   const { productDetails, cart, setCart, loginStatus, setLoginStatus, name, userID, tokenConfig } = useContext(PetContext);
    const navigate = useNavigate();
 
    useEffect(() => {
       const fetchData = async () => {
          try {
             if (loginStatus) {
-               const response = await axios.get(`http://localhost:8000/api/users/${userID}/cart`);
+               const response = await axios.get(`http://localhost:8000/api/users/${userID}/cart`, tokenConfig);
                if (response.status === 200) {
                   setCart(response.data.data);
                }
@@ -37,7 +37,7 @@ const Navbar = () => {
       };
 
       fetchData();
-   }, [loginStatus, userID, setCart]);
+   }, [loginStatus, userID, setCart, tokenConfig]);
 
    const toggleSearchBox = () => setShowSearchBox(!showSearchBox); // Toggle search box visibility
    const toggleNavbar = () => setShowCollapse(!showCollapse); // Toggle mobile navbar
@@ -211,6 +211,7 @@ const Navbar = () => {
                                        <li
                                           onClick={() => {
                                              setLoginStatus(false);
+                                             localStorage.removeItem('jwt_token')   
                                              navigate("/");
                                           }}
                                        >

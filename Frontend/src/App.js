@@ -13,6 +13,13 @@ import Details from "./Pages/Details";
 import FixedAdmin from "./Admin/FixedAdmin";
 import axios from "axios";
 import Wishlist from "./Pages/Wishlist";
+const token = localStorage.getItem('jwt_token');
+
+const tokenConfig = {
+  headers: {
+    Authorization: `Bearer ${token}`
+  }
+};
 
 export const PetContext = createContext();
 
@@ -73,6 +80,7 @@ function App() {
                setProductId,
                orderId,
                setOrderId,
+               tokenConfig,
             }}
          >
             {/* Navbar & Footer is common for every route except Dashboard */}

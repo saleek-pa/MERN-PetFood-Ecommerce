@@ -29,6 +29,7 @@ function Login() {
          const response = await axios.post(endpoint, loginData);
          if (response.status === 200) {
             alert(response.data.message);
+            localStorage.setItem('jwt_token', response.data.jwt_token)
             setLoginStatus(true);
             setName(response.data.data.name);
             setUserID(response.data.data.userID);

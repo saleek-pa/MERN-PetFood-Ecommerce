@@ -33,12 +33,13 @@ module.exports = {
         if (user) {
             const passwordMatch = await bcrypt.compare(password, user.password);
             if (passwordMatch) {
-                const token = jwt.sign({ email },
-                    process.env.USER_ACCESS_TOKEN_SECRET, { expiresIn: '1h' });
+                const token = jwt.sign({ email }, process.env.USER_ACCESS_TOKEN_SECRET, { expiresIn: '1h' });
+
                 res.status(200).json({
                     status: 'success',
                     message: 'Successfully Logged In.',
-                    data: { jwt_token: token, name: user.name, userID: user._id }
+                    jwt_token: token,
+                    data: { name: user.name, userID: user._id }
                 })
             } else res.status(401).json({ message: 'Incorrect Password. Try again.' })
         } else res.status(401).json({ message: 'Email not found. Please register.' });
@@ -171,13 +172,13 @@ module.exports = {
         const user = await User.findById(userID).populate('wishlist');
         if (!user) { return res.status(404).json({ message: 'User not found' }) }
 
-        const wishlistItems = user.wishlist;
-        if (wishlistItems.length === 0) { return res.status(404).json({ message: 'Wishlist is empty' }) }
+        // const wishlistItems = user.wishlist;
+        // if (wishlistItems.length === 0) { return res.status(404).json({ message: 'Wishlist is empty' }) }
 
         res.status(200).json({
             status: 'success',
             message: 'Successfully fetched wishlist.',
-            data: wishlistItems,
+            data: user.wishlist,
         });
     },
 
@@ -221,24 +222,21 @@ module.exports = {
 
     payment: async (req, res) => {
         const userID = req.params.id;
-        const user = await User.findById(userID).populate('cart');
+        const user = await User.findById(userID).populate('cart.product');
         if (!user) { return res.status(404).json({ message: 'User not found' }) }
+        if (user.cart.length === 0) { return res.status(404).json({ message: 'Cart is empty' }) }
 
-        if (user.cart.length === 0) {
-            return res.status(404).json({ message: 'Cart is empty' })
-        }
-
-        const line_items = user.cart.map(product => {
+        const line_items = user.cart.map(item => {
             return {
                 price_data: {
                     currency: 'inr',
                     product_data: {
-                        name: product.title,
-                        description: product.description
+                        images: [item.product.image],
+                        name: item.product.title,
                     },
-                    unit_amount: Math.round(product.price * 100),
+                    unit_amount: Math.round(item.product.price * 100),
                 },
-                quantity: 1,
+                quantity: item.quantity,
             };
         })
 
@@ -253,7 +251,7 @@ module.exports = {
             userID,
             user,
             newOrder: {
-                products: user.cart.map(product => new mongoose.Types.ObjectId(product._id)),
+                products: user.cart.map(item => new mongoose.Types.ObjectId(item.product._id)),
                 order_id: Date.now(),
                 payment_id: session.id,
                 total_amount: session.amount_total / 100

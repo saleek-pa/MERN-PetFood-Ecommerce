@@ -10,12 +10,14 @@ router
 
     .get('/payment/success', tryCatch(controller.success))
     .post('/payment/cancel', tryCatch(controller.cancel))
-
+    
     .get('/products', tryCatch(controller.getAllProducts))
     .get('/products/:id', tryCatch(controller.getProductById))
     .get('/products/category/:categoryname', tryCatch(controller.getProductsByCategory))
     
-    // .use(checkAuth(process.env.USER_ACCESS_TOKEN_SECRET))
+    .post('/:id/payment', tryCatch(controller.payment))
+    
+    .use(checkAuth(process.env.USER_ACCESS_TOKEN_SECRET))
 
     .get('/:id/cart', tryCatch(controller.showCart))
     .post('/:id/cart', tryCatch(controller.addToCart))
@@ -26,7 +28,6 @@ router
     .post('/:id/wishlist', tryCatch(controller.addToWishlist))
     .delete('/:id/wishlist/:product', tryCatch(controller.deleteFromWishlist))
 
-    .post('/:id/payment', tryCatch(controller.payment))
     .get('/:id/orders', tryCatch(controller.showOrders))
 
 module.exports = router;

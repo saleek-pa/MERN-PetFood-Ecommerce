@@ -1,9 +1,14 @@
 .product-content {
    display: grid;
-   grid-template-columns: repeat(auto-fit, minmax(200px, auto));
+   grid-template-columns: repeat(4, 1fr);
    gap: 3rem 2rem;
    align-items: center;
    margin: 3rem 200px 0;
+}
+
+.product-content h1 {
+   padding: 25% 0;
+   color: black;
 }
 
 .box {

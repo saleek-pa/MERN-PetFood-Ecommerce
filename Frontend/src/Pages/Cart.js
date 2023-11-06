@@ -17,15 +17,14 @@ import "../Styles/Cart.css";
 import axios from "axios";
 
 export default function Cart() {
-   const { profile, setProfile, name, userID, orderId, setOrderId, cart, setCart, handlePrice } =
-      useContext(PetContext);
+   const { userID, cart, setCart, handlePrice, tokenConfig } = useContext(PetContext);
 
    const navigate = useNavigate();
 
    useEffect(() => {
       const fetchData = async () => {
          try {
-            const response = await axios.get(`http://localhost:8000/api/users/${userID}/cart`);
+            const response = await axios.get(`http://localhost:8000/api/users/${userID}/cart`, tokenConfig);
             if (response.status === 200) {
                setCart(response.data.data);
             }
@@ -35,7 +34,7 @@ export default function Cart() {
       };
 
       fetchData();
-   }, [userID, setCart]);
+   }, [userID, setCart, tokenConfig]);
 
    //  Calculate the total price of items in the cart
    const totalPrice = cart.reduce((acc, item) => acc + item.product.price * item.quantity, 0);
@@ -45,8 +44,8 @@ export default function Cart() {
       const data = { id: cartID, quantityChange };
 
       try {
-         await axios.put(`http://localhost:8000/api/users/${userID}/cart`, data);
-         const response = await axios.get(`http://localhost:8000/api/users/${userID}/cart`);
+         await axios.put(`http://localhost:8000/api/users/${userID}/cart`, data, tokenConfig);
+         const response = await axios.get(`http://localhost:8000/api/users/${userID}/cart`, tokenConfig);
          if (response.status === 200) {
             setCart(response.data.data);
          }
@@ -58,41 +57,25 @@ export default function Cart() {
    // Remove an item from the cart
    const removeFromCart = async (productID) => {
       try {
-         await axios.delete(`http://localhost:8000/api/users/${userID}/cart/${productID}`);
+         await axios.delete(`http://localhost:8000/api/users/${userID}/cart/${productID}`, tokenConfig);
       } catch (error) {
          alert(error.response.data.message);
       }
    };
 
    // Handle the checkout process
-   const handleCheckout = (e) => {
-      e.preventDefault();
-
-      if (cart.length !== 0) {
-         const newOrderItem = cart.map((item, index) => ({
-            orderId: orderId + index + 1,
-            product: item.name,
-            quantity: item.quantity,
-            price: item.price,
-         }));
-         setOrderId(orderId + 1);
-
-         // Update user's profile with new orders
-         const updatedProfile = profile.map((user) => {
-            if (user.name === name) {
-               return {
-                  ...user,
-                  orders: [...user.orders, ...newOrderItem],
-               };
+   const handleCheckout = async () => {
+      try {
+         const response = await axios.post(`http://localhost:8000/api/users/${userID}/payment`);
+         if (response.status === 200) {
+            const url = response.data.url;
+            const confirmation = window.confirm("You are being redirected to the Stripe payment gateway. Continue?");
+            if (confirmation) {
+               window.location.replace(url);
             }
-            return user;
-         });
-         setProfile(updatedProfile);
-
-         alert("Order Placed");
-         setCart([]);
-      } else {
-         alert("Cart is Empty!");
+         }
+      } catch (error) {
+         alert(error.response.data.message);
       }
    };
 
