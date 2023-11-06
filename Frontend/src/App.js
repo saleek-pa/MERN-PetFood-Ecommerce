@@ -13,25 +13,33 @@ import Details from "./Pages/Details";
 import FixedAdmin from "./Admin/FixedAdmin";
 import axios from "axios";
 import Wishlist from "./Pages/Wishlist";
-const token = localStorage.getItem('jwt_token');
-
-const tokenConfig = {
-  headers: {
-    Authorization: `Bearer ${token}`
-  }
-};
+import { SuccessPayment } from "./Pages/SuccessPayment";
 
 export const PetContext = createContext();
 
 function App() {
    const [cart, setCart] = useState([]);
    const [loginStatus, setLoginStatus] = useState(false);
-   const [name, setName] = useState("");
-   const [userID, setUserID] = useState(null);
    const [productDetails, setProductDetails] = useState([]);
    const [wishlist, setWishlist] = useState([]);
+   const [tokenConfig, setTokenConfig] = useState({});
+   const userID = localStorage.getItem("userID")
 
    useEffect(() => {
+      const token = localStorage.getItem("jwt_token");
+      if (token) setLoginStatus(true);
+      setTokenConfig({
+         headers: {
+            Authorization: `Bearer ${token}`,
+         },
+      });
+
+      if (token) {
+         setLoginStatus(true);
+      } else {
+         setLoginStatus(false);
+      }
+
       const fetchData = async () => {
          try {
             const response = await axios.get("http://localhost:8000/api/users/products");
@@ -44,7 +52,7 @@ function App() {
       };
 
       fetchData();
-   }, []);
+   }, [setTokenConfig]);
 
    const [productId, setProductId] = useState(17);
    const [orderId, setOrderId] = useState(11);
@@ -65,10 +73,7 @@ function App() {
             value={{
                loginStatus,
                setLoginStatus,
-               name,
-               setName,
                userID,
-               setUserID,
                productDetails,
                setProductDetails,
                wishlist,
@@ -90,10 +95,11 @@ function App() {
                <Route path="/registration" element={<Registration />} />
                <Route path="/login" element={<Login />} />
                <Route path="/cart" element={<Cart />} />
-               <Route path="/products" element={<AllProducts />} />
+               <Route path="/payment/success" element={<SuccessPayment />} />
                <Route path="/dog-food" element={<DogFood />} />
                <Route path="/cat-food" element={<CatFood />} />
                <Route path="/wishlist" element={<Wishlist />} />
+               <Route path="/products" element={<AllProducts />} />
                <Route path="/products/:id" element={<Details />} />
                <Route path="/dog-food/:id" element={<Details />} />
                <Route path="/cat-food/:id" element={<Details />} />

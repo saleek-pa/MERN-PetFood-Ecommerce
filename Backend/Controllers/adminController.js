@@ -184,7 +184,7 @@ module.exports = {
         { $project: { _id: 0 } }
         ])
 
-        res.json({
+        res.status(200).json({
             status: 'success',
             message: 'Successfully fetched stats.',
             data: stats

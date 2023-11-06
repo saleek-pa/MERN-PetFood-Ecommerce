@@ -7,7 +7,7 @@ const checkAuth = require('../Middleware/checkAuth');
 
 router
     .post('/login', tryCatch(controller.login))
-    // .use(checkAuth(process.env.ADMIN_ACCESS_TOKEN_SECRET))
+    .use(checkAuth(process.env.ADMIN_ACCESS_TOKEN_SECRET))
 
     .get('/users', tryCatch(controller.getAllUsers))
     .get('/users/:id', tryCatch(controller.getUserById))

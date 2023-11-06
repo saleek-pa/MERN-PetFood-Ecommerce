@@ -22,7 +22,8 @@ export default function Dashboard() {
   const isUserDetails = location.pathname.startsWith("/dashboard/users/");
   const isEditProducts = location.pathname.startsWith("/dashboard/products/");
 
-  const { loginStatus, setLoginStatus, name } = useContext(PetContext);
+  const { loginStatus, setLoginStatus } = useContext(PetContext);
+  const name = localStorage.getItem('name')
 
   return (
     <div className="admin-dashboard">
@@ -81,6 +82,8 @@ export default function Dashboard() {
               style={{ cursor: "pointer" }}
               onClick={() => {
                 setLoginStatus(false);
+                localStorage.removeItem('jwt_token')   
+                localStorage.removeItem('name')   
                 navigate("/login");
               }}
             >

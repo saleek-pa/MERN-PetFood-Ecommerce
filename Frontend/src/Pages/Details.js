@@ -8,13 +8,13 @@ import axios from "axios";
 
 export default function Details() {
    const { id } = useParams();
-   const { loginStatus, userID } = useContext(PetContext);
+   const { loginStatus, userID,tokenConfig } = useContext(PetContext);
    const [item, setItem] = useState([]);
 
    useEffect(() => {
       const fetchData = async () => {
          try {
-            const response = await axios.get(`http://localhost:8000/api/users/products/${id}`);
+            const response = await axios.get(`http://localhost:8000/api/users/products/${id}`, tokenConfig);
             if (response.status === 200) {
                setItem(response.data.data);
             }
@@ -24,12 +24,12 @@ export default function Details() {
       };
 
       fetchData();
-   }, [id]);
+   }, [id, tokenConfig]);
 
    // Function to add the current product to the cart
    const addToCart = async (productID) => {
       try {
-         const response = await axios.post(`http://localhost:8000/api/users/${userID}/cart`, { productID });
+         const response = await axios.post(`http://localhost:8000/api/users/${userID}/cart`, { productID }, tokenConfig);
          if (response.status === 200) {
             alert(response.data.message);
          }

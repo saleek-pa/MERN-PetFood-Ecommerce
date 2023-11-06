@@ -38,8 +38,7 @@ module.exports = {
                 res.status(200).json({
                     status: 'success',
                     message: 'Successfully Logged In.',
-                    jwt_token: token,
-                    data: { name: user.name, userID: user._id }
+                    data: { jwt_token: token, name: user.name, userID: user._id }
                 })
             } else res.status(401).json({ message: 'Incorrect Password. Try again.' })
         } else res.status(401).json({ message: 'Email not found. Please register.' });
@@ -243,8 +242,8 @@ module.exports = {
         const session = await stripe.checkout.sessions.create({
             line_items,
             mode: 'payment',
-            success_url: 'http://127.0.0.1:3000/api/users/payment/success',
-            cancel_url: 'http://127.0.0.1:3000/api/users/payment/cancel',
+            success_url: 'http://127.0.0.1:3000/payment/success',
+            cancel_url: 'http://127.0.0.1:3000/payment/cancel',
         });
 
         orderDetails = {
@@ -269,17 +268,20 @@ module.exports = {
 
 
     success: async (req, res) => {
+        console.log("hello")
         const { userID, user, newOrder } = orderDetails;
         const order = await Order.create({ ...newOrder })
+        console.log(order)
         await User.findByIdAndUpdate(userID, { $push: { orders: order._id } });
-
+        console.log(user)
         user.cart = [];
         await user.save();
 
         res.status(200).json({
-            status: 'success',
-            message: 'Payment was successful'
-        });
+            status: "success",
+            message: "Payment was successful",
+            data: user.cart
+        })
     },
 
 

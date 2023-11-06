@@ -19,7 +19,8 @@ const Navbar = () => {
    const [filteredProducts, setFilteredProducts] = useState([]);
    const [showSearchBox, setShowSearchBox] = useState(false);
    const [showCollapse, setShowCollapse] = useState(false);
-   const { productDetails, cart, setCart, loginStatus, setLoginStatus, name, userID, tokenConfig } = useContext(PetContext);
+   const { productDetails, cart, setCart, loginStatus, setLoginStatus, userID, tokenConfig } = useContext(PetContext);
+   const name = localStorage.getItem('name')
    const navigate = useNavigate();
 
    useEffect(() => {
@@ -32,7 +33,7 @@ const Navbar = () => {
                }
             }
          } catch (error) {
-            alert(error.response.data.message);
+            // alert(error.response.data.message);
          }
       };
 
@@ -210,8 +211,10 @@ const Navbar = () => {
                                        <hr />
                                        <li
                                           onClick={() => {
-                                             setLoginStatus(false);
                                              localStorage.removeItem('jwt_token')   
+                                             localStorage.removeItem('name')   
+                                             localStorage.removeItem('userID')   
+                                             setLoginStatus(false);
                                              navigate("/");
                                           }}
                                        >

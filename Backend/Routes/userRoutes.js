@@ -7,7 +7,8 @@ const checkAuth = require('../Middleware/checkAuth');
 router
     .post('/register', tryCatch(controller.register))
     .post('/login', tryCatch(controller.login))
-
+    
+    .post('/:id/payment', tryCatch(controller.payment))
     .get('/payment/success', tryCatch(controller.success))
     .post('/payment/cancel', tryCatch(controller.cancel))
     
@@ -15,10 +16,9 @@ router
     .get('/products/:id', tryCatch(controller.getProductById))
     .get('/products/category/:categoryname', tryCatch(controller.getProductsByCategory))
     
-    .post('/:id/payment', tryCatch(controller.payment))
     
     .use(checkAuth(process.env.USER_ACCESS_TOKEN_SECRET))
-
+    
     .get('/:id/cart', tryCatch(controller.showCart))
     .post('/:id/cart', tryCatch(controller.addToCart))
     .put('/:id/cart', tryCatch(controller.updateCartItemQuantity))

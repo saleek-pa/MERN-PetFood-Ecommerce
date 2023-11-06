@@ -23,8 +23,8 @@ export default function ProductsAdmin() {
 
    // Handle product deletion
    const handleDelete = async (productID) => {
-      const res = prompt("Are you sure (y/n)");
-      if (res === "y") {
+      const confirmation = window.confirm("Are you sure you want to delete this product?\nThis action cannot be undone.");
+      if (confirmation) {
          try {
             const response = await axios.delete(`http://localhost:8000/api/admin/products/${productID}`);
             alert(response.data.message);
