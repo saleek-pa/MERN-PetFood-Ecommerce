@@ -4,22 +4,23 @@ import { PetContext } from "../App";
 import axios from "axios";
 
 export default function HomeDashboard() {
-   const { productDetails, handlePrice, tokenConfig } = useContext(PetContext);
-   const [profile, setProfile] = useState([]);
+   const { tokenConfig, productDetails, handlePrice } = useContext(PetContext);
    const [stats, setStats] = useState([{ totalProductsSold: "", totalRevenue: "" }]);
+   const [profile, setProfile] = useState([]);
+   const [orders, setOrders] = useState([]);
 
    useEffect(() => {
       const fetchData = async () => {
          try {
-            const usersResponse = await axios.get("http://localhost:8000/api/admin/users", tokenConfig);
-            if (usersResponse.status === 200) {
-               setProfile(usersResponse.data.data);
-            }
+            const [usersResponse, statsResponse, orderResponse] = await Promise.all([
+               axios.get("http://localhost:8000/api/admin/users", tokenConfig),
+               axios.get("http://localhost:8000/api/admin/stats", tokenConfig),
+               axios.get("http://localhost:8000/api/admin/orders", tokenConfig),
+            ]);
 
-            const statsResponse = await axios.get("http://localhost:8000/api/admin/stats", tokenConfig);
-            if (statsResponse.status === 200) {
-               setStats(statsResponse.data.data);
-            }
+            if (statsResponse.status === 200) setStats(statsResponse.data.data);
+            if (orderResponse.status === 200) setOrders(orderResponse.data.data);
+            if (usersResponse.status === 200) setProfile(usersResponse.data.data);
          } catch (error) {
             alert(error.response.data.message);
          }
@@ -32,23 +33,12 @@ export default function HomeDashboard() {
    const reversedData = [...productDetails].reverse();
    const reversedProfile = [...profile].reverse();
 
-   // Calculate the total sum of orders across all users
-   const totalSum = profile.reduce((sum, user) => {
-      if (user.orders) {
-         const orderTotal = user.orders.reduce((orderSum, order) => {
-            return orderSum + order.price * order.quantity;
-         }, 0);
-         return sum + orderTotal;
-      }
-      return sum;
-   }, 0);
-
    return (
       <div>
          <div className="d-flex justify-content-center align-items-center gap-5 mb-5">
             <div className="content-box">
                <h6>Total Orders</h6>
-               <h2>{handlePrice(totalSum)}</h2>
+               <h2>{orders ? orders.length : 0}</h2>
                <p className="text-success">
                   <MDBIcon fas icon="chart-line" className="me-2" />
                   {Math.round(Math.random() * 100) / 10}% <span className="text-muted"> Last Month</span>
@@ -57,7 +47,7 @@ export default function HomeDashboard() {
 
             <div className="content-box">
                <h6>Total Revenue</h6>
-               <h2>{handlePrice(stats[0].totalRevenue)}</h2>
+               <h2>{stats[0] ? handlePrice(stats[0].totalRevenue) : 0}</h2>
                <p className="text-success">
                   <MDBIcon fas icon="chart-line" className="me-2" />
                   {Math.round(Math.random() * 100) / 10}% <span className="text-muted"> Last Month</span>
@@ -66,7 +56,7 @@ export default function HomeDashboard() {
 
             <div className="content-box">
                <h6>Total Products Sold</h6>
-               <h2>{stats[0].totalProductsSold}</h2>
+               <h2>{stats[0] ? stats[0].totalProductsSold : 0}</h2>
 
                <p className="text-success">
                   <MDBIcon fas icon="chart-line" className="me-2" />

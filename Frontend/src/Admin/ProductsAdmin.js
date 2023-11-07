@@ -6,7 +6,7 @@ import axios from "axios";
 
 export default function ProductsAdmin() {
    const navigate = useNavigate();
-   const { productDetails, setProductDetails, handlePrice } = useContext(PetContext);
+   const { productDetails, setProductDetails, handlePrice, tokenConfig } = useContext(PetContext);
 
    // Initialize state to filter products by category
    const [category, setCategory] = useState(productDetails);
@@ -23,10 +23,12 @@ export default function ProductsAdmin() {
 
    // Handle product deletion
    const handleDelete = async (productID) => {
-      const confirmation = window.confirm("Are you sure you want to delete this product?\nThis action cannot be undone.");
+      const confirmation = window.confirm(
+         "Are you sure you want to delete this product?\nThis action cannot be undone."
+      );
       if (confirmation) {
          try {
-            const response = await axios.delete(`http://localhost:8000/api/admin/products/${productID}`);
+            const response = await axios.delete(`http://localhost:8000/api/admin/products/${productID}`, tokenConfig);
             alert(response.data.message);
             setProductDetails(response.data.data);
          } catch (error) {

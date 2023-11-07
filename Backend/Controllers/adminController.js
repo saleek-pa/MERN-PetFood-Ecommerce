@@ -38,7 +38,12 @@ module.exports = {
 
     getUserById: async (req, res) => {
         const id = req.params.id
-        const user = await User.findById(id)
+        const user = await User.findById(id).populate({
+            path: 'orders',
+            populate: {
+                path: 'products'
+            }
+        });
         if (!user) {
             return res.status(404).json({ message: "User not found" })
         }
@@ -47,7 +52,6 @@ module.exports = {
             message: 'Successfully fetched user data.',
             data: user
         })
-
     },
 
 

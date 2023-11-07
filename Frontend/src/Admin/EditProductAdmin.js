@@ -6,7 +6,7 @@ import axios from "axios";
 
 export default function EditProductAdmin() {
    const { id } = useParams();
-   const { setProductDetails } = useContext(PetContext);
+   const { setProductDetails, tokenConfig } = useContext(PetContext);
    const [item, setItem] = useState({ title: "", description: "", price: "", category: "", image: "" });
    const [selectedFile, setSelectedFile] = useState(null);
    const [imageStatus, setImageStatus] = useState(true);
@@ -16,7 +16,7 @@ export default function EditProductAdmin() {
    useEffect(() => {
       const fetchData = async () => {
          try {
-            const response = await axios.get(`http://localhost:8000/api/admin/products/${id}`);
+            const response = await axios.get(`http://localhost:8000/api/admin/products/${id}`, tokenConfig);
             if (response.status === 200) {
                setItem(response.data.data);
             }
@@ -26,7 +26,7 @@ export default function EditProductAdmin() {
       };
 
       fetchData();
-   }, [id]);
+   }, [id, tokenConfig]);
 
    const handleInputChange = (e) => {
       const { name, value } = e.target;
@@ -44,7 +44,6 @@ export default function EditProductAdmin() {
 
    const handleForm = async (e) => {
       e.preventDefault();
-      console.log(item)
       const formData = new FormData();
       formData.append("id", item._id);
       formData.append("image", item.image);
@@ -54,7 +53,7 @@ export default function EditProductAdmin() {
       formData.append("category", item.category);
 
       try {
-         const response = await axios.put("http://localhost:8000/api/admin//products", formData);
+         const response = await axios.put("http://localhost:8000/api/admin//products", formData, tokenConfig);
          if (response.status === 200) {
             alert(response.data.message);
             setProductDetails(response.data.data);

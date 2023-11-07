@@ -7,12 +7,12 @@ import axios from "axios";
 export default function UserDetailsAdmin() {
    const { id } = useParams();
    const [user, setUser] = useState({ orders: [] });
-   const { handlePrice } = useContext(PetContext);
+   const { handlePrice, tokenConfig } = useContext(PetContext);
 
    useEffect(() => {
       const fetchData = async () => {
          try {
-            const response = await axios.get(`http://localhost:8000/api/admin/users/${id}`);
+            const response = await axios.get(`http://localhost:8000/api/admin/users/${id}`, tokenConfig);
             if (response.status === 200) {
                setUser(response.data.data);
             }
@@ -22,7 +22,7 @@ export default function UserDetailsAdmin() {
       };
 
       fetchData();
-   }, [id]);
+   }, [id, tokenConfig]);
 
    return (
       <div className="d-flex flex-column align-items-center pt-3">
@@ -38,28 +38,29 @@ export default function UserDetailsAdmin() {
                <thead className="text-center">
                   <tr>
                      <td>Order ID</td>
+                     <td>Date</td>
                      <td>Product Name</td>
-                     <td>Unit Price</td>
-                     <td>Quantity</td>
+                     <td>Payment ID</td>
                      <td>Total Price</td>
                   </tr>
                </thead>
                <tbody className="text-center">
                   {user.orders.length > 0 ? (
                      user.orders.map((order, index) => (
-                        <tr key={order.order_id}>
-                           <th>{order.order_id}</th>
-                           <th>{order.products}</th>
-                           <th>{order.total_amount}</th>
-                           <th>{order.quantity}</th>
-                           {index === 0 && (
-                              <th rowSpan={user.orders.length}>
-                                 {handlePrice(
-                                    user.orders.reduce((total, order) => total + order.price * order.quantity, 0)
-                                 )}
-                              </th>
-                           )}
-                        </tr>
+                        <React.Fragment key={order._id}>
+                           <tr>
+                              <th rowSpan={order.products.length}>{order.order_id.slice(-10)}</th>
+                              <th rowSpan={order.products.length}>{order.date}</th>
+                              <th>{order.products[0].title}</th>
+                              <th rowSpan={order.products.length}>{order.payment_id.slice(-10)}</th>
+                              <th rowSpan={order.products.length}>{handlePrice(order.total_amount)}</th> 
+                           </tr>
+                           {order.products.slice(1).map((product) => (
+                              <tr key={product._id}>
+                                 <th>{product.title}</th>
+                              </tr>
+                           ))}
+                        </React.Fragment>
                      ))
                   ) : (
                      <tr>

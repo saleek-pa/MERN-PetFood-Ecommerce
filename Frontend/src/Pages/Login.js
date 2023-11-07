@@ -28,12 +28,18 @@ function Login() {
       try {
          const response = await axios.post(endpoint, loginData);
          if (response.status === 200) {
-            alert(response.data.message);
+            email !== adminEmail && localStorage.setItem("userID", response.data.data.userID);
             localStorage.setItem("jwt_token", response.data.data.jwt_token);
             localStorage.setItem("name", response.data.data.name);
-            email !== adminEmail && localStorage.setItem("userID", response.data.data.userID);
             setLoginStatus(true);
+            alert(response.data.message);
             navigate(email === adminEmail ? "/dashboard" : "/");
+
+            setTimeout(() => {
+               localStorage.removeItem("jwt_token");
+               localStorage.removeItem("name");
+               email !== adminEmail && localStorage.removeItem("userID");
+            }, 3600000);
          }
       } catch (error) {
          alert(error.response.data.message);

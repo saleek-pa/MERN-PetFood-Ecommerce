@@ -23,19 +23,18 @@ function App() {
    const [productDetails, setProductDetails] = useState([]);
    const [wishlist, setWishlist] = useState([]);
    const [tokenConfig, setTokenConfig] = useState({});
-   const userID = localStorage.getItem("userID")
+   const userID = localStorage.getItem("userID");
 
    useEffect(() => {
       const token = localStorage.getItem("jwt_token");
-      if (token) setLoginStatus(true);
-      setTokenConfig({
-         headers: {
-            Authorization: `Bearer ${token}`,
-         },
-      });
 
       if (token) {
          setLoginStatus(true);
+         setTokenConfig({
+            headers: {
+               Authorization: `Bearer ${token}`,
+            },
+         });
       } else {
          setLoginStatus(false);
       }

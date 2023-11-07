@@ -56,6 +56,17 @@
   height: 50px;
 }
 
+.payment-success {
+  background-color: rgb(18,192,106);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.payment-success img {
+  padding-top: 100px;
+}
+
 @media (max-width: 576px) {
   .payment img {
     width: 100%;

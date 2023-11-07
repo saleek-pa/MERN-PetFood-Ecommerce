@@ -20,7 +20,7 @@ const Navbar = () => {
    const [showSearchBox, setShowSearchBox] = useState(false);
    const [showCollapse, setShowCollapse] = useState(false);
    const { productDetails, cart, setCart, loginStatus, setLoginStatus, userID, tokenConfig } = useContext(PetContext);
-   const name = localStorage.getItem('name')
+   const name = localStorage.getItem("name");
    const navigate = useNavigate();
 
    useEffect(() => {
@@ -136,7 +136,7 @@ const Navbar = () => {
                      >
                         Hello,
                         <br />
-                        {loginStatus ? <>{name.split(" ")[0]}</> : <>Sign In</>}
+                        {loginStatus && name ? <>{name.split(" ")[0]}</> : <>Sign In</>}
                      </span>
                   </div>
                   <div>
@@ -211,9 +211,9 @@ const Navbar = () => {
                                        <hr />
                                        <li
                                           onClick={() => {
-                                             localStorage.removeItem('jwt_token')   
-                                             localStorage.removeItem('name')   
-                                             localStorage.removeItem('userID')   
+                                             localStorage.removeItem("jwt_token");
+                                             localStorage.removeItem("name");
+                                             localStorage.removeItem("userID");
                                              setLoginStatus(false);
                                              navigate("/");
                                           }}

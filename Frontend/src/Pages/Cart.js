@@ -18,7 +18,6 @@ import axios from "axios";
 
 export default function Cart() {
    const { userID, cart, setCart, handlePrice, tokenConfig } = useContext(PetContext);
-
    const navigate = useNavigate();
 
    useEffect(() => {

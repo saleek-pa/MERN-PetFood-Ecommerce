@@ -94,7 +94,7 @@ module.exports = {
         if (!user) { return res.status(404).json({ message: 'User not found' }) }
 
         const cartItems = user.cart;
-        if (cartItems.length === 0) { return res.status(404).json({ message: 'Cart is empty' }) }
+        // if (cartItems.length === 0) { return res.status(404).json({ message: 'Cart is empty' }) }
 
         res.status(200).json({
             status: 'success',
@@ -171,9 +171,6 @@ module.exports = {
         const user = await User.findById(userID).populate('wishlist');
         if (!user) { return res.status(404).json({ message: 'User not found' }) }
 
-        // const wishlistItems = user.wishlist;
-        // if (wishlistItems.length === 0) { return res.status(404).json({ message: 'Wishlist is empty' }) }
-
         res.status(200).json({
             status: 'success',
             message: 'Successfully fetched wishlist.',
@@ -242,8 +239,8 @@ module.exports = {
         const session = await stripe.checkout.sessions.create({
             line_items,
             mode: 'payment',
-            success_url: 'http://127.0.0.1:3000/payment/success',
-            cancel_url: 'http://127.0.0.1:3000/payment/cancel',
+            success_url: 'http://localhost:3000/payment/success',
+            cancel_url: 'http://localhost:3000/payment/cancel',
         });
 
         orderDetails = {
@@ -268,19 +265,19 @@ module.exports = {
 
 
     success: async (req, res) => {
-        console.log("hello")
         const { userID, user, newOrder } = orderDetails;
-        const order = await Order.create({ ...newOrder })
-        console.log(order)
-        await User.findByIdAndUpdate(userID, { $push: { orders: order._id } });
-        console.log(user)
+
+        if (newOrder) {
+            const order = await Order.create({ ...newOrder })
+            await User.findByIdAndUpdate(userID, { $push: { orders: order._id } });
+            orderDetails.newOrder = null
+        }
         user.cart = [];
         await user.save();
 
         res.status(200).json({
             status: "success",
             message: "Payment was successful",
-            data: user.cart
         })
     },
 

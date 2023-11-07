@@ -6,7 +6,7 @@ import axios from "axios";
 
 export default function AddProductAdmin() {
    const navigate = useNavigate();
-   const { setProductDetails } = useContext(PetContext);
+   const { setProductDetails, tokenConfig } = useContext(PetContext);
    const [item, setItem] = useState({ title: "", description: "", price: "", category: "", image: "" });
    const [selectedFile, setSelectedFile] = useState(null);
    const [imageUrl, setImageUrl] = useState(null);
@@ -35,10 +35,10 @@ export default function AddProductAdmin() {
       formData.append("price", item.price);
       formData.append("description", item.description);
       formData.append("category", item.category);
+      alert("Product being added. This may take a few seconds.");
 
       try {
-         const response = await axios.post("http://localhost:8000/api/admin//products", formData);
-         console.log(response)
+         const response = await axios.post("http://localhost:8000/api/admin//products", formData, tokenConfig);
          if (response.status === 201) {
             alert(response.data.message);
             setProductDetails(response.data.data);
