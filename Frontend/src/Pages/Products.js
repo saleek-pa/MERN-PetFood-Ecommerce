@@ -1,64 +1,30 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { MDBIcon } from "mdb-react-ui-kit";
 import { PetContext } from "../App";
 import "../Styles/Products.css";
-import axios from "axios";
+import toast from "react-hot-toast";
 
 function Products() {
-   const { loginStatus, productDetails, handlePrice, userID, wishlist, setWishlist, tokenConfig } = useContext(PetContext);
+   const {
+      loginStatus,
+      productDetails,
+      handlePrice,
+      userID,
+      wishlist,
+      setWishlist,
+      tokenConfig,
+      FetchWishlist,
+      addToWishlist,
+      removeFromWishlist,
+   } = useContext(PetContext);
    const DogFood = productDetails.filter((value) => value.category === "Dog").slice(0, 4);
    const CatFood = productDetails.filter((value) => value.category === "Cat").slice(0, 4);
    const bestSellingProduct = [...DogFood, ...CatFood];
    const navigate = useNavigate();
-   
-   useEffect(() => {
-      const fetchData = async () => {
-         try {
-            if (loginStatus) {
-               const response = await axios.get(`http://localhost:8000/api/users/${userID}/wishlist`, tokenConfig);
-               if (response.status === 200) {
-                  setWishlist(response.data.data);
-               }
-            }
-         } catch (error) {
-            // alert(error.response.data.message);
-         }
-      };
 
-      fetchData();
-   }, [loginStatus, userID, setWishlist, tokenConfig]);
+   FetchWishlist(loginStatus, userID, setWishlist, tokenConfig);
 
-
-
-   const addToWishlist = async (productID) => {
-      try {
-         await axios.post(`http://localhost:8000/api/users/${userID}/wishlist`, { productID }, tokenConfig);
-         const response = await axios.get(`http://localhost:8000/api/users/${userID}/wishlist`, tokenConfig);
-         if (response.status === 200) {
-            setWishlist(response.data.data);
-         }
-      } catch (error) {
-         alert(error.response.data.message);
-      }
-   };
-
-
-
-   const removeFromWishlist = async (productID) => {
-      try {
-         await axios.delete(`http://localhost:8000/api/users/${userID}/wishlist/${productID}`, tokenConfig);
-         const response = await axios.get(`http://localhost:8000/api/users/${userID}/wishlist`, tokenConfig);
-         if (response.status === 200) {
-            setWishlist(response.data.data);
-         }
-      } catch (error) {
-         alert(error.response.data.message);
-      }
-   };
-
-
-   
    return (
       <>
          <section className="products d-flex flex-column align-items-center">
@@ -94,7 +60,7 @@ function Products() {
                                  if (loginStatus) {
                                     addToWishlist(value._id);
                                  } else {
-                                    alert("Sign in to your account");
+                                    toast.error("Sign in to your account");
                                  }
                               }}
                            />

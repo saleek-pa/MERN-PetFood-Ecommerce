@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { PetContext } from "../App";
 import { MDBIcon } from "mdb-react-ui-kit";
+import toast from "react-hot-toast";
 import axios from "axios";
 
 export default function UserDetailsAdmin() {
@@ -17,7 +18,7 @@ export default function UserDetailsAdmin() {
                setUser(response.data.data);
             }
          } catch (error) {
-            alert(error.response.data.message);
+            toast.error(error.response.data.message);
          }
       };
 

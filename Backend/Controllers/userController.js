@@ -93,13 +93,10 @@ module.exports = {
         const user = await User.findById(userID).populate('cart.product');
         if (!user) { return res.status(404).json({ message: 'User not found' }) }
 
-        const cartItems = user.cart;
-        // if (cartItems.length === 0) { return res.status(404).json({ message: 'Cart is empty' }) }
-
         res.status(200).json({
             status: 'success',
             message: 'Successfully fetched cart items.',
-            data: cartItems,
+            data: user.cart,
         });
     },
 
@@ -123,7 +120,8 @@ module.exports = {
 
         res.status(200).json({
             status: 'success',
-            message: 'Product added to cart'
+            message: 'Product added to cart',
+            cart: user.cart
         });
     },
 

@@ -4,11 +4,12 @@ import "../Styles/Details.css";
 import "../Styles/Home.css";
 import { MDBBtn } from "mdb-react-ui-kit";
 import { PetContext } from "../App";
+import toast from "react-hot-toast";
 import axios from "axios";
 
 export default function Details() {
    const { id } = useParams();
-   const { loginStatus, userID,tokenConfig } = useContext(PetContext);
+   const { loginStatus, userID, tokenConfig, setCart } = useContext(PetContext);
    const [item, setItem] = useState([]);
 
    useEffect(() => {
@@ -19,7 +20,7 @@ export default function Details() {
                setItem(response.data.data);
             }
          } catch (error) {
-            alert(error.response.data.message);
+            toast.error(error.response.data.message);
          }
       };
 
@@ -29,12 +30,20 @@ export default function Details() {
    // Function to add the current product to the cart
    const addToCart = async (productID) => {
       try {
-         const response = await axios.post(`http://localhost:8000/api/users/${userID}/cart`, { productID }, tokenConfig);
+         const response = await axios.post(
+            `http://localhost:8000/api/users/${userID}/cart`,
+            { productID },
+            tokenConfig
+         );
          if (response.status === 200) {
-            alert(response.data.message);
+            const response = await axios.get(`http://localhost:8000/api/users/${userID}/cart`, tokenConfig);
+            if (response.status === 200) {
+               setCart(response.data.data);
+            }
+            toast.success(response.data.message);
          }
       } catch (error) {
-         alert(error.response.data.message);
+         toast.error(error.response.data.message);
       }
    };
 
@@ -59,7 +68,7 @@ export default function Details() {
                            if (loginStatus) {
                               addToCart(item._id);
                            } else {
-                              alert("Sign in to your account");
+                              toast.error("Sign in to your account");
                            }
                         }}
                      >

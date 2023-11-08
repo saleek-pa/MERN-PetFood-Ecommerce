@@ -2,7 +2,9 @@ import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { PetContext } from "../App";
 import { MDBInput, MDBBtn, MDBRadio, MDBTextArea, MDBIcon } from "mdb-react-ui-kit";
+import toast from "react-hot-toast";
 import axios from "axios";
+
 
 export default function AddProductAdmin() {
    const navigate = useNavigate();
@@ -11,10 +13,12 @@ export default function AddProductAdmin() {
    const [selectedFile, setSelectedFile] = useState(null);
    const [imageUrl, setImageUrl] = useState(null);
 
+
    const handleInputChange = (e) => {
       const { name, value } = e.target;
       setItem((prevItem) => ({ ...prevItem, [name]: value }));
    };
+
 
    const handleFileInputChange = (e) => {
       const file = e.target.files[0];
@@ -24,7 +28,8 @@ export default function AddProductAdmin() {
       const objectUrl = URL.createObjectURL(file);
       setImageUrl(objectUrl);
    };
-   
+
+
    // Function to add new product to ProductDetails Array
    const handleForm = async (e) => {
       e.preventDefault();
@@ -35,19 +40,28 @@ export default function AddProductAdmin() {
       formData.append("price", item.price);
       formData.append("description", item.description);
       formData.append("category", item.category);
-      alert("Product being added. This may take a few seconds.");
 
-      try {
-         const response = await axios.post("http://localhost:8000/api/admin//products", formData, tokenConfig);
-         if (response.status === 201) {
-            alert(response.data.message);
-            setProductDetails(response.data.data);
-            navigate("/dashboard/products");
+      toast.promise(
+         axios
+            .post("http://localhost:8000/api/admin/products", formData, tokenConfig)
+            .then((response) => {
+               if (response.status === 201) {
+                  setProductDetails(response.data.data);
+                  navigate("/dashboard/products");
+                  return response.data.message;
+               }
+            })
+            .catch((error) => {
+               throw new Error(error.response.data.message);
+            }),
+         {
+            loading: "Adding product...",
+            success: (message) => <b>{message}</b>,
+            error: (message) => <b>{message}</b>,
          }
-      } catch (error) {
-         alert(error.response.data.message);
-      }
+      );
    };
+   
 
    return (
       <div className="d-flex justify-content-center">

@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { PetContext } from "../App";
 import {
@@ -12,33 +12,19 @@ import {
    MDBBadge,
 } from "mdb-react-ui-kit";
 import "../Styles/Navbar.css";
-import axios from "axios";
+import toast from "react-hot-toast";
 
 const Navbar = () => {
    const [searchInput, setSearchInput] = useState("");
    const [filteredProducts, setFilteredProducts] = useState([]);
    const [showSearchBox, setShowSearchBox] = useState(false);
    const [showCollapse, setShowCollapse] = useState(false);
-   const { productDetails, cart, setCart, loginStatus, setLoginStatus, userID, tokenConfig } = useContext(PetContext);
+   const { productDetails, cart, setCart, loginStatus, setLoginStatus, userID, tokenConfig, FetchCart } =
+      useContext(PetContext);
    const name = localStorage.getItem("name");
    const navigate = useNavigate();
 
-   useEffect(() => {
-      const fetchData = async () => {
-         try {
-            if (loginStatus) {
-               const response = await axios.get(`http://localhost:8000/api/users/${userID}/cart`, tokenConfig);
-               if (response.status === 200) {
-                  setCart(response.data.data);
-               }
-            }
-         } catch (error) {
-            // alert(error.response.data.message);
-         }
-      };
-
-      fetchData();
-   }, [loginStatus, userID, setCart, tokenConfig]);
+   FetchCart(loginStatus, userID, setCart, tokenConfig);
 
    const toggleSearchBox = () => setShowSearchBox(!showSearchBox); // Toggle search box visibility
    const toggleNavbar = () => setShowCollapse(!showCollapse); // Toggle mobile navbar
@@ -174,11 +160,9 @@ const Navbar = () => {
                      {filteredProducts.map((product) => (
                         <>
                            <li
-                              key={product.id}
+                              key={product._id}
                               className="ps-3 text-black fw-bold"
-                              style={{
-                                 cursor: "pointer",
-                              }}
+                              style={{ cursor: "pointer" }}
                               onClick={() => {
                                  setFilteredProducts([]);
                                  setSearchInput("");
@@ -235,11 +219,8 @@ const Navbar = () => {
                      <span
                         className="nav-link"
                         onClick={() => {
-                           if (loginStatus) {
-                              navigate("/cart");
-                           } else {
-                              alert("Sign in to your account");
-                           }
+                           if (loginStatus) navigate("/cart");
+                           else toast.error("Sign in to your account");
                         }}
                      >
                         <MDBIcon fas icon="shopping-cart" />

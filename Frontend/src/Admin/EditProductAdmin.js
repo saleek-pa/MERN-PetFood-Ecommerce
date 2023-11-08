@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { MDBInput, MDBBtn, MDBRadio, MDBTextArea, MDBIcon } from "mdb-react-ui-kit";
 import { PetContext } from "../App";
+import toast from "react-hot-toast";
 import axios from "axios";
 
 export default function EditProductAdmin() {
@@ -21,7 +22,7 @@ export default function EditProductAdmin() {
                setItem(response.data.data);
             }
          } catch (error) {
-            alert(error.response.data.message);
+            toast.error(error.response.data.message);
          }
       };
 
@@ -55,12 +56,12 @@ export default function EditProductAdmin() {
       try {
          const response = await axios.put("http://localhost:8000/api/admin//products", formData, tokenConfig);
          if (response.status === 200) {
-            alert(response.data.message);
+            toast.success(response.data.message);
             setProductDetails(response.data.data);
             navigate("/dashboard/products");
          }
       } catch (error) {
-         alert(error.response.data.message);
+         toast.error(error.response.data.message);
       }
    };
 

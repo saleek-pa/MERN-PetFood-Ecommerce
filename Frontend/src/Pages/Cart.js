@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { PetContext } from "../App";
 import {
@@ -14,26 +14,14 @@ import {
    MDBTypography,
 } from "mdb-react-ui-kit";
 import "../Styles/Cart.css";
+import toast from "react-hot-toast";
 import axios from "axios";
 
 export default function Cart() {
-   const { userID, cart, setCart, handlePrice, tokenConfig } = useContext(PetContext);
+   const { FetchCart, userID, loginStatus, cart, setCart, handlePrice, tokenConfig } = useContext(PetContext);
    const navigate = useNavigate();
 
-   useEffect(() => {
-      const fetchData = async () => {
-         try {
-            const response = await axios.get(`http://localhost:8000/api/users/${userID}/cart`, tokenConfig);
-            if (response.status === 200) {
-               setCart(response.data.data);
-            }
-         } catch (error) {
-            alert(error.response.data.message);
-         }
-      };
-
-      fetchData();
-   }, [userID, setCart, tokenConfig]);
+   FetchCart(loginStatus, userID, setCart, tokenConfig);
 
    //  Calculate the total price of items in the cart
    const totalPrice = cart.reduce((acc, item) => acc + item.product.price * item.quantity, 0);
@@ -45,11 +33,9 @@ export default function Cart() {
       try {
          await axios.put(`http://localhost:8000/api/users/${userID}/cart`, data, tokenConfig);
          const response = await axios.get(`http://localhost:8000/api/users/${userID}/cart`, tokenConfig);
-         if (response.status === 200) {
-            setCart(response.data.data);
-         }
+         if (response.status === 200) setCart(response.data.data);
       } catch (error) {
-         alert(error.response.data.message);
+         toast.error(error.response.data.message);
       }
    };
 
@@ -57,8 +43,11 @@ export default function Cart() {
    const removeFromCart = async (productID) => {
       try {
          await axios.delete(`http://localhost:8000/api/users/${userID}/cart/${productID}`, tokenConfig);
+         const response = await axios.get(`http://localhost:8000/api/users/${userID}/cart`, tokenConfig);
+         if (response.status === 200) setCart(response.data.data);
+         toast.success("Removed from cart");
       } catch (error) {
-         alert(error.response.data.message);
+         toast.error(error.response.data.message);
       }
    };
 
@@ -69,12 +58,10 @@ export default function Cart() {
          if (response.status === 200) {
             const url = response.data.url;
             const confirmation = window.confirm("You are being redirected to the Stripe payment gateway. Continue?");
-            if (confirmation) {
-               window.location.replace(url);
-            }
+            if (confirmation) window.location.replace(url);
          }
       } catch (error) {
-         alert(error.response.data.message);
+         toast.error(error.response.data.message);
       }
    };
 

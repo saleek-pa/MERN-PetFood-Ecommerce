@@ -2,6 +2,7 @@ import React, { useContext, useState, useEffect } from "react";
 import { PetContext } from "../App";
 import { MDBBtn, MDBIcon } from "mdb-react-ui-kit";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 import axios from "axios";
 
 export default function ProductsAdmin() {
@@ -29,10 +30,10 @@ export default function ProductsAdmin() {
       if (confirmation) {
          try {
             const response = await axios.delete(`http://localhost:8000/api/admin/products/${productID}`, tokenConfig);
-            alert(response.data.message);
             setProductDetails(response.data.data);
+            toast.success(response.data.message);
          } catch (error) {
-            alert(error.response.data.message);
+            toast.error(error.response.data.message);
          }
       }
    };

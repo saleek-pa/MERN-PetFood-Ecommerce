@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { MDBContainer, MDBInput, MDBBtn } from "mdb-react-ui-kit";
 import { useNavigate } from "react-router-dom";
 import { PetContext } from "../App";
-import "../Styles/Reg-Login.css";
+import toast from 'react-hot-toast';
 import axios from "axios";
 
 function Login() {
@@ -19,7 +19,7 @@ function Login() {
       const adminEmail = process.env.REACT_APP_ADMIN_EMAIL;
 
       if (email === "" || password === "") {
-         return alert("Enter All the Inputs");
+         return toast.error("Enter All the Inputs");
       }
 
       const endpoint =
@@ -32,7 +32,7 @@ function Login() {
             localStorage.setItem("jwt_token", response.data.data.jwt_token);
             localStorage.setItem("name", response.data.data.name);
             setLoginStatus(true);
-            alert(response.data.message);
+            toast.success(response.data.message);
             navigate(email === adminEmail ? "/dashboard" : "/");
 
             setTimeout(() => {
@@ -42,7 +42,7 @@ function Login() {
             }, 3600000);
          }
       } catch (error) {
-         alert(error.response.data.message);
+         toast.error(error.response.data.message);
       }
    };
 

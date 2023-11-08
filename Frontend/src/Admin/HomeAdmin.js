@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { MDBIcon } from "mdb-react-ui-kit";
 import { PetContext } from "../App";
+import toast from "react-hot-toast";
 import axios from "axios";
 
 export default function HomeDashboard() {
@@ -12,6 +13,8 @@ export default function HomeDashboard() {
    useEffect(() => {
       const fetchData = async () => {
          try {
+            const tokenConfig = { headers: { Authorization: `Bearer ${localStorage.getItem("jwt_token")}` } };
+
             const [usersResponse, statsResponse, orderResponse] = await Promise.all([
                axios.get("http://localhost:8000/api/admin/users", tokenConfig),
                axios.get("http://localhost:8000/api/admin/stats", tokenConfig),
@@ -22,7 +25,7 @@ export default function HomeDashboard() {
             if (orderResponse.status === 200) setOrders(orderResponse.data.data);
             if (usersResponse.status === 200) setProfile(usersResponse.data.data);
          } catch (error) {
-            alert(error.response.data.message);
+            toast.error(error.response.data.message);
          }
       };
 

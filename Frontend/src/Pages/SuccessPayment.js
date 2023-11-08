@@ -1,19 +1,21 @@
 import React, { useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
+import toast from "react-hot-toast";
 import axios from "axios";
 
-export const SuccessPayment = () => {
+export default function SuccessPayment() {
    const navigate = useNavigate();
 
    useEffect(() => {
       const fetchData = async () => {
          try {
             await axios.get(`http://localhost:8000/api/users/payment/success`);
+            toast.success("Payment successful")
             setTimeout(() => {
                navigate("/");
              }, 3000);
          } catch (error) {
-            alert(error.response.data.message);
+            toast.error(error.response.data.message);
             navigate("/");
          }
       };

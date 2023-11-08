@@ -1,7 +1,7 @@
 import React from "react";
 import { MDBContainer, MDBInput, MDBBtn } from "mdb-react-ui-kit";
 import { useNavigate } from "react-router-dom";
-import "../Styles/Reg-Login.css";
+import toast from "react-hot-toast";
 import axios from "axios";
 
 function Registration() {
@@ -15,17 +15,17 @@ function Registration() {
       const password = e.target.password.value.trim();
 
       if (name === "" || email === "" || password === "") {
-         alert("Enter All the Inputs");
+         toast.error("Enter All the Inputs");
       } else {
          try {
             const userData = { name, email, password };
             const response = await axios.post("http://localhost:8000/api/users/register", userData);
             if (response.status === 201) {
-               alert(response.data.message);
+               toast.success(response.data.message);
                navigate("/login");
             }
          } catch (error) {
-            alert(error.response.data.message);
+            toast.error(error.response.data.message);
          }
       }
    };

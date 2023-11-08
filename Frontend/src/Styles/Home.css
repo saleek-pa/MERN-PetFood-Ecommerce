@@ -67,9 +67,61 @@
   padding-top: 100px;
 }
 
+.services {
+  padding-top: 110px;
+}
+
+.services h2 {
+  font-size: x-large;
+  font-weight: 550;
+}
+
+.services-list {
+  width: 300px;
+}
+
+.form-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+.form-container form {
+  width: 100%;
+  max-width: 500px;
+  padding: 20px;
+}
+
+.pointer span {
+  cursor: pointer;
+}
+
+.footer-color {
+  background-color: #292a2e;
+}
+
+.logo {
+  font-family: "Carter One", cursive;
+  font-size: xx-large;
+}
+
+.contact-hover p {
+  transition: color 0.1s linear;
+}
+
+.contact-hover p:hover {
+  color: #ed6335;
+}
+
 @media (max-width: 576px) {
   .payment img {
     width: 100%;
+  }
+
+  .contact-hover {
+    width: 130px;
   }
 }
 
