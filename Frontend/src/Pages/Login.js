@@ -29,6 +29,7 @@ function Login() {
          const response = await axios.post(endpoint, loginData);
          if (response.status === 200) {
             email !== adminEmail && localStorage.setItem("userID", response.data.data.userID);
+            email === adminEmail && localStorage.setItem("role", "admin");
             localStorage.setItem("jwt_token", response.data.data.jwt_token);
             localStorage.setItem("name", response.data.data.name);
             setLoginStatus(true);
@@ -36,9 +37,8 @@ function Login() {
             navigate(email === adminEmail ? "/dashboard" : "/");
 
             setTimeout(() => {
-               localStorage.removeItem("jwt_token");
-               localStorage.removeItem("name");
-               email !== adminEmail && localStorage.removeItem("userID");
+               localStorage.clear();
+               setLoginStatus(false)
             }, 3600000);
          }
       } catch (error) {
@@ -56,7 +56,6 @@ function Login() {
                id="form2"
                type="email"
                name="email"
-               // value={"admin@gmail.com"}
                required
             />
             <MDBInput

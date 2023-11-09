@@ -32,9 +32,7 @@ export default function Wishlist() {
                         <div className="heart">
                            {wishlist.some((item) => item._id === value._id) && (
                               <MDBIcon
-                                 fas
-                                 icon="heart"
-                                 className="clicked-heart-icon"
+                                 fas icon="heart" className="clicked-heart-icon"
                                  onClick={() => removeFromWishlist(value._id)}
                               />
                            )}

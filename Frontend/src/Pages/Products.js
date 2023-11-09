@@ -7,17 +7,12 @@ import toast from "react-hot-toast";
 
 function Products() {
    const {
-      loginStatus,
-      productDetails,
-      handlePrice,
-      userID,
-      wishlist,
-      setWishlist,
-      tokenConfig,
-      FetchWishlist,
-      addToWishlist,
-      removeFromWishlist,
+      loginStatus, tokenConfig, userID,
+      productDetails, handlePrice, 
+      FetchWishlist, wishlist, setWishlist,
+      addToWishlist, removeFromWishlist,
    } = useContext(PetContext);
+
    const DogFood = productDetails.filter((value) => value.category === "Dog").slice(0, 4);
    const CatFood = productDetails.filter((value) => value.category === "Cat").slice(0, 4);
    const bestSellingProduct = [...DogFood, ...CatFood];
@@ -46,22 +41,15 @@ function Products() {
                      <div className="heart">
                         {wishlist.some((item) => item._id === value._id) ? (
                            <MDBIcon
-                              fas
-                              icon="heart"
-                              className="clicked-heart-icon"
+                              fas icon="heart" className="clicked-heart-icon"
                               onClick={() => removeFromWishlist(value._id)}
                            />
                         ) : (
                            <MDBIcon
-                              fas
-                              icon="heart"
-                              className="heart-icon"
+                              fas icon="heart" className="heart-icon"
                               onClick={() => {
-                                 if (loginStatus) {
-                                    addToWishlist(value._id);
-                                 } else {
-                                    toast.error("Sign in to your account");
-                                 }
+                                 if (loginStatus) addToWishlist(value._id);
+                                 else toast.error("Sign in to your account");
                               }}
                            />
                         )}

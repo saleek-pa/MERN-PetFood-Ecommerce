@@ -187,6 +187,14 @@ const Navbar = () => {
                                        <hr />
                                        <li
                                           onClick={() => {
+                                             navigate("/orders");
+                                          }}
+                                       >
+                                          Orders
+                                       </li>
+                                       <hr />
+                                       <li
+                                          onClick={() => {
                                              navigate("/wishlist");
                                           }}
                                        >
@@ -195,9 +203,7 @@ const Navbar = () => {
                                        <hr />
                                        <li
                                           onClick={() => {
-                                             localStorage.removeItem("jwt_token");
-                                             localStorage.removeItem("name");
-                                             localStorage.removeItem("userID");
+                                             localStorage.clear();
                                              setLoginStatus(false);
                                              navigate("/");
                                           }}

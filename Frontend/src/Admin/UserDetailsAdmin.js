@@ -14,9 +14,7 @@ export default function UserDetailsAdmin() {
       const fetchData = async () => {
          try {
             const response = await axios.get(`http://localhost:8000/api/admin/users/${id}`, tokenConfig);
-            if (response.status === 200) {
-               setUser(response.data.data);
-            }
+            if (response.status === 200) setUser(response.data.data);
          } catch (error) {
             toast.error(error.response.data.message);
          }

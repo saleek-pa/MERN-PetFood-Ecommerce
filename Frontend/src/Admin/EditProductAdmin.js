@@ -18,14 +18,12 @@ export default function EditProductAdmin() {
       const fetchData = async () => {
          try {
             const response = await axios.get(`http://localhost:8000/api/admin/products/${id}`, tokenConfig);
-            if (response.status === 200) {
-               setItem(response.data.data);
-            }
+            if (response.status === 200) setItem(response.data.data);
          } catch (error) {
             toast.error(error.response.data.message);
          }
       };
-
+      
       fetchData();
    }, [id, tokenConfig]);
 
@@ -38,7 +36,6 @@ export default function EditProductAdmin() {
       const file = e.target.files[0];
       setItem({ ...item, image: file });
       setSelectedFile(file);
-
       const objectUrl = URL.createObjectURL(file);
       setImageUrl(objectUrl);
    };
@@ -79,11 +76,7 @@ export default function EditProductAdmin() {
                   <div className="pt-4" style={{ cursor: "pointer", width: "300px" }}>
                      <h4 className="text-center">&nbsp;</h4>
                      <div
-                        style={{
-                           border: "1px solid gray",
-                           borderRadius: "10px",
-                           position: "relative",
-                        }}
+                        style={{ border: "1px solid gray", borderRadius: "10px", position: "relative" }}
                         className="d-flex flex-column justify-content-center align-items-center"
                      >
                         <img src={item.image} alt={item.title} className="w-50 py-4" />
@@ -91,12 +84,7 @@ export default function EditProductAdmin() {
                            fas
                            icon="times"
                            className="fs-4"
-                           style={{
-                              position: "absolute",
-                              top: "0",
-                              right: "0",
-                              padding: "10px",
-                           }}
+                           style={{ position: "absolute", top: "0", right: "0", padding: "10px" }}
                            onClick={() => {
                               setImageStatus(false);
                               setItem({ ...item, image: "" });
@@ -106,7 +94,6 @@ export default function EditProductAdmin() {
                      <hr className="mx-5" />
                      <MDBInput
                         label="Image Link"
-                        id="typeURL"
                         type="url"
                         value={item.image}
                         onChange={handleInputChange}
@@ -147,11 +134,7 @@ export default function EditProductAdmin() {
                         <>
                            <div className="pt-1" style={{ cursor: "pointer", width: "300px" }}>
                               <div
-                                 style={{
-                                    border: "1px solid gray",
-                                    borderRadius: "10px",
-                                    position: "relative",
-                                 }}
+                                 style={{ border: "1px solid gray", borderRadius: "10px", position: "relative" }}
                                  className="d-flex flex-column justify-content-center align-items-center"
                               >
                                  <img src={imageUrl} alt="Selected" className="w-50 py-4" />
@@ -159,12 +142,7 @@ export default function EditProductAdmin() {
                                     fas
                                     icon="times"
                                     className="fs-4"
-                                    style={{
-                                       position: "absolute",
-                                       top: "0",
-                                       right: "0",
-                                       padding: "10px",
-                                    }}
+                                    style={{ position: "absolute", top: "0", right: "0", padding: "10px" }}
                                     onClick={() => {
                                        setSelectedFile(null);
                                        setItem({ ...item, image: "" });
@@ -174,7 +152,6 @@ export default function EditProductAdmin() {
                               <hr className="mx-5" />
                               <MDBInput
                                  label="Image Link"
-                                 id="typeURL"
                                  type="text"
                                  value={selectedFile.name}
                                  className="text-black"
@@ -188,27 +165,19 @@ export default function EditProductAdmin() {
                <div className="w-50 pt-4 ms-5">
                   <div className="mt-3 mb-3 text-center">
                      <label className="me-3 text-black">Category: </label>
-                     <MDBRadio
-                        name="category"
-                        id="inlineRadio1"
-                        value="Cat"
-                        checked={item.category === "Cat"}
-                        onChange={handleInputChange}
-                        label="Cat"
-                        inline
-                     />
-                     <MDBRadio
-                        name="category"
-                        id="inlineRadio2"
-                        value="Dog"
-                        checked={item.category === "Dog"}
-                        onChange={handleInputChange}
-                        label="Dog"
-                        inline
-                     />
+                     {["Cat", "Dog"].map((category) => (
+                        <MDBRadio
+                           key={category}
+                           name="category"
+                           value={category}
+                           checked={item.category === category}
+                           onChange={handleInputChange}
+                           label={category}
+                           inline
+                        />
+                     ))}
                   </div>
                   <MDBInput
-                     id="form4Example1"
                      wrapperClass="mb-4"
                      label="Title"
                      className="text-black"
@@ -219,7 +188,6 @@ export default function EditProductAdmin() {
                   />
                   <MDBTextArea
                      label="Description"
-                     id="textAreaExample"
                      name="description"
                      rows={4}
                      className="mb-4 text-black"
@@ -227,9 +195,7 @@ export default function EditProductAdmin() {
                      onChange={handleInputChange}
                      required
                   />
-
                   <MDBInput
-                     id="form4Example1"
                      wrapperClass="mb-4"
                      label="Price"
                      name="price"

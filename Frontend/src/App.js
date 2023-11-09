@@ -8,6 +8,7 @@ import Login from "./Pages/Login";
 import Home from "./Pages/Home";
 import Cart from "./Pages/Cart";
 import Footer from "./Pages/Footer";
+import Orders from "./Pages/Orders";
 import DogFood from "./Pages/DogFood";
 import CatFood from "./Pages/CatFood";
 import Details from "./Pages/Details";
@@ -41,7 +42,7 @@ function App() {
             const response = await axios.get("http://localhost:8000/api/users/products");
             if (response.status === 200) setProductDetails(response.data.data);
          } catch (error) {
-            alert(error.response.data.message);
+            toast.error(error.response.data.message);
          }
       };
       fetchData();
@@ -156,6 +157,7 @@ function App() {
                <Route path="/dog-food/:id" element={<Details />} />
                <Route path="/cat-food/:id" element={<Details />} />
                <Route path="/payment/success" element={<SuccessPayment />} />
+               <Route path="/orders" element={<Orders />} />
                <Route path="/dashboard" element={<FixedAdmin />} />
                <Route path="/dashboard/users" element={<FixedAdmin />} />
                <Route path="/dashboard/users/:id" element={<FixedAdmin />} />

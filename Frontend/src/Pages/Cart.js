@@ -1,35 +1,28 @@
 import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { PetContext } from "../App";
-import {
-   MDBBtn,
-   MDBCard,
-   MDBCardBody,
-   MDBCardImage,
-   MDBCardText,
-   MDBCol,
-   MDBContainer,
-   MDBIcon,
-   MDBRow,
-   MDBTypography,
+import { MDBBtn, MDBCard, MDBCardBody, MDBCardImage, MDBCardText,
+         MDBCol, MDBContainer, MDBIcon, MDBRow, MDBTypography,
 } from "mdb-react-ui-kit";
 import "../Styles/Cart.css";
 import toast from "react-hot-toast";
 import axios from "axios";
 
 export default function Cart() {
-   const { FetchCart, userID, loginStatus, cart, setCart, handlePrice, tokenConfig } = useContext(PetContext);
    const navigate = useNavigate();
+   const { FetchCart, userID, loginStatus, cart, setCart, handlePrice, tokenConfig } = useContext(PetContext);
+
 
    FetchCart(loginStatus, userID, setCart, tokenConfig);
+
 
    //  Calculate the total price of items in the cart
    const totalPrice = cart.reduce((acc, item) => acc + item.product.price * item.quantity, 0);
 
+
    // Handle changes in item quantity
    const handleQuantity = async (cartID, quantityChange) => {
       const data = { id: cartID, quantityChange };
-
       try {
          await axios.put(`http://localhost:8000/api/users/${userID}/cart`, data, tokenConfig);
          const response = await axios.get(`http://localhost:8000/api/users/${userID}/cart`, tokenConfig);
@@ -38,6 +31,7 @@ export default function Cart() {
          toast.error(error.response.data.message);
       }
    };
+
 
    // Remove an item from the cart
    const removeFromCart = async (productID) => {
@@ -50,6 +44,7 @@ export default function Cart() {
          toast.error(error.response.data.message);
       }
    };
+
 
    // Handle the checkout process
    const handleCheckout = async () => {
@@ -64,15 +59,12 @@ export default function Cart() {
          toast.error(error.response.data.message);
       }
    };
+   
 
    return (
       <section
          className="h-100 text-black"
-         style={{
-            backgroundColor: "#eee",
-            paddingTop: "100px",
-            paddingBottom: "70px",
-         }}
+         style={{ backgroundColor: "#eee", paddingTop: "100px", paddingBottom: "70px" }}
       >
          <MDBContainer className="py-5 h-100">
             <MDBRow className="justify-content-center align-items-center h-100">
@@ -84,15 +76,14 @@ export default function Cart() {
                               <div className="p-5">
                                  {cart.map((item) => (
                                     <MDBRow
-                                       className="mb-4 d-flex justify-content-between align-items-center"
                                        key={item._id}
+                                       className="mb-4 d-flex justify-content-between align-items-center"
                                     >
                                        <MDBCol md="2" lg="2" xl="2">
                                           <MDBCardImage
-                                             src={item.product.image}
-                                             fluid
+                                             src={item.product.image} 
+                                             alt={item.product.title} fluid
                                              className="cart-image rounded-3"
-                                             alt={item.product.title}
                                           />
                                        </MDBCol>
                                        <MDBCol md="3" lg="3" xl="3" className="cart-details">
@@ -104,14 +95,11 @@ export default function Cart() {
                                           </MDBTypography>
                                        </MDBCol>
                                        <MDBCol
-                                          md="3"
-                                          lg="3"
-                                          xl="3"
+                                          md="3" lg="3" xl="3"
                                           className="cart-quantity d-flex align-items-center justify-content-center"
                                        >
                                           <MDBBtn
-                                             color="link"
-                                             className="px-2"
+                                             color="link" className="px-2"
                                              onClick={() => handleQuantity(item._id, -1)}
                                           >
                                              <MDBIcon fas icon="minus" />
@@ -120,8 +108,7 @@ export default function Cart() {
                                           <span className="px-3 square border border-secondary">{item.quantity}</span>
 
                                           <MDBBtn
-                                             color="link"
-                                             className="px-2"
+                                             color="link" className="px-2"
                                              onClick={() => handleQuantity(item._id, 1)}
                                           >
                                              <MDBIcon fas icon="plus" />
@@ -133,14 +120,7 @@ export default function Cart() {
                                           </MDBTypography>
                                        </MDBCol>
                                        <MDBCol md="1" lg="1" xl="1" className="cart-delete text-end">
-                                          <span
-                                             href=""
-                                             // className="text-danger"
-                                             onClick={(e) => {
-                                                e.preventDefault();
-                                                removeFromCart(item.product._id);
-                                             }}
-                                          >
+                                          <span onClick={() => removeFromCart(item.product._id)}>
                                              <MDBIcon fas icon="trash-alt" />
                                           </span>
                                        </MDBCol>
@@ -150,15 +130,7 @@ export default function Cart() {
 
                                  <div className="pt-5 pb-5">
                                     <MDBTypography tag="h6" className="mb-0">
-                                       <MDBCardText
-                                          tag="a"
-                                          href=""
-                                          className="text-body"
-                                          onClick={(e) => {
-                                             e.preventDefault();
-                                             navigate("/products");
-                                          }}
-                                       >
+                                       <MDBCardText className="text-body" onClick={() => navigate("/products")}>
                                           <MDBIcon fas icon="long-arrow-alt-left me-2" /> Back to shop
                                        </MDBCardText>
                                     </MDBTypography>

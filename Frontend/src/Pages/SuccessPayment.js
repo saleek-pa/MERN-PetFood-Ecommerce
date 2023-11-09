@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import axios from "axios";
 
@@ -10,10 +10,10 @@ export default function SuccessPayment() {
       const fetchData = async () => {
          try {
             await axios.get(`http://localhost:8000/api/users/payment/success`);
-            toast.success("Payment successful")
+            toast.success("Payment successful");
             setTimeout(() => {
                navigate("/");
-             }, 3000);
+            }, 3000);
          } catch (error) {
             toast.error(error.response.data.message);
             navigate("/");
@@ -31,4 +31,4 @@ export default function SuccessPayment() {
          />
       </div>
    );
-};
+}

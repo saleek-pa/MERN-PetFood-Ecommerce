@@ -110,13 +110,8 @@ module.exports = {
         const { productID } = req.body
         const product = await Product.findById(productID);
         if (!product) { return res.status(404).json({ message: 'Product not found' }) }
-        
-        const productExist = await User.findOne({ _id: userID, "cart.product": productID });
-        if (!productExist) {
-           await User.findByIdAndUpdate(userID, { $addToSet: { cart: { product: productID } } });
-        } else {
-           return res.status(404).json({ message: "Product already in cart" });
-        }
+
+        await User.findByIdAndUpdate(userID, { $addToSet: { cart: { product: productID } } });
 
         res.status(200).json({
             status: 'success',

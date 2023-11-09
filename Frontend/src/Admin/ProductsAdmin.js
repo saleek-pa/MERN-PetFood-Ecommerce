@@ -8,20 +8,17 @@ import axios from "axios";
 export default function ProductsAdmin() {
    const navigate = useNavigate();
    const { productDetails, setProductDetails, handlePrice, tokenConfig } = useContext(PetContext);
-
-   // Initialize state to filter products by category
    const [category, setCategory] = useState(productDetails);
    const [selectedOption, setSelectedOption] = useState("All");
 
+
    // Use useEffect to filter products based on the selected category
    useEffect(() => {
-      if (selectedOption === "All") {
-         setCategory(productDetails);
-      } else {
-         setCategory(productDetails.filter((product) => product.category === selectedOption));
-      }
+      if (selectedOption === "All") setCategory(productDetails);
+      else setCategory(productDetails.filter((product) => product.category === selectedOption));
    }, [selectedOption, productDetails]);
 
+   
    // Handle product deletion
    const handleDelete = async (productID) => {
       const confirmation = window.confirm(

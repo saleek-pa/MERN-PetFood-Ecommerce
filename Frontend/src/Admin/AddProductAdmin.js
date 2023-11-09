@@ -5,7 +5,6 @@ import { MDBInput, MDBBtn, MDBRadio, MDBTextArea, MDBIcon } from "mdb-react-ui-k
 import toast from "react-hot-toast";
 import axios from "axios";
 
-
 export default function AddProductAdmin() {
    const navigate = useNavigate();
    const { setProductDetails, tokenConfig } = useContext(PetContext);
@@ -13,22 +12,18 @@ export default function AddProductAdmin() {
    const [selectedFile, setSelectedFile] = useState(null);
    const [imageUrl, setImageUrl] = useState(null);
 
-
    const handleInputChange = (e) => {
       const { name, value } = e.target;
       setItem((prevItem) => ({ ...prevItem, [name]: value }));
    };
 
-
    const handleFileInputChange = (e) => {
       const file = e.target.files[0];
       setItem({ ...item, image: file });
       setSelectedFile(file);
-
       const objectUrl = URL.createObjectURL(file);
       setImageUrl(objectUrl);
    };
-
 
    // Function to add new product to ProductDetails Array
    const handleForm = async (e) => {
@@ -61,18 +56,15 @@ export default function AddProductAdmin() {
          }
       );
    };
-   
 
    return (
       <div className="d-flex justify-content-center">
          <form
-            className="dashboard-table px-5"
-            style={{ width: "1000px" }}
-            onSubmit={handleForm}
-            encType="multipart/form-data"
+            className="dashboard-table px-5" style={{ width: "80%" }}
+            onSubmit={handleForm} encType="multipart/form-data"
          >
             <h2 className="text-center">Add Product</h2>
-            <div className="d-flex justify-content-evenly ">
+            <div className="d-flex justify-content-evenly">
                <div className="pt-5" style={{ width: "300px" }}>
                   {!selectedFile ? (
                      <>
@@ -83,18 +75,10 @@ export default function AddProductAdmin() {
                         >
                            <MDBIcon fas icon="file-upload" className="fs-1 pt-5" />
                            <input
-                              type="file"
-                              name="image"
+                              type="file" name="image" required
                               onChange={handleFileInputChange}
-                              required
-                              style={{
-                                 width: "300px",
-                                 height: "200px",
-                                 position: "absolute",
-                                 cursor: "pointer",
-                                 opacity: "0",
-                                 zIndex: "1",
-                              }}
+                              style={{ width: "300px", height: "200px", position: "absolute", 
+                                       cursor: "pointer", opacity: "0", zIndex: "1" }}
                            />
                            <p className="pb-5 pt-2 px-3 text-muted">
                               Drop your file here <br /> or Click to browse
@@ -105,24 +89,13 @@ export default function AddProductAdmin() {
                      <>
                         <div className="pt-1" style={{ cursor: "pointer", width: "300px" }}>
                            <div
-                              style={{
-                                 border: "1px solid gray",
-                                 borderRadius: "10px",
-                                 position: "relative",
-                              }}
+                              style={{ border: "1px solid gray", borderRadius: "10px", position: "relative" }}
                               className="d-flex flex-column justify-content-center align-items-center"
                            >
                               <img src={imageUrl} alt="Selected" className="w-50 py-4" />
                               <MDBIcon
-                                 fas
-                                 icon="times"
-                                 className="fs-4"
-                                 style={{
-                                    position: "absolute",
-                                    top: "0",
-                                    right: "0",
-                                    padding: "10px",
-                                 }}
+                                 fas icon="times" className="fs-4"
+                                 style={{ position: "absolute", top: "0", right: "0", padding: "10px" }}
                                  onClick={() => {
                                     setSelectedFile(null);
                                     setItem({ ...item, image: "" });
@@ -132,7 +105,6 @@ export default function AddProductAdmin() {
                            <hr className="mx-5" />
                            <MDBInput
                               label="Image Link"
-                              id="typeURL"
                               type="text"
                               value={selectedFile.name}
                               className="text-black"
@@ -145,25 +117,18 @@ export default function AddProductAdmin() {
                <div className="w-50 pt-4 ms-5">
                   <div className="mt-3 mb-3 text-center">
                      <label className="me-3 text-black">Category: </label>
-                     <MDBRadio
-                        name="category"
-                        id="inlineRadio1"
-                        value="Cat"
-                        onChange={handleInputChange}
-                        label="Cat"
-                        inline
-                     />
-                     <MDBRadio
-                        name="category"
-                        id="inlineRadio2"
-                        value="Dog"
-                        onChange={handleInputChange}
-                        label="Dog"
-                        inline
-                     />
+                     {["Cat", "Dog"].map((category) => (
+                        <MDBRadio
+                           key={category}
+                           name="category"
+                           value={category}
+                           onChange={handleInputChange}
+                           label={category}
+                           inline
+                        />
+                     ))}
                   </div>
                   <MDBInput
-                     id="form4Example1"
                      wrapperClass="mb-4"
                      label="Title"
                      className="text-black"
@@ -173,7 +138,6 @@ export default function AddProductAdmin() {
                      required
                   />
                   <MDBTextArea
-                     label="Description"
                      id="textAreaExample"
                      name="description"
                      rows={4}
@@ -182,9 +146,7 @@ export default function AddProductAdmin() {
                      onChange={handleInputChange}
                      required
                   />
-
                   <MDBInput
-                     id="form4Example1"
                      wrapperClass="mb-4"
                      label="Price"
                      name="price"

@@ -6,21 +6,16 @@ import toast from "react-hot-toast";
 import axios from "axios";
 
 export default function UsersAdmin() {
+   const navigate = useNavigate();
    const [profile, setProfile] = useState([]);
    const { tokenConfig } = useContext(PetContext);
 
    useEffect(() => {
       const fetchData = async () => {
          try {
-            const tokenConfig = {
-               headers: {
-                  Authorization: `Bearer ${localStorage.getItem("jwt_token")}`,
-               },
-            };
+            const tokenConfig = { headers: { Authorization: `Bearer ${localStorage.getItem("jwt_token")}` } };
             const response = await axios.get("http://localhost:8000/api/admin/users", tokenConfig);
-            if (response.status === 200) {
-               setProfile(response.data.data);
-            }
+            if (response.status === 200) setProfile(response.data.data);
          } catch (error) {
             toast.error(error.response.data.message);
          }
@@ -28,8 +23,6 @@ export default function UsersAdmin() {
 
       fetchData();
    }, [tokenConfig, setProfile]);
-
-   const navigate = useNavigate();
 
    return (
       <div>

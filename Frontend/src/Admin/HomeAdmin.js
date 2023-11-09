@@ -67,6 +67,7 @@ export default function HomeDashboard() {
                </p>
             </div>
          </div>
+         
          <div className="dashboard-recent d-flex justify-content-center">
             <div className="dashboard-table recent-admin ps-5">
                <h4>New Products</h4>
@@ -89,6 +90,7 @@ export default function HomeDashboard() {
                   ))}
                </table>
             </div>
+
             <div className="dashboard-table recent-admin ps-5">
                <h4>Recent Users</h4>
                <table>

@@ -6,16 +6,10 @@ import toast from "react-hot-toast";
 
 export default function DogFood() {
    const {
-      productDetails,
-      handlePrice,
-      loginStatus,
-      wishlist,
-      setWishlist,
-      userID,
-      tokenConfig,
-      addToWishlist,
-      FetchWishlist,
-      removeFromWishlist,
+      loginStatus, tokenConfig, userID,
+      productDetails, handlePrice, 
+      FetchWishlist, wishlist, setWishlist,
+      addToWishlist, removeFromWishlist,
    } = useContext(PetContext);
    const navigate = useNavigate();
 
@@ -42,22 +36,16 @@ export default function DogFood() {
                      <div className="heart">
                         {wishlist.some((item) => item._id === value._id) ? (
                            <MDBIcon
-                              fas
-                              icon="heart"
-                              className="clicked-heart-icon"
+                              fas icon="heart" className="clicked-heart-icon"
                               onClick={() => removeFromWishlist(value._id)}
                            />
                         ) : (
                            <MDBIcon
-                              fas
-                              icon="heart"
+                              fas icon="heart"
                               className="heart-icon"
                               onClick={() => {
-                                 if (loginStatus) {
-                                    addToWishlist(value._id);
-                                 } else {
-                                    toast.error("Sign in to your account");
-                                 }
+                                 if (loginStatus) addToWishlist(value._id);
+                                 else toast.error("Sign in to your account");
                               }}
                            />
                         )}
