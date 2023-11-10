@@ -1,14 +1,12 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { MDBBtn } from "mdb-react-ui-kit";
-import { PetContext } from "../App";
 import toast from "react-hot-toast";
 import axios from "axios";
 
 export default function UsersAdmin() {
    const navigate = useNavigate();
    const [profile, setProfile] = useState([]);
-   const { tokenConfig } = useContext(PetContext);
 
    useEffect(() => {
       const fetchData = async () => {
@@ -22,7 +20,7 @@ export default function UsersAdmin() {
       };
 
       fetchData();
-   }, [tokenConfig, setProfile]);
+   }, [setProfile]);
 
    return (
       <div>

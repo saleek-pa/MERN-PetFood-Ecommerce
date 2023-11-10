@@ -9,7 +9,7 @@ export default function Footer() {
                <MDBContainer className="text-center text-md-start">
                   <MDBRow className="">
                      <MDBCol sm="8" md="8" lg="5" xl="4" className="mx-auto mb-4">
-                        <h6 className="logo text-uppercase mt-5 mb-4">Kitter</h6>
+                        <h6 className="logo-footer text-uppercase mt-5 mb-4">Kitter</h6>
                         <p>
                            If you have any question, please contact us at
                            <br />

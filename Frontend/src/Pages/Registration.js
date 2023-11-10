@@ -1,8 +1,8 @@
 import React from "react";
 import { MDBContainer, MDBInput, MDBBtn } from "mdb-react-ui-kit";
 import { useNavigate } from "react-router-dom";
+import { Axios } from "../App";
 import toast from "react-hot-toast";
-import axios from "axios";
 
 function Registration() {
    const navigate = useNavigate();
@@ -18,11 +18,9 @@ function Registration() {
       } else {
          try {
             const userData = { name, email, password };
-            const response = await axios.post("http://localhost:8000/api/users/register", userData);
-            if (response.status === 201) {
-               toast.success(response.data.message);
-               navigate("/login");
-            }
+            const response = await Axios.post("/api/users/register", userData);
+            toast.success(response.data.message);
+            navigate("/login");
          } catch (error) {
             toast.error(error.response.data.message);
          }

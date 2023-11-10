@@ -1,27 +1,25 @@
 import React, { useContext, useEffect, useState } from "react";
-import { PetContext } from "../App";
+import { Axios, PetContext } from "../App";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
-import axios from "axios";
 
 function Orders() {
-   const { userID, tokenConfig, handlePrice } = useContext(PetContext);
+   const { userID, handlePrice } = useContext(PetContext);
    const [order, setOrder] = useState({ orders: [] });
    const navigate = useNavigate();
 
    useEffect(() => {
       const fetchData = async () => {
          try {
-            const tokenConfig = { headers: { Authorization: `Bearer ${localStorage.getItem("jwt_token")}` } };
-            const response = await axios.get(`http://localhost:8000/api/users/${userID}/orders`, tokenConfig);
-            if (response.status === 200) setOrder(response.data.data);
+            const response = await Axios.get(`/api/users/${userID}/orders`);
+            setOrder(response.data.data);
          } catch (error) {
             toast.error(error.response.data.message);
          }
       };
 
       fetchData();
-   }, [userID, tokenConfig]);
+   }, [userID]);
 
    return (
       <section

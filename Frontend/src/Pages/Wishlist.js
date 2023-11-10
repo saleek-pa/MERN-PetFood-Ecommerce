@@ -4,11 +4,11 @@ import { PetContext } from "../App";
 import { useNavigate } from "react-router-dom";
 
 export default function Wishlist() {
-   const { handlePrice, loginStatus, wishlist, setWishlist, userID, tokenConfig, FetchWishlist, removeFromWishlist } =
+   const { handlePrice, loginStatus, wishlist, setWishlist, userID, FetchWishlist, removeFromWishlist } =
       useContext(PetContext);
    const navigate = useNavigate();
 
-   FetchWishlist(loginStatus, userID, setWishlist, tokenConfig);
+   FetchWishlist(loginStatus, userID, setWishlist);
 
    return (
       <>

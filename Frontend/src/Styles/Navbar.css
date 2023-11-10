@@ -116,8 +116,8 @@
   }
 
   .logo {
-    margin: 0;
     position: absolute;
+    margin: 0;
     left: 50%;
     transform: translateX(-50%);
   }

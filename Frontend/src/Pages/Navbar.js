@@ -2,14 +2,8 @@ import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { PetContext } from "../App";
 import {
-   MDBContainer,
-   MDBNavbar,
-   MDBNavbarToggler,
-   MDBNavbarNav,
-   MDBNavbarLink,
-   MDBIcon,
-   MDBCollapse,
-   MDBBadge,
+   MDBContainer, MDBNavbar, MDBNavbarToggler, MDBNavbarNav,
+   MDBNavbarLink, MDBIcon, MDBCollapse, MDBBadge,
 } from "mdb-react-ui-kit";
 import "../Styles/Navbar.css";
 import toast from "react-hot-toast";
@@ -19,15 +13,18 @@ const Navbar = () => {
    const [filteredProducts, setFilteredProducts] = useState([]);
    const [showSearchBox, setShowSearchBox] = useState(false);
    const [showCollapse, setShowCollapse] = useState(false);
-   const { productDetails, cart, setCart, loginStatus, setLoginStatus, userID, tokenConfig, FetchCart } =
+   const { productDetails, cart, setCart, loginStatus, setLoginStatus, userID, FetchCart } =
       useContext(PetContext);
    const name = localStorage.getItem("name");
    const navigate = useNavigate();
 
-   FetchCart(loginStatus, userID, setCart, tokenConfig);
+
+   FetchCart(loginStatus, userID, setCart);
+
 
    const toggleSearchBox = () => setShowSearchBox(!showSearchBox); // Toggle search box visibility
    const toggleNavbar = () => setShowCollapse(!showCollapse); // Toggle mobile navbar
+
 
    // Handle search input change
    const handleSearchChange = (event) => {
@@ -44,6 +41,13 @@ const Navbar = () => {
       }
    };
 
+
+   const handleNavigation = (path) => {
+      navigate(path)
+      setShowCollapse(!showCollapse);
+   }
+
+
    return (
       <div>
          <MDBNavbar expand="lg" className="nav-container">
@@ -56,57 +60,17 @@ const Navbar = () => {
                >
                   <MDBIcon icon="bars" fas />
                </MDBNavbarToggler>
-               <h1
-                  className="logo"
-                  onClick={(e) => {
-                     e.preventDefault();
-                     navigate("/");
-                  }}
-               >
+               <h1 className="logo" onClick={() => navigate("/")}>
                   Kitter
                </h1>
                <MDBCollapse navbar show={showCollapse} id="navbarCollapse">
                   <MDBNavbarNav className="navbar-links">
-                     <MDBNavbarLink
-                        href=""
-                        onClick={(e) => {
-                           e.preventDefault();
-                           navigate("/");
-                           setShowCollapse(!showCollapse);
-                        }}
-                     >
-                        Home
-                     </MDBNavbarLink>
-                     <MDBNavbarLink
-                        href=""
-                        onClick={(e) => {
-                           e.preventDefault();
-                           navigate("/products");
-                           setShowCollapse(!showCollapse);
-                        }}
-                     >
-                        Products
-                     </MDBNavbarLink>
-                     <MDBNavbarLink
-                        href=""
-                        onClick={(e) => {
-                           e.preventDefault();
-                           navigate("/cat-food");
-                           setShowCollapse(!showCollapse);
-                        }}
-                        className="nav-food"
-                     >
+                     <MDBNavbarLink onClick={() => handleNavigation("/")}>Home</MDBNavbarLink>
+                     <MDBNavbarLink onClick={() => handleNavigation("/products")}>Products</MDBNavbarLink>
+                     <MDBNavbarLink onClick={() => handleNavigation("/cat-food")} className="nav-food">
                         Cat Food
                      </MDBNavbarLink>
-                     <MDBNavbarLink
-                        href=""
-                        onClick={(e) => {
-                           e.preventDefault();
-                           navigate("/dog-food");
-                           setShowCollapse(!showCollapse);
-                        }}
-                        className="nav-food"
-                     >
+                     <MDBNavbarLink onClick={() => handleNavigation("/dog-food")} className="nav-food">
                         Dog Food
                      </MDBNavbarLink>
                   </MDBNavbarNav>
@@ -116,9 +80,7 @@ const Navbar = () => {
                   <div style={{ lineHeight: "13px" }} className="greeting text-center me-3">
                      <span
                         style={{ fontSize: "15px", cursor: "pointer" }}
-                        onClick={() => {
-                           if (!loginStatus) navigate("/login");
-                        }}
+                        onClick={() => !loginStatus && navigate("/login")}
                      >
                         Hello,
                         <br />
@@ -129,8 +91,7 @@ const Navbar = () => {
                      {showSearchBox && (
                         <div className="search-box">
                            <input
-                              type="text"
-                              placeholder="Search..."
+                              type="text" placeholder="Search..."
                               value={searchInput.length >= 1 ? searchInput : ""}
                               onChange={handleSearchChange}
                            />
@@ -144,35 +105,28 @@ const Navbar = () => {
                   </div>
                   <ul
                      style={{
-                        position: "absolute",
-                        listStyle: "none",
-                        backgroundColor: "white",
-                        width: "405px",
-                        right: "157px",
-                        top: "25px",
-                        borderRadius: "10px",
-                        paddingLeft: "0",
-                        paddingTop: "50px",
-                        zIndex: "-1",
+                        position: "absolute", listStyle: "none", backgroundColor: "white",
+                        width: "405px", top: "25px", right: "157px", borderRadius: "10px",
+                        paddingLeft: "0", paddingTop: "50px", zIndex: "-1",
                      }}
                      className="search-output"
                   >
                      {filteredProducts.map((product) => (
-                        <>
+                        <React.Fragment key={product._id}>
                            <li
-                              key={product._id}
                               className="ps-3 text-black fw-bold"
                               style={{ cursor: "pointer" }}
                               onClick={() => {
                                  setFilteredProducts([]);
                                  setSearchInput("");
                                  navigate(`/products/${product._id}`);
+                                 toggleSearchBox()
                               }}
                            >
                               {product.title}
                            </li>
                            <hr className="m-3" />
-                        </>
+                        </React.Fragment>
                      ))}
                   </ul>
 
@@ -185,21 +139,9 @@ const Navbar = () => {
                                     <>
                                        <li>My Profile</li>
                                        <hr />
-                                       <li
-                                          onClick={() => {
-                                             navigate("/orders");
-                                          }}
-                                       >
-                                          Orders
-                                       </li>
+                                       <li onClick={() => navigate("/orders")}>Orders</li>
                                        <hr />
-                                       <li
-                                          onClick={() => {
-                                             navigate("/wishlist");
-                                          }}
-                                       >
-                                          Wishlist
-                                       </li>
+                                       <li onClick={() => navigate("/wishlist")}>Wishlist</li>
                                        <hr />
                                        <li
                                           onClick={() => {
@@ -225,8 +167,7 @@ const Navbar = () => {
                      <span
                         className="nav-link"
                         onClick={() => {
-                           if (loginStatus) navigate("/cart");
-                           else toast.error("Sign in to your account");
+                           loginStatus ? navigate("/cart") : toast.error("Sign in to your account");
                         }}
                      >
                         <MDBIcon fas icon="shopping-cart" />

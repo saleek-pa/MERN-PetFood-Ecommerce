@@ -19,43 +19,44 @@ import axios from "axios";
 
 export const PetContext = createContext();
 
+export const Axios = axios.create({
+   baseURL: process.env.REACT_APP_BASE_URL,
+   headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${localStorage.getItem("jwt_token")}`,
+   },
+});
+
+
 function App() {
    const [cart, setCart] = useState([]);
    const [wishlist, setWishlist] = useState([]);
-   const [tokenConfig, setTokenConfig] = useState({});
    const [loginStatus, setLoginStatus] = useState(false);
    const [productDetails, setProductDetails] = useState([]);
    const userID = localStorage.getItem("userID");
 
    useEffect(() => {
       const token = localStorage.getItem("jwt_token");
-
-      if (token) {
-         setLoginStatus(true);
-         setTokenConfig({ headers: { Authorization: `Bearer ${token}` } });
-      } else {
-         setLoginStatus(false);
-      }
-
+      token ? setLoginStatus(true) : setLoginStatus(false);
+// 
       const fetchData = async () => {
          try {
-            const response = await axios.get("http://localhost:8000/api/users/products");
-            if (response.status === 200) setProductDetails(response.data.data);
+            const response = await Axios.get("/api/users/products");
+            setProductDetails(response.data.data);
          } catch (error) {
             toast.error(error.response.data.message);
          }
       };
       fetchData();
-   }, [setTokenConfig]);
+   }, []);
 
-   const FetchWishlist = (loginStatus, userID, setWishlist, tokenConfig) => {
+   const FetchWishlist = (loginStatus, userID, setWishlist) => {
       useEffect(() => {
          const fetchData = async () => {
             try {
                if (loginStatus) {
-                  const tokenConfig = { headers: { Authorization: `Bearer ${localStorage.getItem("jwt_token")}` } };
-                  const response = await axios.get(`http://localhost:8000/api/users/${userID}/wishlist`, tokenConfig);
-                  if (response.status === 200) setWishlist(response.data.data);
+                  const response = await Axios.get(`/api/users/${userID}/wishlist`);
+                  setWishlist(response.data.data);
                }
             } catch (error) {
                toast.error(error.response.data.message);
@@ -63,17 +64,16 @@ function App() {
          };
 
          fetchData();
-      }, [loginStatus, userID, setWishlist, tokenConfig]);
+      }, [loginStatus, userID, setWishlist]);
    };
 
-   const FetchCart = (loginStatus, userID, setCart, tokenConfig) => {
+   const FetchCart = (loginStatus, userID, setCart) => {
       useEffect(() => {
          const fetchData = async () => {
             try {
                if (loginStatus) {
-                  const tokenConfig = { headers: { Authorization: `Bearer ${localStorage.getItem("jwt_token")}` } };
-                  const response = await axios.get(`http://localhost:8000/api/users/${userID}/cart`, tokenConfig);
-                  if (response.status === 200) setCart(response.data.data);
+                  const response = await Axios.get(`/api/users/${userID}/cart`);
+                  setCart(response.data.data);
                }
             } catch (error) {
                toast.error(error.response.data.message);
@@ -81,17 +81,15 @@ function App() {
          };
 
          fetchData();
-      }, [loginStatus, userID, setCart, tokenConfig]);
+      }, [loginStatus, userID, setCart]);
    };
 
    const addToWishlist = async (productID) => {
       try {
-         await axios.post(`http://localhost:8000/api/users/${userID}/wishlist`, { productID }, tokenConfig);
-         const response = await axios.get(`http://localhost:8000/api/users/${userID}/wishlist`, tokenConfig);
-         if (response.status === 200) {
-            toast.success("Added to wishlist");
-            setWishlist(response.data.data);
-         }
+         await Axios.post(`/api/users/${userID}/wishlist`, { productID });
+         const response = await Axios.get(`/api/users/${userID}/wishlist`);
+         toast.success("Added to wishlist");
+         setWishlist(response.data.data);
       } catch (error) {
          toast.error(error.response.data.message);
       }
@@ -99,12 +97,10 @@ function App() {
 
    const removeFromWishlist = async (productID) => {
       try {
-         await axios.delete(`http://localhost:8000/api/users/${userID}/wishlist/${productID}`, tokenConfig);
-         const response = await axios.get(`http://localhost:8000/api/users/${userID}/wishlist`, tokenConfig);
-         if (response.status === 200) {
-            toast.success("Removed from wishlist");
-            setWishlist(response.data.data);
-         }
+         await Axios.delete(`/api/users/${userID}/wishlist/${productID}`);
+         const response = await Axios.get(`/api/users/${userID}/wishlist`);
+         toast.success("Removed from wishlist");
+         setWishlist(response.data.data);
       } catch (error) {
          toast.error(error.response.data.message);
       }
@@ -124,21 +120,10 @@ function App() {
       <>
          <PetContext.Provider
             value={{
-               tokenConfig,
-               userID,
-               loginStatus,
-               setLoginStatus,
-               FetchWishlist,
-               productDetails,
-               setProductDetails,
-               wishlist,
-               setWishlist,
-               addToWishlist,
-               removeFromWishlist,
-               FetchCart,
-               cart,
-               setCart,
-               handlePrice,
+               userID, loginStatus, setLoginStatus, FetchWishlist,
+               productDetails, setProductDetails, wishlist,
+               setWishlist, addToWishlist, removeFromWishlist,
+               FetchCart, cart, setCart, handlePrice,
             }}
          >
             {/* Navbar & Footer is common for every route except Dashboard */}

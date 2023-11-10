@@ -7,12 +7,8 @@ const checkAuth = (accessTokenSecret) => {
       if (!token) {
         res.status(401).json({ message: 'Unauthorized' });
       } else {
-        jwt.verify(token, accessTokenSecret, (err) => {
-          if (err) {
-            res.status(401).json({ message: 'Authentication failed' });
-          } else {
-            next();
-          }
+        jwt.verify(token, accessTokenSecret, (error) => {
+          error ? res.status(401).json({ message: 'Authentication failed' }) : next();
         });
       }
     } catch (error) {

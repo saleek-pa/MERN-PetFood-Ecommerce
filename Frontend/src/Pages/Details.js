@@ -3,42 +3,37 @@ import { useParams, useNavigate } from "react-router-dom";
 import "../Styles/Details.css";
 import "../Styles/Home.css";
 import { MDBBtn } from "mdb-react-ui-kit";
-import { PetContext } from "../App";
+import { Axios, PetContext } from "../App";
 import toast from "react-hot-toast";
-import axios from "axios";
 
 export default function Details() {
    const { id } = useParams();
    const navigate = useNavigate();
    const [item, setItem] = useState([]);
-   const { loginStatus, userID, tokenConfig, cart, setCart } = useContext(PetContext);
+   const { loginStatus, userID, cart, setCart } = useContext(PetContext);
 
 
    useEffect(() => {
       const fetchData = async () => {
          try {
-            const response = await axios.get(`http://localhost:8000/api/users/products/${id}`, tokenConfig);
-            if (response.status === 200) setItem(response.data.data);
+            const response = await Axios.get(`/api/users/products/${id}`);
+            setItem(response.data.data);
          } catch (error) {
             toast.error(error.response.data.message);
          }
       };
 
       fetchData();
-   }, [id, tokenConfig]);
+   }, [id]);
 
 
    // Function to add the current product to the cart
    const addToCart = async (productID) => {
       try {
-         const response = await axios.post(
-            `http://localhost:8000/api/users/${userID}/cart`, { productID }, tokenConfig
-         );
-         if (response.status === 200) {
-            const response = await axios.get(`http://localhost:8000/api/users/${userID}/cart`, tokenConfig);
-            if (response.status === 200) setCart(response.data.data);
-            toast.success("Added to cart");
-         }
+         await Axios.post(`/api/users/${userID}/cart`, { productID });
+         const response = await Axios.get(`/api/users/${userID}/cart`,);
+         setCart(response.data.data);
+         toast.success("Added to cart");
       } catch (error) {
          toast.error(error.response.data.message);
       }
@@ -66,8 +61,7 @@ export default function Details() {
                         <MDBBtn
                            rounded color="dark" className="det-button"
                            onClick={() => {
-                              if (loginStatus) addToCart(item._id);
-                              else toast.error("Sign in to your account");
+                              loginStatus ? addToCart(item._id) : toast.error("Sign in to your account");
                            }}
                         >
                            Add to Cart

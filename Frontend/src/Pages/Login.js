@@ -1,9 +1,8 @@
 import React, { useContext } from "react";
 import { MDBContainer, MDBInput, MDBBtn } from "mdb-react-ui-kit";
 import { useNavigate } from "react-router-dom";
-import { PetContext } from "../App";
+import { Axios, PetContext } from "../App";
 import toast from 'react-hot-toast';
-import axios from "axios";
 
 function Login() {
    const { setLoginStatus } = useContext(PetContext);
@@ -22,25 +21,22 @@ function Login() {
          return toast.error("Enter All the Inputs");
       }
 
-      const endpoint =
-         email === adminEmail ? "http://localhost:8000/api/admin/login" : "http://localhost:8000/api/users/login";
+      const endpoint = email === adminEmail ? "/api/admin/login" : "/api/users/login";
 
       try {
-         const response = await axios.post(endpoint, loginData);
-         if (response.status === 200) {
-            email !== adminEmail && localStorage.setItem("userID", response.data.data.userID);
-            email === adminEmail && localStorage.setItem("role", "admin");
-            localStorage.setItem("jwt_token", response.data.data.jwt_token);
-            localStorage.setItem("name", response.data.data.name);
-            setLoginStatus(true);
-            toast.success(response.data.message);
-            navigate(email === adminEmail ? "/dashboard" : "/");
+         const response = await Axios.post(endpoint, loginData);
+         email !== adminEmail && localStorage.setItem("userID", response.data.data.userID);
+         email === adminEmail && localStorage.setItem("role", "admin");
+         localStorage.setItem("jwt_token", response.data.data.jwt_token);
+         localStorage.setItem("name", response.data.data.name);
+         setLoginStatus(true);
+         toast.success(response.data.message);
+         navigate(email === adminEmail ? "/dashboard" : "/");
 
-            setTimeout(() => {
-               localStorage.clear();
-               setLoginStatus(false)
-            }, 3600000);
-         }
+         setTimeout(() => {
+            localStorage.clear();
+            setLoginStatus(false)
+         }, 3600000);
       } catch (error) {
          toast.error(error.response.data.message);
       }

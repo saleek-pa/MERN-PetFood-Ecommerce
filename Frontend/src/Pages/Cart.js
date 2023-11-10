@@ -1,19 +1,18 @@
 import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { PetContext } from "../App";
+import { Axios, PetContext } from "../App";
 import { MDBBtn, MDBCard, MDBCardBody, MDBCardImage, MDBCardText,
          MDBCol, MDBContainer, MDBIcon, MDBRow, MDBTypography,
 } from "mdb-react-ui-kit";
 import "../Styles/Cart.css";
 import toast from "react-hot-toast";
-import axios from "axios";
 
 export default function Cart() {
    const navigate = useNavigate();
-   const { FetchCart, userID, loginStatus, cart, setCart, handlePrice, tokenConfig } = useContext(PetContext);
+   const { FetchCart, userID, loginStatus, cart, setCart, handlePrice } = useContext(PetContext);
 
 
-   FetchCart(loginStatus, userID, setCart, tokenConfig);
+   FetchCart(loginStatus, userID, setCart);
 
 
    //  Calculate the total price of items in the cart
@@ -24,9 +23,9 @@ export default function Cart() {
    const handleQuantity = async (cartID, quantityChange) => {
       const data = { id: cartID, quantityChange };
       try {
-         await axios.put(`http://localhost:8000/api/users/${userID}/cart`, data, tokenConfig);
-         const response = await axios.get(`http://localhost:8000/api/users/${userID}/cart`, tokenConfig);
-         if (response.status === 200) setCart(response.data.data);
+         await Axios.put(`/api/users/${userID}/cart`, data);
+         const response = await Axios.get(`/api/users/${userID}/cart`);
+         setCart(response.data.data);
       } catch (error) {
          toast.error(error.response.data.message);
       }
@@ -36,9 +35,9 @@ export default function Cart() {
    // Remove an item from the cart
    const removeFromCart = async (productID) => {
       try {
-         await axios.delete(`http://localhost:8000/api/users/${userID}/cart/${productID}`, tokenConfig);
-         const response = await axios.get(`http://localhost:8000/api/users/${userID}/cart`, tokenConfig);
-         if (response.status === 200) setCart(response.data.data);
+         await Axios.delete(`/api/users/${userID}/cart/${productID}`);
+         const response = await Axios.get(`/api/users/${userID}/cart`);
+         setCart(response.data.data);
          toast.success("Removed from cart");
       } catch (error) {
          toast.error(error.response.data.message);
@@ -49,12 +48,10 @@ export default function Cart() {
    // Handle the checkout process
    const handleCheckout = async () => {
       try {
-         const response = await axios.post(`http://localhost:8000/api/users/${userID}/payment`);
-         if (response.status === 200) {
-            const url = response.data.url;
-            const confirmation = window.confirm("You are being redirected to the Stripe payment gateway. Continue?");
-            if (confirmation) window.location.replace(url);
-         }
+         const response = await Axios.post(`/api/users/${userID}/payment`);
+         const url = response.data.url;
+         const confirmation = window.confirm("You are being redirected to the Stripe payment gateway. Continue?");
+         if (confirmation) window.location.replace(url);
       } catch (error) {
          toast.error(error.response.data.message);
       }

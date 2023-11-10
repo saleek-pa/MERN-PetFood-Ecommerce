@@ -7,10 +7,8 @@ import toast from "react-hot-toast";
 
 function Products() {
    const {
-      loginStatus, tokenConfig, userID,
-      productDetails, handlePrice, 
-      FetchWishlist, wishlist, setWishlist,
-      addToWishlist, removeFromWishlist,
+      loginStatus, userID, productDetails, handlePrice, FetchWishlist,
+      wishlist, setWishlist, addToWishlist, removeFromWishlist,
    } = useContext(PetContext);
 
    const DogFood = productDetails.filter((value) => value.category === "Dog").slice(0, 4);
@@ -18,7 +16,7 @@ function Products() {
    const bestSellingProduct = [...DogFood, ...CatFood];
    const navigate = useNavigate();
 
-   FetchWishlist(loginStatus, userID, setWishlist, tokenConfig);
+   FetchWishlist(loginStatus, userID, setWishlist);
 
    return (
       <>
@@ -48,8 +46,7 @@ function Products() {
                            <MDBIcon
                               fas icon="heart" className="heart-icon"
                               onClick={() => {
-                                 if (loginStatus) addToWishlist(value._id);
-                                 else toast.error("Sign in to your account");
+                                 loginStatus ? addToWishlist(value._id) : toast.error("Sign in to your account");
                               }}
                            />
                         )}

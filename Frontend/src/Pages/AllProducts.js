@@ -6,14 +6,12 @@ import toast from "react-hot-toast";
 
 export default function DogFood() {
    const {
-      loginStatus, tokenConfig, userID,
-      productDetails, handlePrice, 
-      FetchWishlist, wishlist, setWishlist,
-      addToWishlist, removeFromWishlist,
+      loginStatus, userID, productDetails, handlePrice, FetchWishlist,
+      wishlist, setWishlist, addToWishlist, removeFromWishlist,
    } = useContext(PetContext);
    const navigate = useNavigate();
 
-   FetchWishlist(loginStatus, userID, setWishlist, tokenConfig);
+   FetchWishlist(loginStatus, userID, setWishlist);
 
    return (
       <>
@@ -44,8 +42,7 @@ export default function DogFood() {
                               fas icon="heart"
                               className="heart-icon"
                               onClick={() => {
-                                 if (loginStatus) addToWishlist(value._id);
-                                 else toast.error("Sign in to your account");
+                                 loginStatus ? addToWishlist(value._id) : toast.error("Sign in to your account");
                               }}
                            />
                         )}

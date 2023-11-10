@@ -14,8 +14,9 @@ export default function ProductsAdmin() {
 
    // Use useEffect to filter products based on the selected category
    useEffect(() => {
-      if (selectedOption === "All") setCategory(productDetails);
-      else setCategory(productDetails.filter((product) => product.category === selectedOption));
+      selectedOption === "All"
+         ? setCategory(productDetails)
+         : setCategory(productDetails.filter((product) => product.category === selectedOption));
    }, [selectedOption, productDetails]);
 
    
