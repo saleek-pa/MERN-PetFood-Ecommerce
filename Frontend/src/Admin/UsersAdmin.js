@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { MDBBtn } from "mdb-react-ui-kit";
+import { Axios } from "../App";
 import toast from "react-hot-toast";
-import axios from "axios";
 
 export default function UsersAdmin() {
    const navigate = useNavigate();
@@ -11,9 +11,8 @@ export default function UsersAdmin() {
    useEffect(() => {
       const fetchData = async () => {
          try {
-            const tokenConfig = { headers: { Authorization: `Bearer ${localStorage.getItem("jwt_token")}` } };
-            const response = await axios.get("http://localhost:8000/api/admin/users", tokenConfig);
-            if (response.status === 200) setProfile(response.data.data);
+            const response = await Axios.get("/api/admin/users");
+            setProfile(response.data.data);
          } catch (error) {
             toast.error(error.response.data.message);
          }

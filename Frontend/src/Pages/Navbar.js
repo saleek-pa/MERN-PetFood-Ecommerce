@@ -170,7 +170,7 @@ const Navbar = () => {
                            loginStatus ? navigate("/cart") : toast.error("Sign in to your account");
                         }}
                      >
-                        <MDBIcon fas icon="shopping-cart" />
+                        <MDBIcon fas icon="shopping-cart" className="cart" />
 
                         {loginStatus && cart.length > 0 && (
                            <MDBBadge color="dark" notification pill style={{ color: "white" }}>

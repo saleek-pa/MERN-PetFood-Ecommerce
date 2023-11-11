@@ -1,13 +1,13 @@
 import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { PetContext } from "../App";
+import { Axios, PetContext } from "../App";
+import uploadToCloudinary from "../Utils/uploadToCloudinary"
 import { MDBInput, MDBBtn, MDBRadio, MDBTextArea, MDBIcon } from "mdb-react-ui-kit";
 import toast from "react-hot-toast";
-import axios from "axios";
 
 export default function AddProductAdmin() {
    const navigate = useNavigate();
-   const { setProductDetails, tokenConfig } = useContext(PetContext);
+   const { setProductDetails } = useContext(PetContext);
    const [item, setItem] = useState({ title: "", description: "", price: "", category: "", image: "" });
    const [selectedFile, setSelectedFile] = useState(null);
    const [imageUrl, setImageUrl] = useState(null);
@@ -28,33 +28,25 @@ export default function AddProductAdmin() {
    // Function to add new product to ProductDetails Array
    const handleForm = async (e) => {
       e.preventDefault();
+      const imageLink = await uploadToCloudinary(selectedFile);
 
       const formData = new FormData();
-      formData.append("image", item.image);
+      formData.append("image", imageLink);
       formData.append("title", item.title);
       formData.append("price", item.price);
       formData.append("description", item.description);
       formData.append("category", item.category);
 
-      toast.promise(
-         axios
-            .post("http://localhost:8000/api/admin/products", formData, tokenConfig)
-            .then((response) => {
-               if (response.status === 201) {
-                  setProductDetails(response.data.data);
-                  navigate("/dashboard/products");
-                  return response.data.message;
-               }
-            })
-            .catch((error) => {
-               throw new Error(error.response.data.message);
-            }),
-         {
-            loading: "Adding product...",
-            success: (message) => <b>{message}</b>,
-            error: (message) => <b>{message}</b>,
+      try {
+         const response = await Axios.post("/api/admin/products", formData);
+         if (response.status === 201) {
+            toast.success(response.data.message)
+            setProductDetails(response.data.data);
+            navigate("/dashboard/products");
          }
-      );
+      } catch (error) {
+         toast.error(error.response.data.message)
+      }
    };
 
    return (

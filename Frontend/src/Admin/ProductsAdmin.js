@@ -1,13 +1,12 @@
 import React, { useContext, useState, useEffect } from "react";
-import { PetContext } from "../App";
+import { Axios, PetContext } from "../App";
 import { MDBBtn, MDBIcon } from "mdb-react-ui-kit";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
-import axios from "axios";
 
 export default function ProductsAdmin() {
    const navigate = useNavigate();
-   const { productDetails, setProductDetails, handlePrice, tokenConfig } = useContext(PetContext);
+   const { productDetails, setProductDetails, handlePrice } = useContext(PetContext);
    const [category, setCategory] = useState(productDetails);
    const [selectedOption, setSelectedOption] = useState("All");
 
@@ -27,7 +26,7 @@ export default function ProductsAdmin() {
       );
       if (confirmation) {
          try {
-            const response = await axios.delete(`http://localhost:8000/api/admin/products/${productID}`, tokenConfig);
+            const response = await Axios.delete(`/api/admin/products/${productID}`);
             setProductDetails(response.data.data);
             toast.success(response.data.message);
          } catch (error) {

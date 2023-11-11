@@ -17,6 +17,7 @@ import FixedAdmin from "./Admin/FixedAdmin";
 import SuccessPayment from "./Pages/SuccessPayment";
 import axios from "axios";
 
+
 export const PetContext = createContext();
 
 export const Axios = axios.create({
@@ -35,10 +36,11 @@ function App() {
    const [productDetails, setProductDetails] = useState([]);
    const userID = localStorage.getItem("userID");
 
+
    useEffect(() => {
       const token = localStorage.getItem("jwt_token");
       token ? setLoginStatus(true) : setLoginStatus(false);
-// 
+
       const fetchData = async () => {
          try {
             const response = await Axios.get("/api/users/products");
@@ -49,6 +51,7 @@ function App() {
       };
       fetchData();
    }, []);
+
 
    const FetchWishlist = (loginStatus, userID, setWishlist) => {
       useEffect(() => {
@@ -67,6 +70,7 @@ function App() {
       }, [loginStatus, userID, setWishlist]);
    };
 
+
    const FetchCart = (loginStatus, userID, setCart) => {
       useEffect(() => {
          const fetchData = async () => {
@@ -79,10 +83,10 @@ function App() {
                toast.error(error.response.data.message);
             }
          };
-
          fetchData();
       }, [loginStatus, userID, setCart]);
    };
+
 
    const addToWishlist = async (productID) => {
       try {
@@ -95,6 +99,7 @@ function App() {
       }
    };
 
+
    const removeFromWishlist = async (productID) => {
       try {
          await Axios.delete(`/api/users/${userID}/wishlist/${productID}`);
@@ -106,11 +111,13 @@ function App() {
       }
    };
 
+
    // Function to format a price (₹1,000, ₹10,000)
    const handlePrice = (price) => {
       const formattedPrice = Number(price).toLocaleString("en-IN");
       return "₹" + formattedPrice;
    };
+   
 
    // Check if the current route is within the dashboard
    const location = useLocation();

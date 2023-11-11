@@ -1,11 +1,10 @@
 import React, { useContext, useEffect, useState } from "react";
 import { MDBIcon } from "mdb-react-ui-kit";
-import { PetContext } from "../App";
+import { Axios, PetContext } from "../App";
 import toast from "react-hot-toast";
-import axios from "axios";
 
 export default function HomeDashboard() {
-   const { tokenConfig, productDetails, handlePrice } = useContext(PetContext);
+   const { productDetails, handlePrice } = useContext(PetContext);
    const [stats, setStats] = useState([{ totalProductsSold: "", totalRevenue: "" }]);
    const [profile, setProfile] = useState([]);
    const [orders, setOrders] = useState([]);
@@ -13,12 +12,10 @@ export default function HomeDashboard() {
    useEffect(() => {
       const fetchData = async () => {
          try {
-            const tokenConfig = { headers: { Authorization: `Bearer ${localStorage.getItem("jwt_token")}` } };
-
             const [usersResponse, statsResponse, orderResponse] = await Promise.all([
-               axios.get("http://localhost:8000/api/admin/users", tokenConfig),
-               axios.get("http://localhost:8000/api/admin/stats", tokenConfig),
-               axios.get("http://localhost:8000/api/admin/orders", tokenConfig),
+               Axios.get("/api/admin/users"),
+               Axios.get("/api/admin/stats"),
+               Axios.get("/api/admin/orders"),
             ]);
 
             if (statsResponse.status === 200) setStats(statsResponse.data.data);
@@ -30,7 +27,7 @@ export default function HomeDashboard() {
       };
 
       fetchData();
-   }, [tokenConfig, setProfile, setStats]);
+   }, [setProfile, setStats]);
 
    // Reverse product details and user profiles for display as recent
    const reversedData = [...productDetails].reverse();

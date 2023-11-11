@@ -1,13 +1,13 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { MDBInput, MDBBtn, MDBRadio, MDBTextArea, MDBIcon } from "mdb-react-ui-kit";
-import { PetContext } from "../App";
+import { Axios, PetContext } from "../App";
+import uploadToCloudinary from "../Utils/uploadToCloudinary"
 import toast from "react-hot-toast";
-import axios from "axios";
 
 export default function EditProductAdmin() {
    const { id } = useParams();
-   const { setProductDetails, tokenConfig } = useContext(PetContext);
+   const { setProductDetails } = useContext(PetContext);
    const [item, setItem] = useState({ title: "", description: "", price: "", category: "", image: "" });
    const [selectedFile, setSelectedFile] = useState(null);
    const [imageStatus, setImageStatus] = useState(true);
@@ -17,15 +17,15 @@ export default function EditProductAdmin() {
    useEffect(() => {
       const fetchData = async () => {
          try {
-            const response = await axios.get(`http://localhost:8000/api/admin/products/${id}`, tokenConfig);
-            if (response.status === 200) setItem(response.data.data);
+            const response = await Axios.get(`/api/admin/products/${id}`);
+            setItem(response.data.data);
          } catch (error) {
             toast.error(error.response.data.message);
          }
       };
       
       fetchData();
-   }, [id, tokenConfig]);
+   }, [id]);
 
    const handleInputChange = (e) => {
       const { name, value } = e.target;
@@ -42,18 +42,20 @@ export default function EditProductAdmin() {
 
    const handleForm = async (e) => {
       e.preventDefault();
+      const imageLink = await uploadToCloudinary(selectedFile);
+
       const formData = new FormData();
       formData.append("id", item._id);
-      formData.append("image", item.image);
+      formData.append("image", imageLink);
       formData.append("title", item.title);
       formData.append("price", item.price);
       formData.append("description", item.description);
       formData.append("category", item.category);
 
       try {
-         const response = await axios.put("http://localhost:8000/api/admin//products", formData, tokenConfig);
+         const response = await Axios.put("/api/admin/products", formData);
          if (response.status === 200) {
-            toast.success(response.data.message);
+            toast.success(response.data.message)
             setProductDetails(response.data.data);
             navigate("/dashboard/products");
          }

@@ -58,7 +58,7 @@
 
 @media (max-width: 992px) {
   .header-info {
-    top: 40%;
+    top: 50%;
     transition: 1s;
   }
 
@@ -70,7 +70,7 @@
 
 @media (max-width: 768px) {
   .header-info {
-    top: 40%;
+    top: 55%;
     left: 30%;
   }
 
@@ -112,7 +112,7 @@
 
 @media (max-width: 350px) {
   .header-info {
-    top: 30%;
+    top: 35%;
     left: 50%;
     transform: translateX(-50%);
   }

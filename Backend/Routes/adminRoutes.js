@@ -1,6 +1,5 @@
 const express = require('express');
 const router = express.Router();
-const imageController = require('../Controllers/imageController');
 const controller = require('../Controllers/adminController');
 const tryCatch = require('../Middleware/tryCatch');
 const checkAuth = require('../Middleware/checkAuth');
@@ -15,8 +14,8 @@ router
     .get('/products/category', tryCatch(controller.getProductsByCategory))
     .get('/products', tryCatch(controller.getAllProducts))
     .get('/products/:id', tryCatch(controller.getProductById))
-    .post('/products', imageController, tryCatch(controller.createProduct))
-    .put('/products', imageController, tryCatch(controller.updateProduct))
+    .post('/products', tryCatch(controller.createProduct))
+    .put('/products', tryCatch(controller.updateProduct))
     .delete('/products/:id', tryCatch(controller.deleteProduct))
 
     .get('/stats', tryCatch(controller.getStats))

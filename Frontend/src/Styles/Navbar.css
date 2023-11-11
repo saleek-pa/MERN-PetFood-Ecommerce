@@ -1,133 +1,145 @@
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+   margin: 0;
+   padding: 0;
+   box-sizing: border-box;
 }
 
 .logo {
-  font-family: "Carter One", cursive;
+   font-family: "Carter One", cursive;
 }
 
 .nav-container {
-  background-color: white;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-  position: fixed;
-  padding: 17px 20px;
-  width: 100%;
-  z-index: 1;
+   background-color: white;
+   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+   position: fixed;
+   padding: 17px 20px;
+   width: 100%;
+   z-index: 1;
 }
 
 .nav-container .logo,
 .nav-container .navbar-links a,
 .nav-container .navbar-icons span {
-  color: black;
+   color: black;
 }
 
 .nav-link {
-  cursor: pointer;
+   cursor: pointer;
 }
 
 .navbar-links .nav-food {
-  width: 100px;
+   width: 100px;
 }
 
 .navbar-links a {
-  margin-left: 25px;
-  font-weight: bold;
-  letter-spacing: 0.5px;
+   margin-left: 25px;
+   font-weight: bold;
+   letter-spacing: 0.5px;
 }
 
 .navbar-icons span {
-  margin-right: 10px;
+   margin-right: 10px;
 }
 
 .search-box {
-  position: absolute;
-  top: 17px;
-  right: 157px;
-  background-color: white;
-  border-radius: 30px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
-  padding: 10px;
-  padding-left: 20px;
+   position: absolute;
+   top: 17px;
+   right: 157px;
+   background-color: white;
+   border-radius: 30px;
+   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+   padding: 10px;
+   padding-left: 20px;
 }
 
 .search-box input {
-  width: 374px;
-  border: none;
-  outline: none;
-  font-weight: bold;
+   width: 374px;
+   border: none;
+   outline: none;
+   font-weight: bold;
 }
 
 .profile {
-  position: relative;
-  cursor: pointer;
-  font-size: 1rem;
+   position: relative;
+   cursor: pointer;
+   font-size: 1rem;
 }
 .profile:hover .profile-container {
-  display: block;
+   display: block;
 }
 
 .profile-container {
-  display: none;
-  position: absolute;
-  top: 16px;
-  right: -58px;
-  width: 130px;
-  border: 1px solid #ccc;
-  border-radius: 3px;
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+   display: none;
+   position: absolute;
+   top: 16px;
+   right: -58px;
+   width: 130px;
+   border: 1px solid #ccc;
+   border-radius: 3px;
+   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .profile-list {
-  list-style: none;
-  padding: 5px;
-  margin: 0;
-  background: white;
+   list-style: none;
+   padding: 5px;
+   margin: 0;
+   background: white;
 }
 
 .profile-list li {
-  margin: 5px 0px;
-  padding: 7px 5px !important;
-  font-size: 0.9rem;
-  font-family: sans-serif;
-  font-weight: 600;
-  text-align: center;
+   margin: 5px 0px;
+   padding: 7px 5px !important;
+   font-size: 0.9rem;
+   font-family: sans-serif;
+   font-weight: 600;
+   text-align: center;
 }
 .profile-list hr {
-  margin: 0px !important;
+   margin: 0px !important;
 }
 
 @media (max-width: 1035px) {
-  .greeting,
-  .search-icon,
-  .search-box,
-  .search-output,
-  .search-box input {
-    display: none;
-  }
+   .greeting,
+   .search-icon,
+   .search-box,
+   .search-output,
+   .search-box input {
+      display: none;
+   }
 }
 
 @media (max-width: 992px) {
-  .nav-container {
-    padding: 1.5rem;
-    position: relative;
-    transition: 0.3s;
-  }
+   .nav-container {
+      padding: 1.5rem;
+      position: fixed;
+      transition: 0.3s;
+   }
 
-  .logo {
-    position: absolute;
-    margin: 0;
-    left: 50%;
-    transform: translateX(-50%);
-  }
+   .logo {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+   }
 
-  .navbar-links {
-    margin-top: 30px;
-  }
+   .navbar-links {
+      margin-top: 30px;
+   }
 
-  .navbar-icons {
-    position: absolute;
-    right: 1%;
-  }
+   .navbar-icons {
+      position: absolute;
+      right: 1%;
+   }
+
+   .profile {
+      position: fixed;
+      top: 30px;
+      right: 6rem;
+   }
+
+   .cart {
+      position: fixed;
+      top: 30px;
+      right: 3rem;
+   }
 }

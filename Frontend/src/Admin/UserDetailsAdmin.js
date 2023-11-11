@@ -1,27 +1,26 @@
 import React, { useContext, useEffect, useState } from "react";
+import { Axios, PetContext } from "../App";
 import { useParams } from "react-router-dom";
-import { PetContext } from "../App";
 import { MDBIcon } from "mdb-react-ui-kit";
 import toast from "react-hot-toast";
-import axios from "axios";
 
 export default function UserDetailsAdmin() {
    const { id } = useParams();
    const [user, setUser] = useState({ orders: [] });
-   const { handlePrice, tokenConfig } = useContext(PetContext);
+   const { handlePrice } = useContext(PetContext);
 
    useEffect(() => {
       const fetchData = async () => {
          try {
-            const response = await axios.get(`http://localhost:8000/api/admin/users/${id}`, tokenConfig);
-            if (response.status === 200) setUser(response.data.data);
+            const response = await Axios.get(`/api/admin/users/${id}`);
+            setUser(response.data.data);
          } catch (error) {
             toast.error(error.response.data.message);
          }
       };
 
       fetchData();
-   }, [id, tokenConfig]);
+   }, [id]);
 
    return (
       <div className="d-flex flex-column align-items-center pt-3">
