@@ -1,9 +1,9 @@
 import React from "react";
-import Header from "./Header";
-import Categories from "./Categories";
-import Products from "./Products";
-import Services from "./Services";
-import Brands from "./Brands";
+import Header from "../Components/Header";
+import Categories from "../Components/Categories";
+import Products from "../Components/Products";
+import Services from "../Components/Services";
+import Brands from "../Components/Brands";
 import "../Styles/Home.css";
 
 const Home = () => {

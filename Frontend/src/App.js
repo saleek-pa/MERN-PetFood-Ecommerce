@@ -3,16 +3,16 @@ import { Routes, Route, useLocation } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
 import Registration from "./Pages/Registration";
 import AllProducts from "./Pages/AllProducts";
-import Navbar from "./Pages/Navbar";
+import Navbar from "./Components/Navbar";
 import Login from "./Pages/Login";
 import Home from "./Pages/Home";
 import Cart from "./Pages/Cart";
-import Footer from "./Pages/Footer";
 import Orders from "./Pages/Orders";
 import DogFood from "./Pages/DogFood";
 import CatFood from "./Pages/CatFood";
 import Details from "./Pages/Details";
 import Wishlist from "./Pages/Wishlist";
+import Footer from "./Components/Footer";
 import FixedAdmin from "./Admin/FixedAdmin";
 import SuccessPayment from "./Pages/SuccessPayment";
 import axios from "axios";
@@ -38,11 +38,12 @@ function App() {
 
 
    useEffect(() => {
-      const token = localStorage.getItem("jwt_token");
-      token ? setLoginStatus(true) : setLoginStatus(false);
-
+      
       const fetchData = async () => {
          try {
+            const token = localStorage.getItem("jwt_token");
+            token ? setLoginStatus(true) : setLoginStatus(false);
+            
             const response = await Axios.get("/api/users/products");
             setProductDetails(response.data.data);
          } catch (error) {
@@ -113,10 +114,7 @@ function App() {
 
 
    // Function to format a price (₹1,000, ₹10,000)
-   const handlePrice = (price) => {
-      const formattedPrice = Number(price).toLocaleString("en-IN");
-      return "₹" + formattedPrice;
-   };
+   const handlePrice = (price) => `₹${Number(price).toLocaleString("en-IN")}`;
    
 
    // Check if the current route is within the dashboard
