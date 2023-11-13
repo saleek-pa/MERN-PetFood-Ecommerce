@@ -18,16 +18,17 @@ import SuccessPayment from "./Pages/SuccessPayment";
 import axios from "axios";
 
 
-export const PetContext = createContext();
+const token = localStorage.getItem("jwt_token")
 
 export const Axios = axios.create({
    baseURL: process.env.REACT_APP_BASE_URL,
    headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${localStorage.getItem("jwt_token")}`,
+      Authorization: `Bearer ${token}`,
    },
 });
 
+export const PetContext = createContext();
 
 function App() {
    const [cart, setCart] = useState([]);
@@ -38,10 +39,8 @@ function App() {
 
 
    useEffect(() => {
-      
       const fetchData = async () => {
          try {
-            const token = localStorage.getItem("jwt_token");
             token ? setLoginStatus(true) : setLoginStatus(false);
             
             const response = await Axios.get("/api/users/products");
@@ -63,7 +62,7 @@ function App() {
                   setWishlist(response.data.data);
                }
             } catch (error) {
-               toast.error(error.response.data.message);
+               // toast.error(error.response.data.message);
             }
          };
 
@@ -81,7 +80,7 @@ function App() {
                   setCart(response.data.data);
                }
             } catch (error) {
-               toast.error(error.response.data.message);
+               // toast.error(error.response.data.message);
             }
          };
          fetchData();

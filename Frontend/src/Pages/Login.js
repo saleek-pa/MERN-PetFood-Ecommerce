@@ -31,7 +31,7 @@ function Login() {
          localStorage.setItem("name", response.data.data.name);
          setLoginStatus(true);
          toast.success(response.data.message);
-         navigate(email === adminEmail ? "/dashboard" : "/");
+         window.location.replace(email === adminEmail ? "/dashboard" : "/");
 
          setTimeout(() => {
             localStorage.clear();

@@ -13,7 +13,7 @@ const Navbar = () => {
    const [filteredProducts, setFilteredProducts] = useState([]);
    const [showSearchBox, setShowSearchBox] = useState(false);
    const [showCollapse, setShowCollapse] = useState(false);
-   const { productDetails, cart, setCart, loginStatus, setLoginStatus, userID, FetchCart } =
+   const { productDetails, cart, setCart, loginStatus, setLoginStatus, userID, FetchCart, setWishlist } =
       useContext(PetContext);
    const name = localStorage.getItem("name");
    const navigate = useNavigate();
@@ -145,8 +145,9 @@ const Navbar = () => {
                                        <hr />
                                        <li
                                           onClick={() => {
-                                             localStorage.clear();
                                              setLoginStatus(false);
+                                             localStorage.clear();
+                                             setWishlist([])
                                              navigate("/");
                                           }}
                                        >

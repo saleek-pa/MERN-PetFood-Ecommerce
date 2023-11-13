@@ -22,7 +22,7 @@ export default function HomeDashboard() {
             if (orderResponse.status === 200) setOrders(orderResponse.data.data);
             if (usersResponse.status === 200) setProfile(usersResponse.data.data);
          } catch (error) {
-            toast.error(error.response.data.message);
+            // toast.error(error.response.data.message);
          }
       };
 

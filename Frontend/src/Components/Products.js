@@ -26,7 +26,7 @@ function Products() {
             </h1>
 
             <div className="product-content">
-               {bestSellingProduct.map((value) => (
+               {bestSellingProduct && bestSellingProduct.map((value) => (
                   <div className="box" key={value._id}>
                      <div className="box-img" onClick={() => navigate(`/products/${value._id}`)}>
                         <img src={value.image} alt={value.title} />
