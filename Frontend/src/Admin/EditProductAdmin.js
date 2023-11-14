@@ -42,15 +42,18 @@ export default function EditProductAdmin() {
 
    const handleForm = async (e) => {
       e.preventDefault();
-      const imageLink = await uploadToCloudinary(selectedFile);
+      let imageLink = ""
+      if(selectedFile){
+         imageLink = await uploadToCloudinary(selectedFile);
+      }
 
       const formData = new FormData();
       formData.append("id", item._id);
-      formData.append("image", imageLink);
       formData.append("title", item.title);
       formData.append("price", item.price);
       formData.append("description", item.description);
       formData.append("category", item.category);
+      formData.append("image", imageLink || item.image);
 
       try {
          const response = await Axios.put("/api/admin/products", formData);

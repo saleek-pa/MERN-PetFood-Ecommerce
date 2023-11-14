@@ -125,9 +125,19 @@ module.exports = {
         if (error) { return res.status(400).json({ message: error.details[0].message }) }
         const { id, title, description, price, category, image } = value
 
-        const product = await Product.findByIdAndUpdate(id, {
-            $set: { title, description, image, price, category }
-        })
+        const product = await Product.findById(id);
+
+        if (!product) {
+            return res.status(404).json({ message: 'Product not found' });
+        }
+
+        if (title) product.title = title;
+        if (description) product.description = description;
+        if (price) product.price = price;
+        if (category) product.category = category;
+        if (image) product.image = image;
+
+        await product.save();
 
         if (product) {
             const updatedProducts = await Product.find()
