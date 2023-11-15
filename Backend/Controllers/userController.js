@@ -13,6 +13,11 @@ module.exports = {
         if (error) { return res.status(400).json({ message: error.details[0].message }) }
         const { name, email, password } = value
 
+        const existingUser = await User.findOne({ email });
+        if (existingUser) {
+            return res.status(400).json({ message: 'Email is already registered.' });
+        }
+
         const hashedPassword = await bcrypt.hash(password, 10);
         await User.create({ name, email, password: hashedPassword });
 
