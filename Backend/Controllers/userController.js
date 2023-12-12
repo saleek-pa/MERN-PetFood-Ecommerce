@@ -38,12 +38,14 @@ module.exports = {
         if (user) {
             const passwordMatch = await bcrypt.compare(password, user.password);
             if (passwordMatch) {
-                const token = jwt.sign({ email }, process.env.USER_ACCESS_TOKEN_SECRET, { expiresIn: '1h' });
+                const accessToken = jwt.sign({ email }, process.env.USER_ACCESS_TOKEN_SECRET, { expiresIn: '10m' });
+                const refreshToken = jwt.sign({ email }, process.env.USER_REFRESH_TOKEN_SECRET, { expiresIn: '1d' });
+                res.cookie('jwt', refreshToken, { httpOnly: true, maxAge: '1d' }); 
 
                 res.status(200).json({
                     status: 'success',
                     message: 'Successfully Logged In.',
-                    data: { jwt_token: token, name: user.name, userID: user._id }
+                    data: { jwt_token: accessToken, name: user.name, userID: user._id }
                 })
             } else res.status(401).json({ message: 'Incorrect Password. Try again.' })
         } else res.status(401).json({ message: 'Email not found. Please register.' });

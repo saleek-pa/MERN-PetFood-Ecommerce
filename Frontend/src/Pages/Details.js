@@ -31,7 +31,7 @@ export default function Details() {
    const addToCart = async (productID) => {
       try {
          await Axios.post(`/api/users/${userID}/cart`, { productID });
-         const response = await Axios.get(`/api/users/${userID}/cart`,);
+         const response = await Axios.get(`/api/users/${userID}/cart`);
          setCart(response.data.data);
          toast.success("Added to cart");
       } catch (error) {
