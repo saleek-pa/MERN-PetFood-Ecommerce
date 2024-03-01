@@ -10,8 +10,7 @@ Welcome to the Pet Food Ecommerce Website repository! This project is a full-sta
   - [Installation](#installation)
 - [Folder Structure](#folder-structure)
 - [Technologies Used](#technologies-used)
-- [Contributing](#contributing)
-- [License](#license)
+- [Screenshots](#screenshots)
 
 ## Features
 
