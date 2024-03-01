@@ -1,0 +1,393 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.admin-dashboard {
+  display: flex;
+  height: 100vh;
+  color: black;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans',
+    'Helvetica Neue', sans-serif;
+}
+
+.sidebar {
+  width: 180px;
+  background-color: #333;
+  color: #fff;
+  padding: 20px;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+  margin-top: 20px;
+}
+
+.sidebar ul li {
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 15px;
+  transition: background-color 0.3s;
+  cursor: pointer;
+}
+
+.sidebar ul li:first-child {
+  margin-bottom: 50px;
+  background-color: rgb(77, 77, 77);
+}
+
+.sidebar ul li:hover {
+  background-color: rgb(77, 77, 77);
+}
+
+.sidebar ul li span {
+  color: #fff;
+  text-decoration: none;
+  margin-left: 10px;
+}
+
+.content {
+  flex-grow: 1;
+  padding: 20px;
+  background-color: #333;
+}
+
+.content-main-box {
+  background-color: rgb(232, 232, 232);
+  height: 95vh;
+  border-radius: 20px;
+}
+
+.admin-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 25px 50px;
+  border-radius: 20px;
+  margin-bottom: 20px;
+}
+
+.admin-header h2 {
+  font-size: 1.2rem;
+  margin: 0;
+}
+
+.search-box-admin {
+  position: relative;
+}
+
+.search-box-admin .search-icon-admin {
+  position: absolute;
+  top: 50%;
+  left: 15px;
+  transform: translateY(-50%);
+}
+
+.search-box-admin input {
+  width: 450px;
+  padding: 10px;
+  background-color: rgb(196, 194, 194);
+  outline: none;
+  border: none;
+  border-radius: 40px;
+  padding-left: 40px;
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+.content-box {
+  background-color: #fff;
+  padding: 25px 40px 20px 40px;
+  width: 300px;
+  border-radius: 20px;
+  box-shadow: 0 2px 4px rgb(195, 195, 195, 1);
+}
+
+.content-box h2 {
+  margin-bottom: 15px;
+}
+
+.content-box p {
+  margin: 0;
+}
+
+.dashboard-table {
+  width: 470px;
+  margin: 0 30px;
+  padding: 20px 5px;
+  border-radius: 20px;
+  box-shadow: 0 1px 5px rgb(183, 182, 182);
+  background-color: white;
+}
+
+.dashboard-table table,
+tr,
+th,
+td {
+  border-bottom: 1px solid rgb(170, 170, 170);
+  padding: 10px 13px;
+}
+
+.table-scroll {
+  overflow-y: scroll;
+}
+
+.content-main-box h4 {
+  padding-left: 15px;
+}
+
+.recent-admin {
+  height: 300px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+.users-admin,
+.products-admin {
+  margin: 0 auto;
+  width: 1000px;
+  height: 500px;
+  overflow-y: scroll;
+  border-radius: 20px;
+  box-shadow: 0 1px 5px rgb(183, 182, 182);
+  background-color: white;
+}
+
+.users-admin table,
+.products-admin table {
+  width: 100%;
+}
+
+.products-admin {
+  text-align: center;
+}
+
+.user-details-admin {
+  height: 350px;
+  width: 1000px;
+  overflow-y: scroll;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #333;
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+@media (max-width: 1200px) {
+  .admin-dashboard {
+    height: auto;
+  }
+
+  .sidebar {
+    width: 200px;
+    padding: 15px;
+  }
+
+  .content {
+    padding-left: 0px;
+  }
+
+  .sidebar ul li {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+  }
+
+  .sidebar ul li span {
+    padding-left: 10px;
+  }
+
+  .content-main-box {
+    width: 850px;
+  }
+
+  .search-box-admin input {
+    width: 350px;
+  }
+
+  .content-box {
+    width: 225px;
+  }
+
+  .content-box p {
+    display: none;
+  }
+
+  .dashboard-table {
+    width: 380px;
+    margin: 0 20px;
+  }
+
+  .dashboard-table table,
+  tr,
+  th,
+  td {
+    padding: 6px 5px;
+  }
+
+  .recent-admin {
+    height: 260px;
+    width: 100%;
+  }
+
+  .users-admin,
+  .products-admin {
+    width: 800px;
+    height: 400px;
+  }
+
+  .user-details-admin {
+    height: 270px;
+    width: 800px;
+    overflow-y: scroll;
+  }
+}
+
+@media (max-width: 1017px) {
+  .sidebar {
+    width: 100px;
+    transition: 0.3s;
+  }
+
+  .sidebar ul {
+    padding-top: 20px;
+  }
+
+  .sidebar ul li {
+    margin-bottom: 10px;
+    padding: 10px;
+  }
+
+  .sidebar ul li:first-child {
+    margin-bottom: 50px;
+    background-color: transparent;
+  }
+
+  .sidebar ul li span {
+    display: none;
+    transition: 0.3s;
+  }
+}
+
+@media (max-width: 922px) {
+  .sidebar {
+    width: 70px;
+  }
+
+  .sidebar ul li {
+    padding: 10px;
+  }
+
+  .sidebar ul li span {
+    display: none;
+  }
+
+  .content-main-box {
+    width: 100%;
+    padding: 15px;
+  }
+
+  .search-box-admin input {
+    width: 100%;
+  }
+
+  .content-box {
+    width: 100%;
+  }
+
+  .dashboard-table {
+    width: 100%;
+    margin: 0 5px;
+  }
+
+  .dashboard-table table,
+  tr,
+  th,
+  td {
+    padding: 6px 5px;
+  }
+
+  .recent-admin {
+    height: 260px;
+    width: 100%;
+  }
+
+  .users-admin,
+  .products-admin,
+  .user-details-admin {
+    width: 100%;
+    height: 400px;
+  }
+}
+
+@media (max-width: 845px) {
+  .sidebar {
+    height: 865px;
+  }
+  .content {
+    padding: 0;
+    height: auto;
+  }
+
+  .content-main-box {
+    padding: 0;
+    border-radius: 0px;
+    height: 100vh;
+  }
+
+  .admin-header {
+    padding: 15px 25px;
+  }
+
+  .search-box-admin input {
+    width: 100%;
+  }
+
+  .content-box {
+    width: 150px;
+    margin: 0 20px;
+    gap: 3px;
+  }
+
+  .dashboard-table {
+    width: 100%;
+    margin-bottom: 30px;
+  }
+
+  .dashboard-table table,
+  tr,
+  th,
+  td {
+    padding: 6px 5px;
+  }
+
+  .recent-admin {
+    height: 260px;
+    width: 600px;
+  }
+
+  .dashboard-recent {
+    flex-wrap: wrap;
+    align-content: flex-start;
+    gap: 20px;
+    background-color: rgb(232, 232, 232);
+  }
+
+  .users-admin,
+  .products-admin,
+  .user-details-admin {
+    width: 700px;
+    margin: 0 20px;
+    height: 450px;
+  }
+}

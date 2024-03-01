@@ -1,0 +1,134 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.header {
+  background-image: url(https://res.cloudinary.com/dmzqckfj4/image/upload/v1706504425/home%20page/via9y9iw8ash7jwi5fpk.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: relative;
+  width: 100%;
+  height: 100vh;
+}
+
+.header-info {
+  font-family: 'Bangers', cursive;
+  color: white;
+  position: absolute;
+  top: 50%;
+  left: 30%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.header-info h2 {
+  line-height: 0.5;
+  font-size: 6vw;
+  max-width: 100%;
+}
+
+.header-info h1 {
+  font-size: 11vw;
+  max-width: 100%;
+}
+
+.header-info p {
+  font-family: serif;
+  font-size: 2vw;
+  max-width: 100%;
+}
+
+.header-button {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  text-transform: capitalize;
+  font-size: 1.2vw;
+  border-radius: 30px;
+  box-shadow: none;
+  padding: 10px 20px;
+}
+
+@media (max-width: 1200px) {
+  .header {
+    height: 610px;
+  }
+}
+
+@media (max-width: 992px) {
+  .header-info {
+    top: 50%;
+    transition: 1s;
+  }
+
+  .header {
+    height: 520px;
+    transition: 1s;
+  }
+}
+
+@media (max-width: 768px) {
+  .header-info {
+    top: 55%;
+    left: 30%;
+  }
+
+  .header {
+    height: 400px;
+    transition: 1s;
+  }
+}
+
+@media (max-width: 576px) {
+  .header-info {
+    top: 30%;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .header {
+    background-size: cover;
+    background-position: left;
+    height: 400px;
+  }
+
+  .header-info h2 {
+    font-size: 10vw;
+  }
+
+  .header-info h1 {
+    font-size: 15vw;
+  }
+
+  .header-info p {
+    font-size: 3vw;
+  }
+
+  .header-button {
+    font-size: 2vw;
+  }
+}
+
+@media (max-width: 350px) {
+  .header-info {
+    top: 35%;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .header-info h2 {
+    font-size: 11vw;
+  }
+
+  .header-info h1 {
+    font-size: 16vw;
+  }
+
+  .header-info p {
+    font-size: 4vw;
+  }
+
+  .header-button {
+    font-size: 2.5vw;
+  }
+}
