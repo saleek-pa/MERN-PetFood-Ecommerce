@@ -102,8 +102,8 @@ The client will be running at http://localhost:3000.
 ## Screenshots
 ![Home Page](https://res.cloudinary.com/dmzqckfj4/image/upload/v1709287024/pet%20food/gthenogjqdtkg6oxou6k.png)
 # 
-![Products](https://res.cloudinary.com/dmzqckfj4/image/upload/v1709813604/pet%20food/ih9ffdayomnrt8jicbwz.jpg)
+![Products](http://res.cloudinary.com/dmzqckfj4/image/upload/v1709287024/pet%20food/xiwqtnrgorrpkzfwleqq.png)
 # 
-![Details Page](https://res.cloudinary.com/dmzqckfj4/image/upload/v1709813616/pet%20food/wxn9nhsjfsilh1vyufui.jpg)
+![Details Page](https://res.cloudinary.com/dmzqckfj4/image/upload/v1709287024/pet%20food/p71g7snikqf0eqvrkfsq.png)
 # 
-![Categories](http://res.cloudinary.com/dmzqckfj4/image/upload/v1709813620/pet%20food/heuiilm6fkycnzsaeg4y.jpg)
+![Cart](http://res.cloudinary.com/dmzqckfj4/image/upload/v1709287023/pet%20food/zfsradbk4mlighxiubr3.png)
