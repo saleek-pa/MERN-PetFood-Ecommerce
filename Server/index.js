@@ -7,7 +7,7 @@ const cookieParser = require('cookie-parser');
 const userRoutes = require('./Routes/userRoutes');
 const adminRoutes = require('./Routes/adminRoutes');
 
-app.use(cors({ origin: process.env.HOST, credentials: true }));
+app.use(cors());
 app.use(express.json());
 app.use(cookieParser());
 
