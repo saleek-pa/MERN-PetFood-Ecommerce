@@ -11,7 +11,6 @@
 
 # production
 /build
-dummyData.js
 
 # misc
 .DS_Store
