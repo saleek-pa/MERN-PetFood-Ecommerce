@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { brandImages, categories, services } from './dummyData';
 import { useNavigate } from 'react-router-dom';
 import { axios } from '../Utils/Axios';
 import ProductList from '../Components/ProductList';
