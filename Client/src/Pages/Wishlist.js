@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
-import { PetContext } from '../Utils/Context';
 import ProductList from '../Components/ProductList';
+import { PetContext } from '../Context/Context';
 
 export default function Wishlist() {
   const { wishlist } = useContext(PetContext);

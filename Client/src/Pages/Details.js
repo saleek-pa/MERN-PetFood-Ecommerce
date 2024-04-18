@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { PetContext } from '../Utils/Context';
-import { axios } from '../Utils/Axios';
+import { PetContext } from '../Context/Context';
 import Button from '../Components/Button';
 import toast from 'react-hot-toast';
 import '../Styles/Details.css';
@@ -9,34 +8,18 @@ import '../Styles/Home.css';
 
 export default function Details() {
   const { id } = useParams();
-  const navigate = useNavigate();
+  const { fetchProductDetails, loginStatus, cart, addToCart } = useContext(PetContext);
   const [item, setItem] = useState([]);
-  const { loginStatus, userID, cart, setCart } = useContext(PetContext);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
-      try {
-        const response = await axios.get(`/api/users/products/${id}`);
-        setItem(response.data.data);
-      } catch (error) {
-        toast.error(error.response.data.message);
-      }
+      const products = await fetchProductDetails(id);
+      setItem(products);
     };
 
     fetchData();
-  }, [id]);
-
-  // Function to add the current product to the cart
-  const addToCart = async (productID) => {
-    try {
-      await axios.post(`/api/users/${userID}/cart`, { productID });
-      const response = await axios.get(`/api/users/${userID}/cart`);
-      setCart(response.data.data);
-      toast.success('Added to cart');
-    } catch (error) {
-      toast.error(error.response.data.message);
-    }
-  };
+  }, [id, fetchProductDetails]);
 
   return (
     <>
@@ -51,7 +34,7 @@ export default function Details() {
           <p className="mt-3 text-muted mb-4">{item.description}</p>
           <div className="d-flex align-items-center gap-3">
             <div>
-              {cart.some((value) => value.product._id === id) ? (
+              {cart?.some((value) => value.product._id === id) ? (
                 <Button rounded color="dark" className="det-button" onClick={() => navigate('/cart')}>
                   Go to Cart
                 </Button>

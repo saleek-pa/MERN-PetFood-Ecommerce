@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
-import toast, { Toaster } from 'react-hot-toast';
-
+import { Toaster } from 'react-hot-toast';
 import Registration from './Pages/Registration';
 import AllProducts from './Pages/AllProducts';
 import Navbar from './Components/Navbar';
@@ -16,80 +15,16 @@ import Wishlist from './Pages/Wishlist';
 import Footer from './Components/Footer';
 import FixedAdmin from './Admin/FixedAdmin';
 import SuccessPayment from './Pages/SuccessPayment';
-import { axios } from './Utils/Axios';
-import { PetContext } from './Utils/Context';
+import { PetProvider } from './Context/Context';
 
 function App() {
-  const userID = localStorage.getItem('userID');
-  const [cart, setCart] = useState([]);
-  const [wishlist, setWishlist] = useState([]);
-  const [loginStatus, setLoginStatus] = useState(userID ? true : false);
-  const [productDetails, setProductDetails] = useState([]);
-
-  const FetchCart = () => {
-    useEffect(() => {
-      const fetchData = async () => {
-        try {
-          if (loginStatus) {
-            const response = await axios.get(`/api/users/${userID}/cart`);
-            setCart(response.data.data);
-          }
-        } catch (error) {
-          toast.error(error.response.data.message);
-        }
-      };
-      fetchData();
-    }, []);
-  };
-
-  const addToWishlist = async (productID) => {
-    try {
-      await axios.post(`/api/users/${userID}/wishlist`, { productID });
-      const response = await axios.get(`/api/users/${userID}/wishlist`);
-      toast.success('Added to wishlist');
-      setWishlist(response.data.data);
-    } catch (error) {
-      toast.error(error.response.data.message);
-    }
-  };
-
-  const removeFromWishlist = async (productID) => {
-    try {
-      await axios.delete(`/api/users/${userID}/wishlist/${productID}`);
-      const response = await axios.get(`/api/users/${userID}/wishlist`);
-      toast.success('Removed from wishlist');
-      setWishlist(response.data.data);
-    } catch (error) {
-      toast.error(error.response.data.message);
-    }
-  };
-
-  // Function to format a price (₹1,000, ₹10,000)
-  const handlePrice = (price) => `₹${Number(price).toLocaleString('en-IN')}`;
-
-  // Check if the current route is within the dashboard
+  // Check if the current route is within the admin dashboard
   const location = useLocation();
   const isDashboardRoute = location.pathname.startsWith('/dashboard');
 
   return (
     <>
-      <PetContext.Provider
-        value={{
-          userID,
-          loginStatus,
-          setLoginStatus,
-          productDetails,
-          setProductDetails,
-          wishlist,
-          setWishlist,
-          addToWishlist,
-          removeFromWishlist,
-          FetchCart,
-          cart,
-          setCart,
-          handlePrice,
-        }}
-      >
+      <PetProvider>
         {/* Navbar & Footer is common for every route except Dashboard */}
         {!isDashboardRoute && <Navbar />}
         <Toaster />
@@ -115,7 +50,7 @@ function App() {
           <Route path="/dashboard/add-products" element={<FixedAdmin />} />
         </Routes>
         {!isDashboardRoute && <Footer />}
-      </PetContext.Provider>
+      </PetProvider>
     </>
   );
 }

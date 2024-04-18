@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { axios } from '../Utils/Axios';
 import { MDBIcon } from 'mdb-react-ui-kit';
-import { PetContext } from '../Utils/Context';
+import { PetContext } from '../Context/Context';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Input, Radio, TextArea } from '../Components/Input';
 import uploadToCloudinary from '../Utils/uploadToCloudinary';

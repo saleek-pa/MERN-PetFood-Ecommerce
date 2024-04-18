@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { MDBIcon } from 'mdb-react-ui-kit';
-import { PetContext } from '../Utils/Context';
+import { PetContext } from '../Context/Context';
 import HomeAdmin from './HomeAdmin';
 import UsersAdmin from './UsersAdmin';
 import ProductsAdmin from './ProductsAdmin';

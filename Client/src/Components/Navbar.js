@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react';
+import { PetContext } from '../Context/Context';
 import { useNavigate } from 'react-router-dom';
-import { PetContext } from '../Utils/Context';
 import {
   MDBContainer,
   MDBNavbar,
@@ -19,11 +19,9 @@ const Navbar = () => {
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [showSearchBox, setShowSearchBox] = useState(false);
   const [showCollapse, setShowCollapse] = useState(false);
-  const { productDetails, cart, loginStatus, setLoginStatus, FetchCart, setWishlist } = useContext(PetContext);
+  const { products, loginStatus, setLoginStatus, cart } = useContext(PetContext);
   const name = localStorage.getItem('name');
   const navigate = useNavigate();
-
-  FetchCart();
 
   const toggleSearchBox = () => setShowSearchBox(!showSearchBox); // Toggle search box visibility
   const toggleNavbar = () => setShowCollapse(!showCollapse); // Toggle mobile navbar
@@ -34,9 +32,7 @@ const Navbar = () => {
     setSearchInput(searchText);
 
     if (searchText !== '') {
-      const filtered = productDetails.filter((product) =>
-        product.title.toLowerCase().includes(searchText.toLowerCase())
-      );
+      const filtered = products?.filter((product) => product.title.toLowerCase().includes(searchText.toLowerCase()));
       setFilteredProducts(filtered.slice(0, 6));
     } else {
       setFilteredProducts([]);
@@ -152,7 +148,7 @@ const Navbar = () => {
                             onClick={() => {
                               setLoginStatus(false);
                               localStorage.clear();
-                              setWishlist([]);
+                              // setWishlist([]);
                               navigate('/');
                             }}
                           >

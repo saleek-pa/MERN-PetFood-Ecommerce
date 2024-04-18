@@ -1,29 +1,12 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { PetContext } from '../Utils/Context';
+import { PetContext } from '../Context/Context';
 import { MDBIcon } from 'mdb-react-ui-kit';
-import { axios } from '../Utils/Axios';
 import toast from 'react-hot-toast';
 
 function ProductList({ products }) {
   const navigate = useNavigate();
-  const { loginStatus, handlePrice, wishlist, addToWishlist, removeFromWishlist, setWishlist } = useContext(PetContext);
-  const userID = localStorage.getItem('userID');
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        if (loginStatus) {
-          const response = await axios.get(`/api/users/${userID}/wishlist`);
-          setWishlist(response.data.data);
-        }
-      } catch (error) {
-        toast.error(error.response.data.message);
-      }
-    };
-
-    fetchData();
-  }, [loginStatus, userID, setWishlist]);
+  const { loginStatus, handlePrice, wishlist, addToWishlist, removeFromWishlist } = useContext(PetContext);
 
   return (
     <div className="product-content">
@@ -34,7 +17,6 @@ function ProductList({ products }) {
           </div>
           <h3 onClick={() => navigate(`/products/${value._id}`)}>{value.title}</h3>
           <div className="inbox">
-            <span className="strike-price">{handlePrice(Math.floor(value.price * 1.2))}</span>
             <span className="price">{handlePrice(value.price)}</span>
           </div>
           <div className="heart">

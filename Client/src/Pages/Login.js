@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { MDBContainer } from 'mdb-react-ui-kit';
 import { useNavigate } from 'react-router-dom';
-import { PetContext } from '../Utils/Context';
+import { PetContext } from '../Context/Context';
 import { Input } from '../Components/Input';
 import { axios } from '../Utils/Axios';
 import Button from '../Components/Button';
@@ -47,7 +47,7 @@ function Login() {
         <h1 className="mb-3 text-black">Welcome back</h1>
 
         <Input type="email" label="Email Address" name="email" />
-        <Input type="password" label="Password" name="password" value={'12345678'} />
+        <Input type="password" label="Password" name="password" />
 
         <Button type="submit" className="mb-4 w-100" color="black">
           Log in

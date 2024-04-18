@@ -1,7 +1,6 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { PetContext } from '../Utils/Context';
-import { axios } from '../Utils/Axios';
+import { PetContext } from '../Context/Context';
 import {
   MDBCard,
   MDBCardBody,
@@ -13,54 +12,17 @@ import {
   MDBRow,
   MDBTypography,
 } from 'mdb-react-ui-kit';
-import toast from 'react-hot-toast';
 import Button from '../Components/Button';
 import '../Styles/Cart.css';
 
 export default function Cart() {
   const navigate = useNavigate();
-  const { FetchCart, userID, cart, setCart, handlePrice } = useContext(PetContext);
+  const { fetchCart, handleCheckout, cart, handleQuantity, removeFromCart, handlePrice, totalPrice } =
+    useContext(PetContext);
 
-  FetchCart();
-
-  //  Calculate the total price of items in the cart
-  const totalPrice = cart.reduce((acc, item) => acc + item.product.price * item.quantity, 0);
-
-  // Handle changes in item quantity
-  const handleQuantity = async (cartID, quantityChange) => {
-    const data = { id: cartID, quantityChange };
-    try {
-      await axios.put(`/api/users/${userID}/cart`, data);
-      const response = await axios.get(`/api/users/${userID}/cart`);
-      setCart(response.data.data);
-    } catch (error) {
-      toast.error(error.response.data.message);
-    }
-  };
-
-  // Remove an item from the cart
-  const removeFromCart = async (productID) => {
-    try {
-      await axios.delete(`/api/users/${userID}/cart/${productID}`);
-      const response = await axios.get(`/api/users/${userID}/cart`);
-      setCart(response.data.data);
-      toast.success('Removed from cart');
-    } catch (error) {
-      toast.error(error.response.data.message);
-    }
-  };
-
-  // Handle the checkout process
-  const handleCheckout = async () => {
-    try {
-      const response = await axios.post(`/api/users/${userID}/payment`);
-      const url = response.data.url;
-      const confirmation = window.confirm('You are being redirected to the Stripe payment gateway. Continue?');
-      if (confirmation) window.location.replace(url);
-    } catch (error) {
-      toast.error(error.response.data.message);
-    }
-  };
+  useEffect(() => {
+    fetchCart();
+  }, [fetchCart]);
 
   return (
     <section
@@ -75,7 +37,7 @@ export default function Cart() {
                 <MDBRow className="g-0">
                   <MDBCol lg="8">
                     <div className="p-5">
-                      {cart.map((item) => (
+                      {cart?.map((item) => (
                         <MDBRow key={item._id} className="mb-4 d-flex justify-content-between align-items-center">
                           <MDBCol md="2" lg="2" xl="2">
                             <MDBCardImage

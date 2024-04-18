@@ -1,23 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useContext } from 'react';
 import ProductList from '../Components/ProductList';
-import { axios } from '../Utils/Axios';
-import toast from 'react-hot-toast';
+import { PetContext } from '../Context/Context';
 
 export default function DogFood() {
-  const [products, setProducts] = useState([])
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get('/api/users/products');
-        setProducts(response.data.data);
-      } catch (error) {
-        toast.error(error.response.data.message);
-      }
-    };
-    fetchData();
-  }, []);
-
+  const { products } = useContext(PetContext);
 
   return (
     <>

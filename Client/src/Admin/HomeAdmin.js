@@ -1,11 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { axios } from '../Utils/Axios';
 import { MDBIcon } from 'mdb-react-ui-kit';
-import { PetContext } from '../Utils/Context';
+import { PetContext } from '../Context/Context';
 import toast from 'react-hot-toast';
 
 export default function HomeDashboard() {
-  const { productDetails, handlePrice } = useContext(PetContext);
+  const { products, handlePrice } = useContext(PetContext);
   const [stats, setStats] = useState([{ totalProductsSold: '', totalRevenue: '' }]);
   const [profile, setProfile] = useState([]);
   const [orders, setOrders] = useState([]);
@@ -31,7 +31,7 @@ export default function HomeDashboard() {
   }, [setProfile, setStats]);
 
   // Reverse product details and user profiles for display as recent
-  const reversedData = [...productDetails].reverse();
+  const reversedData = [...products].reverse();
   const reversedProfile = [...profile].reverse();
 
   return (

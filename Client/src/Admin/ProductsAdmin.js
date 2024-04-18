@@ -1,23 +1,23 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { axios } from '../Utils/Axios';
 import { MDBIcon } from 'mdb-react-ui-kit';
-import { PetContext } from '../Utils/Context';
+import { PetContext } from '../Context/Context';
 import { useNavigate } from 'react-router-dom';
 import Button from '../Components/Button';
 import toast from 'react-hot-toast';
 
 export default function ProductsAdmin() {
   const navigate = useNavigate();
-  const { productDetails, setProductDetails, handlePrice } = useContext(PetContext);
-  const [category, setCategory] = useState(productDetails);
+  const { products, handlePrice } = useContext(PetContext);
+  const [category, setCategory] = useState(products);
   const [selectedOption, setSelectedOption] = useState('All');
 
   // Use useEffect to filter products based on the selected category
   useEffect(() => {
     selectedOption === 'All'
-      ? setCategory(productDetails)
-      : setCategory(productDetails.filter((product) => product.category === selectedOption));
-  }, [selectedOption, productDetails]);
+      ? setCategory(products)
+      : setCategory(products.filter((product) => product.category === selectedOption));
+  }, [selectedOption, products]);
 
   // Handle product deletion
   const handleDelete = async (productID) => {
@@ -25,7 +25,6 @@ export default function ProductsAdmin() {
     if (confirmation) {
       try {
         const response = await axios.delete(`/api/admin/products/${productID}`);
-        setProductDetails(response.data.data);
         toast.success(response.data.message);
       } catch (error) {
         toast.error(error.response.data.message);

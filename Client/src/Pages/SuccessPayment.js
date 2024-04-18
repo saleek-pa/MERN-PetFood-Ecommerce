@@ -1,30 +1,12 @@
 import React, { useEffect, useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { PetContext } from '../Utils/Context';
-import { axios } from '../Utils/Axios';
-import toast from 'react-hot-toast';
+import { PetContext } from '../Context/Context';
 
 export default function SuccessPayment() {
-  const navigate = useNavigate();
-  const { setCart } = useContext(PetContext);
+  const { fetchPaymentStatus } = useContext(PetContext);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        await axios.get(`/api/users/payment/success`);
-        toast.success('Payment successful');
-        setCart([]);
-        setTimeout(() => {
-          navigate('/');
-        }, 3000);
-      } catch (error) {
-        toast.error(error.response.data.message);
-        navigate('/');
-      }
-    };
-
-    fetchData();
-  }, [navigate, setCart]);
+    fetchPaymentStatus();
+  }, [fetchPaymentStatus]);
 
   return (
     <div className="payment-success">

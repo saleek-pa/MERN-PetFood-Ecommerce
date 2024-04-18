@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { PetContext } from '../Utils/Context';
+import { PetContext } from '../Context/Context';
 import { useParams } from 'react-router-dom';
 import { MDBIcon } from 'mdb-react-ui-kit';
 import { axios } from '../Utils/Axios';
