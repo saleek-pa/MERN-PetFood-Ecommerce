@@ -3,10 +3,14 @@ import { useNavigate } from 'react-router-dom';
 import { PetContext } from '../Context/Context';
 import { MDBIcon } from 'mdb-react-ui-kit';
 import toast from 'react-hot-toast';
+import Loading from './Loading';
 
 function ProductList({ products }) {
   const navigate = useNavigate();
   const { loginStatus, handlePrice, wishlist, addToWishlist, removeFromWishlist } = useContext(PetContext);
+  if (products.length === 0) {
+    return <Loading />;
+  }
 
   return (
     <div className="product-content">

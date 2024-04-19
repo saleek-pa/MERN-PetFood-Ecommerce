@@ -1,11 +1,12 @@
 import React from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
+import { PetProvider } from './Context/Context';
 import { Toaster } from 'react-hot-toast';
+import Home from './Pages/Home';
 import Registration from './Pages/Registration';
 import AllProducts from './Pages/AllProducts';
 import Navbar from './Components/Navbar';
 import Login from './Pages/Login';
-import Home from './Pages/Home';
 import Cart from './Pages/Cart';
 import Orders from './Pages/Orders';
 import DogFood from './Pages/DogFood';
@@ -15,7 +16,6 @@ import Wishlist from './Pages/Wishlist';
 import Footer from './Components/Footer';
 import FixedAdmin from './Admin/FixedAdmin';
 import SuccessPayment from './Pages/SuccessPayment';
-import { PetProvider } from './Context/Context';
 
 function App() {
   // Check if the current route is within the admin dashboard
